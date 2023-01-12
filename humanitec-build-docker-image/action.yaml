@@ -6,7 +6,7 @@ inputs:
     required: true
     default: ''
   project-root:
-    description: 'project \'s root directoy'
+    description: 'projects root directory'
     required: true
     default: '.'
   build-context:
