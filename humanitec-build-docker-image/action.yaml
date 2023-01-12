@@ -21,7 +21,7 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - run: cd ${{ inputs.project-root }} && pwd
+    - run: cd ${{ inputs.project-root }} && docker build ${{ inputs.build-args }} -t ${{ inputs.image-name }} ${{ inputs.build-context }}
       shell: bash
 #    - run: docker build ${{ inputs.build-args }} -t ${{ inputs.image-name}}
 #      shell: bash
