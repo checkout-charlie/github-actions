@@ -1,0 +1,36 @@
+name: 'Build Docker image for Humanitec'
+description: 'Build Docker image with docker cache'
+inputs:
+  build-args:
+    description: 'docker command line args'
+    required: true
+    default: ''
+  project-root:
+    description: 'project \'s root directoy'
+    required: true
+    default: '.'
+  build-context:
+    description: 'build context'
+    required: true
+    default: '.'
+  image-name:
+    description: 'image name'
+    required: true
+    default: 'image'
+
+runs:
+  using: "composite"
+  steps:
+    - run: cd ${{ inputs.project-root }}
+      shell: bash
+    - run: pwd
+      shell: bash
+#    - run: docker build ${{ inputs.build-args }} -t ${{ inputs.image-name}}
+#      shell: bash
+#    - id: random-number-generator
+#      run: echo "random-number=$(echo $RANDOM)" >> $GITHUB_OUTPUT
+#      shell: bash
+#    - run: echo "${{ github.action_path }}" >> $GITHUB_PATH
+#      shell: bash
+#    - run: goodbye.sh
+#      shell: bash

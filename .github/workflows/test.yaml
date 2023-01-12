@@ -1,0 +1,20 @@
+name: Test all actions
+on: [push]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Build local image
+        uses: ./humanitec-build-docker-image
+        with:
+          project-root: ./test/http-echo
+          build-context: ./alpine
+          build-args: --build-args test=test
+          image-name: http-echo
+
+      - name: Test docker build
+        run: docker image ls
