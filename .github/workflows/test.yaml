@@ -13,7 +13,7 @@ jobs:
         with:
           project-root: ./test/http-echo
           build-context: ./alpine
-          build-args: --build-args test=test
+          build-args: --build-arg test=test
           image-name: http-echo
 
       - name: Test docker build
