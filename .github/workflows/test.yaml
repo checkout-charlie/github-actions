@@ -12,7 +12,7 @@ jobs:
         uses: ./humanitec-build-docker-image
         with:
           project-root: ./test/http-echo
-          build-context: ./alpine
+          build-context: ./docker/alpine
           build-args: --build-arg test=test
           image-name: http-echo
 
