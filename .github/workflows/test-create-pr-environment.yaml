@@ -1,7 +1,6 @@
 name: Test Creation of PR environment
 
 on:
-  # pull_request_target is granted a RW Access token allowing for commenting on a PR
   pull_request_target:
     types: [ opened,  reopened]
     branches-ignore: ['dependabot/**']
@@ -10,7 +9,6 @@ jobs:
   test-create-pr-environment:
     runs-on: ubuntu-latest
     steps:
-      # checkout the supporting script
       - uses: actions/checkout@v2
       - name: Build local image
         uses: ./humanitec-create-pr-environment
