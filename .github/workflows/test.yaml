@@ -11,10 +11,10 @@ jobs:
       - name: Build local image
         uses: ./humanitec-build-docker-image
         with:
-          project-root: ./test/http-echo
-          build-context: .
-          build-args: --build-arg test=test
-          image-name: http-echo
+          project-root: ./test/http-echo #optional
+          build-context: . #optional
+          build-args: --build-arg test=test #optional
+          image-name: http-echo #optional
 
       - name: Test docker build
         run: docker image ls
