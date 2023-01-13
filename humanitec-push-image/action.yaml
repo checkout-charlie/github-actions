@@ -12,5 +12,5 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - run: ./push-to-humanitec --org checkout-charlie --token ${{ inputs.humanitec-token }} ${{ inputs.image-name }}
+    - run: ./push-to-humanitec.sh --org checkout-charlie --token ${{ inputs.humanitec-token }} ${{ inputs.image-name }}
       shell: bash
