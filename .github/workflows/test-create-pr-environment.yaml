@@ -1,4 +1,4 @@
-name: Create K8s Preview environment
+name: Test Creation of PR environment
 
 on:
   # pull_request_target is granted a RW Access token allowing for commenting on a PR
