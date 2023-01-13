@@ -13,7 +13,7 @@ jobs:
           build_context: https://github.com/mendhak/docker-http-https-echo.git #optional
 
       - name: Test if image is built successfully
-        run:  if docker image ls | grep -q 'http-echo'; then exit 0; else exit 1; fi
+        run:  if docker image ls | grep -q '${{ github.event.repository.name }}'; then exit 0; else exit 1; fi
 
       - name: Push to Humanitec
         uses: ./humanitec-push-image
