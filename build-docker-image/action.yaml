@@ -12,7 +12,7 @@ inputs:
   image_name:
     description: 'image name'
     required: true
-    default: ${{ context.repo.repo }}
+    default: ${{ github.event.repository.name }}
   image_tag:
     description: 'image name'
     required: true
