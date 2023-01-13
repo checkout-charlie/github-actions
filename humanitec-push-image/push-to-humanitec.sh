@@ -68,14 +68,12 @@ username="$(echo "$registry_json" | key_from_json_obj "username")"
 password="$(echo "$registry_json" | key_from_json_obj "password")"
 server="$(echo "$registry_json" | key_from_json_obj "registry")"
 
-echo
 commit="$(git rev-parse HEAD)"
 local_tag="${image_name}:${commit}"
 remote_tag="${server}/${HUMANITEC_ORG}/$local_tag"
 ref="$(git rev-parse --symbolic-full-name HEAD)"
 
 echo "Logging into docker registry"
-echo "${password} | docker login -u ${username} --password-stdin ${server}"
 echo "${password}" | docker login -u "${username}" --password-stdin "${server}"
 if [ $? -ne 0 ]
 then
