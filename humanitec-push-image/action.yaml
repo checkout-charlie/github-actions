@@ -7,10 +7,10 @@ inputs:
   image_name:
     description: 'image name'
     required: true
-    default: 'docker-image'
+    default: ${{ context.repo.repo }}
 
 runs:
   using: "composite"
   steps:
-    - run: ./humanitec-push-image/push-to-humanitec.sh ${{ inputs.humanitec_token }} ${{ inputs.image_name }}
+    - run: ./scripts/push-to-humanitec.sh ${{ inputs.humanitec_token }} ${{ inputs.image_name }}
       shell: sh

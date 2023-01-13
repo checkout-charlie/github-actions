@@ -12,7 +12,7 @@ inputs:
   image_name:
     description: 'image name'
     required: true
-    default: 'docker-image'
+    default: ${{ context.repo.repo }}
   image_tag:
     description: 'image name'
     required: true
