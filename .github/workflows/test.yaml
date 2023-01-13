@@ -17,4 +17,5 @@ jobs:
           image-name: http-echo #optional
 
       - name: Test docker build
-        run: docker image ls
+        run:  if docker image ls | grep -q 'http-echo'; then exit 0; else exit 1; fi
+
