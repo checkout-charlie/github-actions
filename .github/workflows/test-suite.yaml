@@ -13,7 +13,7 @@ jobs:
         with:
           image_name: http-echo #optional
 #          project_root: ./test-app #optional
-          build_context: https://github.com/Ealenn/Echo-Server.git #optional
+          build_context: https://github.com/mendhak/docker-http-https-echo.git #optional
           build_args: --build-arg BUILDPLATFORM=amd64 #optional
 
       - name: Test if image is built successfully
