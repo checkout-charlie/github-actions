@@ -19,8 +19,8 @@ jobs:
       - name: Test if image is built successfully
         run:  if docker image ls | grep -q 'http-echo'; then exit 0; else exit 1; fi
 
-#      - name: Push to Humanitec
-#        uses: ./humanitec-push-image
-#        with:
-#          humanitec-token: ${{ secrets.HUMANITEC_TOKEN }}
-#          image-name: http-echo
+      - name: Push to Humanitec
+        uses: ./humanitec-push-image
+        with:
+          humanitec-token: ${{ secrets.HUMANITEC_TOKEN }}
+          image-name: http-echo
