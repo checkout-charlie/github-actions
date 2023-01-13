@@ -14,5 +14,5 @@ runs:
   steps:
     - shell: bash
       run: echo "${{ inputs.humanitec_token }}"
-    - run: ls -als && ./humanitec-push-image/push-to-humanitec.sh --token ${{ inputs.humanitec_token }} --org checkout-charlie ${{ inputs.image_name }}
+    - run: ls -als && ./humanitec-push-image/push-to-humanitec.sh ${{ inputs.humanitec_token }} ${{ inputs.image_name }}
       shell: bash
