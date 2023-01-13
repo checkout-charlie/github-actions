@@ -32,8 +32,6 @@ fetch_url ()
   fi
 }
 
-api_prefix="https://api.humanitec.io"
-
 image_name="$2"
 export HUMANITEC_TOKEN="$1"
 export HUMANITEC_ORG="checkout-charlie"
@@ -58,7 +56,7 @@ then
 fi
 
 echo "Retrieving registry credentials"
-registry_json="$(fetch_url GET "${api_prefix}/orgs/${HUMANITEC_ORG}/registries/humanitec/creds")"
+registry_json="$(fetch_url GET "https://api.humanitec.io/orgs/${HUMANITEC_ORG}/registries/humanitec/creds")"
 echo "${registry_json}"
 if [ $? -ne 0 ]
 then
@@ -73,7 +71,7 @@ server="$(echo "$registry_json" | key_from_json_obj "registry")"
 echo
 commit="$(git rev-parse HEAD)"
 local_tag="${image_name}:${commit}"
-remote_tag="${server}${HUMANITEC_ORG}/$local_tag"
+remote_tag="${server}/${HUMANITEC_ORG}/$local_tag"
 ref="$(git rev-parse --symbolic-full-name HEAD)"
 
 echo "Logging into docker registry"
@@ -100,7 +98,7 @@ fi
 
 echo "Notifying Humanitec"
 payload="{\"commit\":\"${commit}\",\"ref\":\"${ref}\",\"version\":\"${commit}\",\"name\":\"${image_name}\",\"type\":\"container\"}"
-if ! fetch_url POST "$payload" "${api_prefix}/orgs/${HUMANITEC_ORG}/artefact-versions"
+if ! fetch_url POST "$payload" "https://api.humanitec.io/orgs/${HUMANITEC_ORG}/artefact-versions"
 then
         echo "Unable to notify Humanitec." >&2
         exit 1
