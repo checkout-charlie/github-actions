@@ -1,7 +1,7 @@
 name: Test all actions
 on: [push]
 jobs:
-  test:
+  test-suite:
     runs-on: ubuntu-latest
     steps:
 
