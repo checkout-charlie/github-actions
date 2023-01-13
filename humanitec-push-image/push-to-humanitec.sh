@@ -72,7 +72,7 @@ commit="$(git rev-parse HEAD)"
 local_tag="${image_name}:${commit}"
 remote_tag="${server}/${HUMANITEC_ORG}/$local_tag"
 ref="$(git rev-parse --symbolic-full-name HEAD)"
-echo "ref: $ref"
+echo "ref: $GITHUB_REF"
 
 echo "Logging into docker registry"
 echo "${password}" | docker login -u "${username}" --password-stdin "${server}"
@@ -96,7 +96,7 @@ then
 fi
 
 echo "Notifying Humanitec"
-payload="{\"commit\":\"${commit}\",\"ref\":\"${ref}\",\"version\":\"${commit}\",\"name\":\"${image_name}\",\"type\":\"container\"}"
+payload="{\"commit\":\"${commit}\",\"ref\":\"${GITHUB_REF}\",\"version\":\"${commit}\",\"name\":\"${image_name}\",\"type\":\"container\"}"
 if ! fetch_url POST "$payload" "https://api.humanitec.io/orgs/${HUMANITEC_ORG}/artefact-versions"
 then
         echo "Unable to notify Humanitec." >&2
