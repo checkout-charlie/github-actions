@@ -11,7 +11,7 @@ jobs:
       - name: Build local image
         uses: ./build-docker-image
         with:
-          project-root: ./test/http-echo #optional
+          project-root: ./test-app #optional
           build-context: . #optional
           build-args: --build-arg test=test #optional
           image-name: http-echo #optional
