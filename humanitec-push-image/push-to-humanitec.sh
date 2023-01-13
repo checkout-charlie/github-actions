@@ -81,6 +81,7 @@ fi
 
 echo "Retrieving registry credentials"
 registry_json="$(fetch_url GET "${api_prefix}/orgs/${HUMANITEC_ORG}/registries/humanitec/creds")"
+echo "${registry_json}"
 if [ $? -ne 0 ]
 then
 	echo "Unable to retrieve credentials for humanitec registry." >&2
