@@ -17,5 +17,5 @@ jobs:
           image-name: http-echo #optional
 
       - name: Test docker build
-        run:  if docker image ls | grep -q 'http-echo'; then exit 0; else exit 1; fi
+        run:  if docker image ls | grep -q 'gibb'; then exit 0; else exit 1; fi
 
