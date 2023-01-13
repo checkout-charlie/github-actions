@@ -16,42 +16,20 @@ fetch_url ()
 	fi
 	url="$2"
 	auth_header="Authorization: Bearer $HUMANITEC_TOKEN"
-	if command -v curl &> /dev/null
-	then
-		if [ "$payload" != "" ]
-		then
-			curl --fail -s \
-				-X "$method" \
-				-H "$auth_header" \
-				-H "Content-Type: application/json" \
-				-d "$payload" \
-				"$url"
-		else
-			curl --fail -s \
-				-X "$method" \
-				-H "$auth_header" \
-				"$url"
-		fi
-    	elif command -v wget &> /dev/null
-	then
-		if [ "$payload" != "" ]
-		then
-			wget --quiet -O - \
-				--method="$method" \
-				--header="$auth_header" \
-				--header="Content-Type: application/json" \
-				--body-data="$payload" \
-				"$url"
-		else
-			wget --quiet -O - \
-				--method="$method" \
-				--header="$auth_header" \
-				"$url"
-		fi
-	else
-		echo "System does not have the commands wget or curl installed." >&2
-		exit 1
-	fi
+  if [ "$payload" != "" ]
+  then
+    curl --fail -s \
+      -X "$method" \
+      -H "$auth_header" \
+      -H "Content-Type: application/json" \
+      -d "$payload" \
+      "$url"
+  else
+    curl --fail -s \
+      -X "$method" \
+      -H "$auth_header" \
+      "$url"
+  fi
 }
 
 api_prefix="https://api.humanitec.io"
