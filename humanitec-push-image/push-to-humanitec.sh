@@ -94,7 +94,7 @@ then
 fi
 
 echo "Notifying Humanitec"
-payload="{\"commit\":\"${commit}\",\"ref\":\"${GITHUB_REF}\",\"version\":\"${commit}\",\"name\":\registry.humanitec.io/checkout-charlie/"${image_name}\",\"type\":\"container\"}"
+payload="{\"commit\":\"${commit}\",\"ref\":\"${GITHUB_REF}\",\"version\":\"${commit}\",\"name\":\"registry.humanitec.io/checkout-charlie/${image_name}\",\"type\":\"container\"}"
 if ! fetch_url POST "$payload" "https://api.humanitec.io/orgs/${HUMANITEC_ORG}/artefact-versions"
 then
         echo "Unable to notify Humanitec." >&2
