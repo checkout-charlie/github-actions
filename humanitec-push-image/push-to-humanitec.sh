@@ -18,14 +18,14 @@ fetch_url ()
 	auth_header="Authorization: Bearer $HUMANITEC_TOKEN"
   if [ "$payload" != "" ]
   then
-    curl --fail -s \
+    curl \
       -X "$method" \
       -H "$auth_header" \
       -H "Content-Type: application/json" \
       -d "$payload" \
       "$url"
   else
-    curl --fail -s \
+    curl \
       -X "$method" \
       -H "$auth_header" \
       "$url"
