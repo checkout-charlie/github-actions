@@ -22,5 +22,5 @@ runs:
   using: "composite"
   steps:
     - uses: satackey/action-docker-layer-caching@v0.0.11
-    - run: cd ${{ inputs.project-root }} && docker build ${{ inputs.build-args }} -t ${{ inputs.image-name }} ${{ inputs.build-context }}
+    - run: cd ${{ inputs.project-root }} && docker build ${{ inputs.build-args }} -t ${{ inputs.image-name }}:$(git rev-parse HEAD) ${{ inputs.build-context }}
       shell: bash
