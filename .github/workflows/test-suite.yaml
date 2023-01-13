@@ -22,5 +22,5 @@ jobs:
       - name: Push to Humanitec
         uses: ./humanitec-push-image
         with:
-          humanitec-token: ${{ secrets.HUMANITEC_TOKEN }}
+          humanitec_token: ${{ secrets.HUMANITEC_TOKEN }}
           image-name: http-echo
