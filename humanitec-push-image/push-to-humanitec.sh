@@ -72,6 +72,7 @@ commit="$(git rev-parse HEAD)"
 local_tag="${image_name}:${commit}"
 remote_tag="${server}/${HUMANITEC_ORG}/$local_tag"
 ref="$(git rev-parse --symbolic-full-name HEAD)"
+echo "ref: $ref"
 
 echo "Logging into docker registry"
 echo "${password}" | docker login -u "${username}" --password-stdin "${server}"
