@@ -2,7 +2,10 @@ name: 'Build Docker image for Humanitec'
 description: 'Build Docker image with docker cache'
 inputs:
   humanitec_token:
-    description: 'docker command line args'
+    description: 'humanitec token'
+    required: true
+  humanitec_org:
+    description: 'humanitec org'
     required: true
   image_name:
     description: 'image name'
@@ -12,5 +15,5 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - run: ./scripts/push-to-humanitec.sh ${{ inputs.humanitec_token }} ${{ inputs.image_name }}
+    - run: ./scripts/push-to-humanitec.sh ${{ inputs.humanitec_org }} ${{ inputs.humanitec_token }} ${{ inputs.image_name }}
       shell: sh
