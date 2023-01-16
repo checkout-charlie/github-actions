@@ -20,7 +20,7 @@ runs:
           const humanitec = require('./.github/js/humanitec.js');
           const HUMANITEC_ORG = 'checkout-charlie';
           const APP_ID = `${{ inputs.app_id }}`;
-          const ENV_ID = `${context.issue.number}`.;
+          const ENV_ID = `${context.issue.number}`;
 
           const status = await humanitec.deleteEnvironment(APP_ID, ENV_ID);
           if (status.status > 400) {
