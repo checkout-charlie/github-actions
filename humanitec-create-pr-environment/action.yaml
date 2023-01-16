@@ -4,6 +4,9 @@ inputs:
   humanitec_token:
     description: 'humanitec access token'
     required: true
+  humanitec_org:
+    description: 'humanitec organization'
+    required: true
   app_id:
     description: 'Application ID on Humanitec'
     required: true
@@ -18,19 +21,20 @@ inputs:
 runs:
   using: "composite"
   steps:
-      - uses: actions/github-script@v4
+      - uses: actions/github-script@V6
         env:
-          HUMANITEC_ORG: checkout-charlie
+          HUMANITEC_ORG: ${{ inputs.humanitec_org }}
           HUMANITEC_TOKEN: ${{ inputs.humanitec_token }}
         with:
           script: |
             const humanitec = require('./scripts/humanitec.js');
             const BASE_ENV_ID = `${{ inputs.base_environment }}`;
+            const HUMANITEC_ORG = `${{ inputs.humanitec_org }}`;
             const ENV_ID = `${context.issue.number}`;
             const APP_ID = `${{ inputs.app_id }}`;
             const IMAGE_ID = `${{ inputs.image_name }}`;
             const BRANCH_NAME = `${context.payload.pull_request.head.ref}`;
-            const ENV_PATH = `/orgs/checkout-charlie/apps/${APP_ID}/envs/${ENV_ID}`;
+            const ENV_PATH = `/orgs/${HUMANITEC_ORG}/apps/${APP_ID}/envs/${ENV_ID}`;
 
             console.log(`Creating PR environment ${ENV_ID} for ${APP_ID} from ${BASE_ENV_ID}`);
 

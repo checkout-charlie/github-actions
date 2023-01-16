@@ -14,4 +14,5 @@ jobs:
         uses: ./humanitec-delete-pr-environment
         with:
           humanitec_token: ${{ secrets.HUMANITEC_TOKEN }}
+          humanitec_org: checkout-charlie
           app_id: github-action-test

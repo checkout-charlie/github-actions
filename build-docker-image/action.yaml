@@ -1,4 +1,4 @@
-name: 'Build Docker image for Humanitec'
+name: 'Build Docker image'
 description: 'Build Docker image with docker cache'
 inputs:
   build_args:
@@ -14,7 +14,7 @@ inputs:
     required: true
     default: ${{ github.event.repository.name }}
   image_tag:
-    description: 'image name'
+    description: 'image tag'
     required: true
     default: ${{ github.sha }}
 

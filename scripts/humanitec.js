@@ -82,23 +82,4 @@ module.exports = {
             update_to: updateTo || "branch"
         });
     },
-
-    listImages: async (imageId) => {
-
-    },
-    getSet: async (appId, setId) => {
-
-    },
-    createDelta: async (appId, delta) => {
-
-    },
-    deployDelta: async (appId, envId, deltaId) => {
-
-    },
-    createWebhook: async (appId, webhookId, url, headers, payload, triggers) => {
-
-    },
-    deleteWebhook: async (appId, webhookId) => {
-
-    }
 };

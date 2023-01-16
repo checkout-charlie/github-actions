@@ -19,3 +19,4 @@ jobs:
         uses: ./humanitec-push-image
         with:
           humanitec_token: ${{ secrets.HUMANITEC_TOKEN }}
+          humanitec_org: checkout-charlie
