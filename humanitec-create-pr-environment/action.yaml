@@ -51,10 +51,13 @@ runs:
             console.log(`Created preview environment: ${JSON.stringify(env.body)} `);
             console.log(`Creating automation rule ${ENV_ID} for ${APP_ID} from ${BASE_ENV_ID} branch ${BRANCH_NAME}`);
             const rule = await humanitec.addAutomationRule(APP_ID, ENV_ID, [IMAGE_ID], BRANCH_NAME);
-            if (env.status > 400) {
-              console.error(`Cannot create atomation rule in environment ${ENV_ID}: ${JSON.stringify(env.body)}`);
+            if (rule.status > 400) {
+              console.error(`Cannot create atomation rule in environment ${ENV_ID}: ${JSON.stringify(rule.body)}`);
               return;
             }
+            
+            console.info(`Created automation rule response: ${JSON.stringify(rule.body)}`);
+            
             github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
