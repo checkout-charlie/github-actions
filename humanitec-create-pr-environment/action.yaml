@@ -29,7 +29,7 @@ runs:
             const ENV_ID = `${context.issue.number}`;
             const APP_ID = `${{ inputs.app_id }}`;
             const IMAGE_ID = `${{ inputs.image_name }}`;
-            const BRANCH_NAME = context.payload.pull_request.head.ref;
+            const BRANCH_NAME = `${context.payload.pull_request.head.ref}`;
             const ENV_PATH = `/orgs/checkout-charlie/apps/${APP_ID}/envs/${ENV_ID}`;
 
             console.log(`Creating PR environment ${ENV_ID} for ${APP_ID} from ${BASE_ENV_ID}`);
@@ -37,18 +37,18 @@ runs:
             const env = await humanitec.cloneEnvironment(APP_ID, BASE_ENV_ID, ENV_ID);
             if (env.status > 400) {
               if (env.status == 409) {
-                core.error(`Cannot create preview environment. Environment with ID "${ENV_ID}" already exists.`);
+                console.error(`Cannot create preview environment. Environment with ID "${ENV_ID}" already exists.`);
               } else {
-                core.error(`Cannot create preview environment: ${JSON.stringify(env.body)}`);
+                console.error(`Cannot create preview environment: ${JSON.stringify(env.body)}`);
               }
               return;
             }
             
             console.log(`Created preview environment: ${JSON.stringify(env.body)} `);
-            
+            console.log(`Creating automation rule ${ENV_ID} for ${APP_ID} from ${BASE_ENV_ID} branch ${BRANCH_NAME}`);
             const rule = await humanitec.addAutomationRule(APP_ID, ENV_ID, [IMAGE_ID], BRANCH_NAME);
             if (env.status > 400) {
-              core.error(`Cannot create atomation rule in environment ${ENV_ID}: ${JSON.stringify(env.body)}`);
+              console.error(`Cannot create atomation rule in environment ${ENV_ID}: ${JSON.stringify(env.body)}`);
               return;
             }
             github.issues.createComment({
