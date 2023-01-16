@@ -48,12 +48,16 @@ module.exports = {
             throw `Unable to fetch environment /orgs/${HUMANITEC_ORG}/apps/${appId}/envs/${baseEnvId}: ${baseEnv.status}`;
         }
 
-        return fetch('POST', `/orgs/${HUMANITEC_ORG}/apps/${appId}/envs`, {
+        const reqBody = {
             id: envId,
             name: envId,
             from_deploy_id: baseEnv.body.last_deploy.id,
             type: type || baseEnv.body.type
-        });
+        }
+
+        console.log(reqBody)
+
+        return fetch('POST', `/orgs/${HUMANITEC_ORG}/apps/${appId}/envs`, reqBody);
     },
     deleteEnvironment: async (appId, envId) => {
         // Clean up rules
