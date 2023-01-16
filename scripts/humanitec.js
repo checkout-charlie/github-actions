@@ -64,15 +64,17 @@ module.exports = {
     },
     deleteEnvironment: async (appId, envId) => {
         // Clean up rules
-        const rules = await fetch('GET', `/orgs/${HUMANITEC_ORG}/apps/${appId}/envs/${envId}/rules`);
-        rules.body.forEach(rule => fetch('DELETE', `/orgs/${HUMANITEC_ORG}/apps/${appId}/envs/${envId}/rules/${rule.id}`));
+        const paddedEnvId = envId.padStart(3, '0');
+        const rules = await fetch('GET', `/orgs/${HUMANITEC_ORG}/apps/${appId}/envs/${paddedEnvId}/rules`);
+        rules.body.forEach(rule => fetch('DELETE', `/orgs/${HUMANITEC_ORG}/apps/${appId}/envs/${paddedEnvId}/rules/${rule.id}`));
 
         // Delete Environment
-        return fetch('DELETE', `/orgs/${HUMANITEC_ORG}/apps/${appId}/envs/${envId}`);
+        return fetch('DELETE', `/orgs/${HUMANITEC_ORG}/apps/${appId}/envs/${paddedEnvId}`);
     },
     addAutomationRule: async (appId, envId, imagesFilter, match, type, updateTo) => {
-        // Add an automation rule
-        return fetch('POST', `/orgs/${HUMANITEC_ORG}/apps/${appId}/envs/${envId}/rules`, {
+        // pad number with leading zeros to get to 3 digits
+        const paddedEnvId = envId.padStart(3, '0');
+        return fetch('POST', `/orgs/${HUMANITEC_ORG}/apps/${appId}/envs/${paddedEnvId}/rules`, {
             active: true,
             imagesFilter: imagesFilter,
             match: match,
