@@ -48,13 +48,16 @@ module.exports = {
             throw `Unable to fetch environment /orgs/${HUMANITEC_ORG}/apps/${appId}/envs/${baseEnvId}: ${baseEnv.status}`;
         }
 
+        // pad number with leading zeros to get to 3 digits
+        const paddedEnvId = envId.padStart(3, '0');
+
         const reqBody = {
-            id: envId,
-            name: envId,
+            id: paddedEnvId,
+            name: paddedEnvId,
             from_deploy_id: baseEnv.body.last_deploy.id,
             type: type || baseEnv.body.type
         };
-
+        console.log(`/orgs/${HUMANITEC_ORG}/apps/${appId}/envs`)
         console.log(reqBody);
 
         return fetch('POST', `/orgs/${HUMANITEC_ORG}/apps/${appId}/envs`, reqBody);
