@@ -36,6 +36,7 @@ image_name="$3"
 export HUMANITEC_ORG="$1"
 export HUMANITEC_TOKEN="$2"
 
+echo "$HUMANITEC_ORG - $HUMANITEC_TOKEN - $image_name"
 if [ -z "$HUMANITEC_ORG" ]
 then
 	echo "No Organization specified as option or via HUMANITEC_ORG environment variable." >&2
