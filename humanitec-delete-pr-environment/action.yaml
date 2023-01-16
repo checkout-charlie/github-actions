@@ -1,0 +1,38 @@
+name: Delete PR deployment
+description: 'Delete PR deployment on PR close'
+inputs:
+  humanitec_token:
+    description: 'humanitec access token'
+    required: true
+  app_id:
+    description: 'Application ID on Humanitec'
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/github-script@v4
+      env:
+        HUMANITEC_ORG: checkout-charlie
+        HUMANITEC_TOKEN: ${{ inputs.humanitec_token }}
+      with:
+        script: |
+          const humanitec = require('./.github/js/humanitec.js');
+          const HUMANITEC_ORG = 'checkout-charlie';
+          const APP_ID = `${{ inputs.app_id }}`;
+          const ENV_ID = `${context.issue.number}`.;
+
+          const status = await humanitec.deleteEnvironment(APP_ID, ENV_ID);
+          if (status.status > 400) {
+            console.error(`Cannot delete feature environment: ${JSON.stringify(status.body)}`);
+            return;
+          }
+          
+          console.info(`Deleted feature environment ${ENV_ID} for ${APP_ID}`);
+          
+          github.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: `Feature environment deleted.`
+          });

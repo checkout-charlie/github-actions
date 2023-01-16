@@ -1,0 +1,17 @@
+name: Test Deletion of PR environment
+
+on:
+  pull_request_target:
+    types: [ closed ]
+    branches-ignore: ['dependabot/**']
+
+jobs:
+  test-delete-pr-environment:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Deploy PR environment
+        uses: ./humanitec-delete-pr-environment
+        with:
+          humanitec_token: ${{ secrets.HUMANITEC_TOKEN }}
+          app_id: github-action-test

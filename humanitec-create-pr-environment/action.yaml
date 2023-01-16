@@ -1,5 +1,5 @@
-name: 'Build Docker image for Humanitec'
-description: 'Build Docker image with docker cache'
+name: 'Create PR environment'
+description: 'Create PR environment on PR open'
 inputs:
   humanitec_token:
     description: 'humanitec access token'
