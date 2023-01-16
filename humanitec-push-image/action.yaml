@@ -15,5 +15,5 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - run: ${{ github.action_path }}/scripts/push-to-humanitec.sh ${{ inputs.humanitec_org }} ${{ inputs.humanitec_token }} ${{ inputs.image_name }}
+    - run: ${{ github.action_path }}/../scripts/push-to-humanitec.sh ${{ inputs.humanitec_org }} ${{ inputs.humanitec_token }} ${{ inputs.image_name }}
       shell: sh
