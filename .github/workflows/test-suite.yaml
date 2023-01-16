@@ -7,7 +7,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v1
 
-      - name: Build local image
+      - name: Test build local image
         uses: ./build-docker-image
         with:
           build_context: https://github.com/mendhak/docker-http-https-echo.git #optional
@@ -15,7 +15,7 @@ jobs:
       - name: Test if image is built successfully
         run:  if docker image ls | grep -q '${{ github.event.repository.name }}'; then exit 0; else exit 1; fi
 
-      - name: Push to Humanitec
+      - name: Test push to Humanitec
         uses: ./humanitec-push-image
         with:
           humanitec_token: ${{ secrets.HUMANITEC_TOKEN }}
