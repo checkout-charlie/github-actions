@@ -17,7 +17,7 @@ runs:
         HUMANITEC_TOKEN: ${{ inputs.humanitec_token }}
       with:
         script: |
-          const humanitec = require('./.github/js/humanitec.js');
+          const humanitec = require('./scripts/humanitec.js');
           const HUMANITEC_ORG = 'checkout-charlie';
           const APP_ID = `${{ inputs.app_id }}`;
           const ENV_ID = `${context.issue.number}`;
