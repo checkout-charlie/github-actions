@@ -23,7 +23,7 @@ runs:
       - uses: actions/github-script@v4
         env:
           HUMANITEC_ORG: checkout-charlie
-          HUMANITEC_TOKEN: ${{ secrets.HUMANITEC_TOKEN }}
+          HUMANITEC_TOKEN: ${{ inputs.humanitec_token }}
         with:
           script: |
             const humanitec = require('./scripts/humanitec.js');
