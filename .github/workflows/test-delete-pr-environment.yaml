@@ -9,8 +9,8 @@ jobs:
   test-delete-pr-environment:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - name: Deploy PR environment
+      - uses: actions/checkout@v3
+      - name: Delete PR environment
         uses: ./humanitec-delete-pr-environment
         with:
           humanitec_token: ${{ secrets.HUMANITEC_TOKEN }}
