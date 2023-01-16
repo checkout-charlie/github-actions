@@ -32,9 +32,10 @@ fetch_url ()
   fi
 }
 
-image_name="$3"
+
 export HUMANITEC_ORG="$1"
 export HUMANITEC_TOKEN="$2"
+image_name="$3"
 
 echo "$HUMANITEC_ORG - $HUMANITEC_TOKEN - $image_name"
 if [ -z "$HUMANITEC_ORG" ]
