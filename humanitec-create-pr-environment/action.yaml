@@ -40,7 +40,9 @@ runs:
                 console.error(`Cannot create preview environment. Environment with ID "${ENV_ID}" already exists.`);
               } else {
                 console.error(`Cannot create preview environment: ${JSON.stringify(env.body)}`);
-              } 
+              } else {
+                console.log(`Created preview environment: ${JSON.stringify(env.body)} `);
+              }
              }
               return;
             }

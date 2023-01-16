@@ -53,9 +53,9 @@ module.exports = {
             name: envId,
             from_deploy_id: baseEnv.body.last_deploy.id,
             type: type || baseEnv.body.type
-        }
+        };
 
-        console.log(reqBody)
+        console.log(reqBody);
 
         return fetch('POST', `/orgs/${HUMANITEC_ORG}/apps/${appId}/envs`, reqBody);
     },
