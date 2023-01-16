@@ -9,8 +9,7 @@ jobs:
   test-create-pr-environment:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Build local image
+      - name: Deploy PR environment
         uses: ./humanitec-create-pr-environment
         with:
           humanitec_token: ${{ secrets.HUMANITEC_TOKEN }}
