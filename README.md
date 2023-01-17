@@ -126,6 +126,7 @@ Delete a generated deployment after its pull request is cloded.
 | **app_id**           | **required**         | App id on HT                |
 | **environment_name** | $pull_request_number | Environment to delete       |
 
+
 ## Author
 
 federico.infanti@checkout-charlie.com
