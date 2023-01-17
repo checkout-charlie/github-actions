@@ -16,7 +16,7 @@ inputs:
   environment_name:
     description: 'Generated environment name'
     required: true
-    default: ${{github.event.issue.number}}
+    default: ${{ github.event.number }}
   environment_type:
     description: 'Generated environment type'
     required: true

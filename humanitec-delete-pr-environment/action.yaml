@@ -13,6 +13,7 @@ inputs:
   environment_name:
     description: 'Environment to delete'
     required: true
+    default: ${{ github.event.number }}
 
 runs:
   using: "composite"
