@@ -2,6 +2,8 @@
 
 ## Quickstart
 
+Add the following to your project:
+
 ```yaml
 # .github/workflows/deploy.yml
 
