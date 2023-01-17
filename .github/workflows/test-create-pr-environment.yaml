@@ -17,4 +17,4 @@ jobs:
           humanitec_token: ${{ secrets.HUMANITEC_TOKEN }}
           humanitec_org: checkout-charlie
           app_id: github-action-test
-          base_environment: preview
+          source_environment: preview

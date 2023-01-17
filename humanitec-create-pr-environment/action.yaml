@@ -10,9 +10,17 @@ inputs:
   app_id:
     description: 'Application ID on Humanitec'
     required: true
-  base_environment:
-    description: 'Environment to clone from (usually production|preview)'
+  source_environment:
+    description: 'Environment to clone from'
     required: true
+  environment_name:
+    description: 'Generated environment name'
+    required: true
+    default: ${{github.event.issue.number}}
+  environment_type:
+    description: 'Generated environment type'
+    required: true
+    default: development
   image_name:
     description: 'image name'
     required: true
@@ -28,9 +36,9 @@ runs:
         with:
           script: |
             const humanitec = require('${{ github.action_path }}/../scripts/humanitec.js');
-            const BASE_ENV_ID = `${{ inputs.base_environment }}`;
+            const BASE_ENV_ID = `${{ inputs.source_environment }}`;
             const HUMANITEC_ORG = `${{ inputs.humanitec_org }}`;
-            const ENV_ID = `${context.issue.number}`;
+            const ENV_ID = `${{ inputs.environment_name }}`;
             const APP_ID = `${{ inputs.app_id }}`;
             const IMAGE_ID = `${{ inputs.image_name }}`;
             const BRANCH_NAME = `${context.payload.pull_request.head.ref}`;

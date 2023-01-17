@@ -10,6 +10,9 @@ inputs:
   app_id:
     description: 'Application ID on Humanitec'
     required: true
+  environment_name:
+    description: 'Environment to delete'
+    required: true
 
 runs:
   using: "composite"
@@ -23,7 +26,7 @@ runs:
           const humanitec = require('${{ github.action_path }}/../scripts/humanitec.js');
           const HUMANITEC_ORG = `${{ inputs.humanitec_org }}`;
           const APP_ID = `${{ inputs.app_id }}`;
-          const ENV_ID = `${context.issue.number}`;
+          const ENV_ID = `${{ inputs.environment_name }}`;
 
           const status = await humanitec.deleteEnvironment(APP_ID, ENV_ID);
           if (status.status > 400) {

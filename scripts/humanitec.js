@@ -42,7 +42,7 @@ const fetch = (method, path, body) => {
 
 
 module.exports = {
-    cloneEnvironment: async (appId, baseEnvId, envId) => {
+    cloneEnvironment: async (appId, baseEnvId, envId, envType) => {
         const baseEnv = await fetch('GET', `/orgs/${HUMANITEC_ORG}/apps/${appId}/envs/${baseEnvId}`);
         if (baseEnv.status > 400) {
             throw `Unable to fetch environment /orgs/${HUMANITEC_ORG}/apps/${appId}/envs/${baseEnvId}: ${baseEnv.status}`;
@@ -55,7 +55,7 @@ module.exports = {
             id: paddedEnvId,
             name: paddedEnvId,
             from_deploy_id: baseEnv.body.last_deploy.id,
-            type: 'development'
+            type: envType
         };
         console.log(`/orgs/${HUMANITEC_ORG}/apps/${appId}/envs`)
         console.log(reqBody);

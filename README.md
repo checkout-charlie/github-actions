@@ -47,7 +47,7 @@ jobs:
         with:
           humanitec_token: ${{ secrets.HUMANITEC_TOKEN }}
           humanitec_org: checkout-charlie
-          base_environment: << base-environment >> # source environment where to clone from
+          source_environment: << base-environment >> # source environment where to clone from
           app_id: << app-id >> # app id on humanitec
 
 ```
@@ -87,7 +87,7 @@ Builds an image leveraging on Github's local cache to store Docker's layer cache
 | build_args    | none             | Arguments passed to `docker build` |
 | build_context | .                | Docker build context               |
 | image_name    | $repository_name | Image name                         |
-| image_tag     | $commit_sha      | Image tag                          |
+| image_tag     | $commit_hash     | Image tag                          |
 
 ### humanitec-push-image
 
@@ -103,23 +103,26 @@ Push an image to Humanitec's registry.
 
 Creates a deployment from a pull request. Image must be pushed to Humanitec's registry before.
 
-| Param               | Default          | Description                                |
-|---------------------|------------------|--------------------------------------------|
-| **humanitec_token** | **required**     | **Secret token**                           |
-| **humanitec_org**   | **required**     | **e.g. `checkout-charlie`**                |
-| **base_environment**| **required**     | **Source environment where to clone from** |
-| **app_id**          | **required**     | **App id on HT**                           |    
-| image_name          | $repository_name | name of the image                          |
+| Param                  | Default              | Description                                |
+|------------------------|----------------------|--------------------------------------------|
+| **humanitec_token**    | **required**         | **Secret token**                           |
+| **humanitec_org**      | **required**         | **e.g. `checkout-charlie`**                |
+| **app_id**             | **required**         | **App id on HT**                           |    
+| **source_environment** | **required**         | **Source environment where to clone from** |
+| environment_name       | $pull_request_number | Generated environment name                 |    
+| environment_type       | development          | Generated environment type                 |    
+| image_name             | $repository_name     | name of the image                          |
 
 ### humanitec-delete-pr-environment
 
 Delete a generated deployment after its pull request is cloded.
 
-| Param               | Default          | Description                            |
-|---------------------|------------------|----------------------------------------|
-| **humanitec_token** | **required**     | **Secret token**                       |
-| **humanitec_org**   | **required**     | **e.g. `checkout-charlie`**            |
-| **app_id**          | **required**     | App id on HT                           |
+| Param                | Default              | Description                 |
+|----------------------|----------------------|-----------------------------|
+| **humanitec_token**  | **required**         | **Secret token**            |
+| **humanitec_org**    | **required**         | **e.g. `checkout-charlie`** |
+| **app_id**           | **required**         | App id on HT                |
+| **environment_name** | $pull_request_number | Environment to delete       |
 
 ## Author
 
