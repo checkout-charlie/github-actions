@@ -74,7 +74,7 @@ jobs:
         with:
           humanitec_token: ${{ secrets.HUMANITEC_TOKEN }}
           humanitec_org: checkout-charlie
-          app_id: << app-id >> # app id on humanitec
+          app_id: << app-id >> # app id on Humanitec
 
 ```
 
