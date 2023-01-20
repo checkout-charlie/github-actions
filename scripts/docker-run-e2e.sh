@@ -14,7 +14,6 @@ CONTAINER_NAME="${IMAGE_NAME}_${IMAGE_TAG}"
 
 if [ -z "$SERVCICE_PORT" ]; then
   #apt-get update
-  apt-get install -y jq
   CONTAINER_PORT=$(docker inspect --format='{{json .Config.ExposedPorts}}' "$IMAGE_NAME:$IMAGE_TAG" | jq 'keys[0]' | cut -d'/' -f1 | cut -d'"' -f2)
   echo "Detected image port: $CONTAINER_PORT"
 else
