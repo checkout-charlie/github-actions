@@ -1,7 +1,8 @@
 #!/bin/sh
 
-docker-system prune -a -f
 set -e
+
+docker system prune -a -f
 
 BUILD_CONTEXT="$1"
 BUILD_ARGS="$2"
