@@ -1,0 +1,20 @@
+#!/bin/sh
+
+set -e
+
+IMAGE_NAME="$1"
+IMAGE_TAG="$2"
+COMMAND="$3"
+ENV_FILE="$4"
+RUN_ARGS="$5"
+ENTRYPOINT="$6"
+
+if [ -z "$INPUT_ENTRYPOINT" ]; then
+  ENTRYPOINT_ARG=""
+  COMMAND_ARG="$COMMAND"
+else
+  ENTRYPOINT_ARG="--entrypoint $ENTRYPOINT $COMMAND"
+  COMMAND_ARG="$COMMAND"
+fi
+
+docker run --rm --env-file "$ENV_FILE" $RUN_ARGS "$IMAGE_NAME:$IMAGE_TAG" $ENTRYPOINT_ARG $COMMAND_ARG

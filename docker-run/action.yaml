@@ -20,9 +20,12 @@ inputs:
     description: 'env file'
     required: false
     default: /dev/null
+  entrypoint:
+    description: 'Entrypoint'
+    required: true
 
 runs:
   using: "composite"
   steps:
-    -  run: docker run --rm --env-file ${{ inputs.env_file }} ${{ inputs.run_args }} ${{ inputs.image_name }}:${{ inputs.image_tag }} ${{ inputs.command }}
-       shell: bash
+    -  run: ${{ github.action_path }}/../scripts/docker-build.sh "${{ inputs.image_name }}" "${{ inputs.image_tag }}" "${{ inputs.command }}" "${{ inputs.env_file }}" "${{ inputs.run_args }}" "${{ inputs.entrypoint }}"
+       shell: sh
