@@ -78,6 +78,9 @@ local_image_and_tag="${IMAGE_NAME}:${LOCAL_TAG}"
 destination_image_name="${server}/${HUMANITEC_ORG}/${IMAGE_NAME}"
 destination_image_and_tag="${server}/${HUMANITEC_ORG}/${IMAGE_NAME}/${commit}"
 
+echo "Local image and tag: ${local_image_and_tag}"
+echo "Destination image and tag: ${destination_image_and_tag}"
+
 echo "Logging into docker registry"
 echo "${password}" | docker login -u "${username}" --password-stdin "${server}"
 if [ $? -ne 0 ]
