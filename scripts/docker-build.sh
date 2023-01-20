@@ -32,6 +32,7 @@ fi
 
 echo "Cleanup.."
 echo "Deleting older images.."
+echo "docker images | awk '{print $3}' | grep \"$IMAGE_NAME\" | grep -v \"$IMAGE_NAME:latest\|$IMAGE_NAME:testing\" | xargs docker rmi"
 docker images | awk '{print $3}' | grep "$IMAGE_NAME" | grep -v "$IMAGE_NAME:latest\|$IMAGE_NAME:testing" | xargs docker rmi
 echo "Purge unused layer cache.."
 docker builder prune -a -f
