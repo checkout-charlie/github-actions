@@ -16,9 +16,13 @@ inputs:
     description: "image tag"
     required: true
     default: latest
+  env_file:
+    description: 'env file'
+    required: false
+    default: /dev/null
 
 runs:
   using: "composite"
   steps:
-    -  run: docker run --rm ${{ inputs.image_name }}:${{ inputs.image_tag }} ${{ inputs.run_args }} -- ${{ inputs.command }}
+    -  run: docker run --rm ${{ inputs.image_name }}:${{ inputs.image_tag }} ${{ inputs.run_args }} --env-file=${{ inputs.env_file }} -- ${{ inputs.command }}
        shell: bash
