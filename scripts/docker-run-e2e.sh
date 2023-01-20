@@ -25,7 +25,7 @@ docker run --rm -d -p "$HOST_PORT:$CONTAINER_PORT" --name "$CONTAINER_NAME" --en
 attempts=0
 max_attempts=60
 while [ $attempts -lt $max_attempts ]; do
-  if curl --head --fail "https://localhost:$HOST_PORT/"; then
+  if curl --head --fail "http://localhost:$HOST_PORT/"; then
     echo "Service started"
     break
   else
