@@ -13,6 +13,9 @@ jobs:
         with:
           build_context: https://github.com/mendhak/docker-http-https-echo.git #optional
 
+      - name: List images
+        run:  docker image ls
+
       - name: Test if image is built successfully
         run:  if docker image ls | grep -q '${{ github.event.repository.name }}'; then exit 0; else exit 1; fi
 
