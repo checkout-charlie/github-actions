@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -e
+
 key_from_json_obj ()
 {
 	tr -d '\n' | sed 's/^[ \t\v\f]*{.*"'"${1}"'"[ \t\v\f]*:[ \t\v\f]*"\([^"]*\)"[ \t\v\f]*[,}].*$/\1/'

@@ -1,4 +1,6 @@
 #!/bin/sh
+set -e
+
 IMAGE_NAME="$1"
 IMAGE_TAG="$2"
 DOCKER_ARGS="$3"
