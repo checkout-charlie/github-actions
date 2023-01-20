@@ -1,0 +1,25 @@
+name: 'Run command in container'
+description: 'Run command in container'
+inputs:
+  command:
+    description: 'command'
+    required: true
+  run_args:
+    description: 'docker run args'
+    required: true
+    default: ''
+  image_name:
+    description: 'image name'
+    required: true
+    default: ${{ github.event.repository.name }}
+  image_tag:
+    description: "image tag. Set to 'testing' if you want to use the multi-stage image built by the 'build-docker-image' action"
+    required: true
+    default: ${{ github.sha }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: Run tests
+      run: docker run --rm ${{ inputs.image_name }}:${{ inputs.image_tag }} ${{ inputs.run_args }} -- ${{ inputs.command }}
+      shell: bash

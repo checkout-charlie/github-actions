@@ -18,6 +18,8 @@ jobs:
       - uses: actions/checkout@v3
       - name: Build image
         uses: checkout-charlie/github-actions/build-docker-image@main
+        with:
+          production_stage: production # optional
         
 #     - run: your tests here
         
@@ -80,17 +82,23 @@ jobs:
 
 ## Actions
 
-### build-docker-image
+### docker-build
 
-Builds an image leveraging on Github's local cache to store Docker's layer cache. As fast as it can get.
+Builds an image. It uses Github's local dependency cache to store Docker's layer cache for the fastest builds.
 
-| Param         | Default          | Description                        |
-|---------------|------------------|------------------------------------|
-| build_args    | none             | Arguments passed to `docker build` |
-| build_context | .                | Docker build context               |
-| image_name    | $repository_name | Image name                         |
-| image_tag     | $commit_hash     | Image tag                          |
+| Param            | Default          | Description                                                                      |
+|------------------|------------------|----------------------------------------------------------------------------------|
+| build_args       | none             | Arguments passed to `docker build`                                               |
+| build_context    | .                | Docker build context                                                             |
+| image_name       | $repository_name | Image name                                                                       |
+| multi_stage      | false            | Whether to produce 2 images out of a multi-stage Dockerfile (production/testing) |
+| production_stage | production       | Name of the production stage                                                     |
+| testing_stage    | testing          | Name of the testing stage                                                        |
+| testing_tag      | testing          | Image tag of the testing stage                                                   |
+| image_tag        | $commit_hash     | Additional image tag beside the commit hash                                      |
 
+** In case of multi-stage builds (production + dev dependencies), you can specify the production stage to be used as the final image. An additional image with all the stages will be built with the tag `testing`.
+ 
 ### humanitec-push-image
 
 Push an image to Humanitec's registry.
@@ -117,7 +125,7 @@ Creates a deployment from a pull request. Image must be pushed to Humanitec's re
 
 ### humanitec-delete-pr-environment
 
-Delete a generated deployment after its pull request is cloded.
+Delete a generated deployment after its pull request is closed.
 
 | Param                | Default              | Description                 |
 |----------------------|----------------------|-----------------------------|

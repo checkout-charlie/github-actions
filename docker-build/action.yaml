@@ -1,0 +1,42 @@
+name: 'Build Docker image'
+description: 'Build Docker image with docker cache'
+inputs:
+  build_args:
+    description: 'docker command line args'
+    required: true
+    default: ''
+  build_context:
+    description: 'build context'
+    required: true
+    default: '.'
+  image_name:
+    description: 'image name'
+    required: true
+    default: ${{ github.event.repository.name }}
+  multi_stage:
+    description: 'Whether to produce production/developent images from stages'
+    required: true
+    default: 'false'
+  production_stage:
+    description: 'production stage on multi-stage build'
+    required: true
+    default: production
+  testing_stage:
+    description: 'testing stage on multi-stage build'
+    required: true
+    default: testing
+  testing_tag:
+    description: 'testing image-tag on multi-stage build'
+    required: true
+    default: testing
+  image_tag:
+    description: 'image tag'
+    required: false
+    default: ${{ github.sha }}
+
+runs:
+  using: "composite"
+  steps:
+    - uses: satackey/action-docker-layer-caching@v0.0.11
+    - run: ${{ github.action_path }}/../scripts/docker-build.sh ${{ inputs.build_context }} ${{ inputs.image_name }} "${{ inputs.build_args }}" ${{ inputs.production_stage }} ${{ inputs.image_tag }}
+      shell: bash

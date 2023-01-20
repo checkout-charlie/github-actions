@@ -1,0 +1,39 @@
+name: 'Run tests in the container'
+description: 'Run tests in the container'
+inputs:
+  env_file:
+    description: 'env file'
+    required: false
+  env_vars:
+    description: '-e VAR1=VALUE1 -e VAR2=VALUE2'
+    required: false
+  lint:
+    description: 'static analysis command'
+    required: false
+  unit:
+    description: 'unit test command'
+    required: false
+  functional:
+    description: 'functional test command'
+    required: false
+  e2e:
+    description: 'e2e test command'
+    required: false
+  static:
+    description: 'e2e test command'
+    required: false
+  image_name:
+    description: 'image name'
+    required: true
+    default: ${{ github.event.repository.name }}
+  image_tag:
+    description: "image tag. Set to 'testing' if you want to use the multi-stage image built by the 'build-docker-image' action"
+    required: true
+    default: testing
+
+runs:
+  using: "composite"
+  steps:
+    - name: Run tests
+    - run: ${{ github.action_path }}/../scripts/docker-run-tests.sh ${{ inputs.image_name }} ${{ inputs.image_tag }} "${{ inputs.build_args }}" ${{ inputs.production_stage }}  ${{ env_file }}
+      shell: bash

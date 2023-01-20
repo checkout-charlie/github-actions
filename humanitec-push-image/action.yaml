@@ -11,9 +11,16 @@ inputs:
     description: 'image name'
     required: true
     default: ${{ github.event.repository.name }}
+  local_tag:
+    description: 'image tag on Github Action'
+    required: true
+    default: ${{ github.sha }}
+  remote_tag:
+    description: 'image tag on Humanitec'
+    required: false
 
 runs:
   using: "composite"
   steps:
-    - run: ${{ github.action_path }}/../scripts/push-to-humanitec.sh ${{ inputs.humanitec_org }} ${{ inputs.humanitec_token }} ${{ inputs.image_name }}
+    - run: ${{ github.action_path }}/../scripts/push-to-humanitec.sh ${{ inputs.humanitec_org }} ${{ inputs.humanitec_token }} ${{ inputs.image_name }} ${{ inputs.local_tag }} ${{ github.sha }} ${{ github.ref }} ${{ inputs.remote_tag }}
       shell: sh
