@@ -18,9 +18,9 @@ jobs:
         with:
           build_context: https://github.com/mendhak/docker-http-https-echo.git #optional
 
-      - run : dockeer system prune -a -f
+      - run : docker system prune -a -f
         shell: bash
-        
+
 #      - name: Test non-e2e tests
 #        uses: ./docker-run-tests
 #        with:
