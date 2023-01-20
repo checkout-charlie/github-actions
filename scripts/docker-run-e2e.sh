@@ -23,7 +23,7 @@ echo "run --rm -d -p \"$HOST_PORT:$CONTAINER_PORT\" --name \"$CONTAINER_NAME\" -
 docker run --rm -d -p "$HOST_PORT:$CONTAINER_PORT" --name "$CONTAINER_NAME" --env-file "$ENV_FILE" $DOCKER_ARGS "$IMAGE_NAME:$IMAGE_TAG"
 
 attempts=0
-max_attempts=30
+max_attempts=60
 while [ $attempts -lt $max_attempts ]; do
   if curl --silent --head --fail "https://localhost:$HOST_PORT/"; then
     echo "Service started"
@@ -36,4 +36,5 @@ while [ $attempts -lt $max_attempts ]; do
 done
 if [ $attempts -eq $max_attempts ]; then
   echo "Maximum number of attempts reached, server still not operational"
+  exit 1
 fi
