@@ -18,13 +18,13 @@ fi
 if [ "$MULTI_STAGE" != "false" ]
 then
 	echo "Building image..."
-  docker build --build-arg $BUILD_ARGS --target "$PRODUCTION_STAGE" -t "$IMAGE_NAME:$GITHUB_SHA" $ADDITIONAL_TAG_COMMAND "$BUILD_CONTEXT" \
+  docker build $BUILD_ARGS --target "$PRODUCTION_STAGE" -t "$IMAGE_NAME:$GITHUB_SHA" $ADDITIONAL_TAG_COMMAND "$BUILD_CONTEXT" \
   && echo "Building test image..." \
-  && docker build --build-arg $BUILD_ARGS --target "$TESTING_STAGE" -t "$IMAGE_NAME:$TESTING_TAG" "$BUILD_CONTEXT"
+  && docker build $BUILD_ARGS --target "$TESTING_STAGE" -t "$IMAGE_NAME:$TESTING_TAG" "$BUILD_CONTEXT"
 else
   echo "Building image..."
   echo "docker build --build-arg $BUILD_ARGS -t \"$IMAGE_NAME:$GITHUB_SHA\" $ADDITIONAL_TAG_COMMAND \"$BUILD_CONTEXT"
-  docker build --build-arg $BUILD_ARGS -t "$IMAGE_NAME:$GITHUB_SHA" $ADDITIONAL_TAG_COMMAND "$BUILD_CONTEXT"
+  docker build $BUILD_ARGS -t "$IMAGE_NAME:$GITHUB_SHA" $ADDITIONAL_TAG_COMMAND "$BUILD_CONTEXT"
 fi
 
 echo "Done."
