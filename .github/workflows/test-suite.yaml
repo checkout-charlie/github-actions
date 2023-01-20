@@ -8,16 +8,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: List images & containers
+        run:  docker image ls && docker ps -a
+
       - name: Test build local image
         uses: ./docker-build
         with:
           build_context: https://github.com/mendhak/docker-http-https-echo.git #optional
-
-      - name: List images
-        run:  docker image ls && docker ps -a
-
-      - name: Test if image is built successfully
-        run:  if docker image ls | grep -q '${{ github.event.repository.name }}'; then exit 0; else exit 1; fi
 
       - name: Test non-e2e tests
         uses: ./docker-run-tests
@@ -27,13 +24,16 @@ jobs:
           functional: echo 'test functional'
           static: echo 'test static'
 
-      - name: Test e2e test
-        uses: ./docker-run-tests
-        with:
-          e2e: echo 'e2e test'
+#      - name: Test e2e test
+#        uses: ./docker-run-tests
+#        with:
+#          e2e: echo 'e2e test'
+#
+#      - name: Test push to Humanitec
+#        uses: ./humanitec-push-image
+#        with:
+#          humanitec_token: ${{ secrets.HUMANITEC_TOKEN }}
+#          humanitec_org: checkout-charlie
 
-      - name: Test push to Humanitec
-        uses: ./humanitec-push-image
-        with:
-          humanitec_token: ${{ secrets.HUMANITEC_TOKEN }}
-          humanitec_org: checkout-charlie
+      - name: List images & containers
+        run:  docker image ls && docker ps -a

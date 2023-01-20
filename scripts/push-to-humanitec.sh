@@ -37,7 +37,9 @@ fetch_url ()
 
 export HUMANITEC_ORG="$1"
 export HUMANITEC_TOKEN="$2"
-image_name="$3"
+IMAGE_NAME="$3"
+LOCAL_TAG="$4"
+
 
 if [ -z "$HUMANITEC_ORG" ]
 then
@@ -52,7 +54,7 @@ then
 	exit 1
 fi
 
-if [ -z "$image_name" ]
+if [ -z "$IMAGE_NAME" ]
 then
 	echo "No IMAGE_NAME provided." >&2
 	exit 1
@@ -72,8 +74,8 @@ password="$(echo "$registry_json" | key_from_json_obj "password")"
 server="$(echo "$registry_json" | key_from_json_obj "registry")"
 
 commit="$(git rev-parse HEAD)"
-local_tag="${image_name}:${commit}"
-remote_tag="${server}/${HUMANITEC_ORG}/$local_tag"
+source_tag="${IMAGE_NAME}:${LOCAL_TAG}"
+destination_tag="${server}/${HUMANITEC_ORG}/${commit}"
 
 echo "Logging into docker registry"
 echo "${password}" | docker login -u "${username}" --password-stdin "${server}"
@@ -83,21 +85,21 @@ then
 	exit 1
 fi
 
-if ! docker tag "$local_tag" "$remote_tag"
+if ! docker tag "$source_tag" "$destination_tag"
 then
 	echo "Error pushing to remote registry: Cannot retag locally." >&2
 	exit 1
 fi
 
-echo "Pushing image to registry: $remote_tag"
-if ! docker push "$remote_tag"
+echo "Pushing image to registry: $destination_tag"
+if ! docker push "$destination_tag"
 then
 	echo "Error pushing to remote registry: Push failed." >&2
 	exit 1
 fi
 
 echo "Notifying Humanitec"
-payload="{\"commit\":\"${commit}\",\"ref\":\"${GITHUB_REF}\",\"version\":\"${commit}\",\"name\":\"registry.humanitec.io/${HUMANITEC_ORG}/${image_name}\",\"type\":\"container\"}"
+payload="{\"commit\":\"${commit}\",\"ref\":\"${GITHUB_REF}\",\"version\":\"${commit}\",\"name\":\"registry.humanitec.io/${HUMANITEC_ORG}/${IMAGE_NAME}\",\"type\":\"container\"}"
 if ! fetch_url POST "$payload" "https://api.humanitec.io/orgs/${HUMANITEC_ORG}/artefact-versions"
 then
         echo "Unable to notify Humanitec." >&2

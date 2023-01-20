@@ -30,8 +30,9 @@ inputs:
     required: true
     default: testing
   image_tag:
-    description: 'image tag other than commit id'
-    required: false
+    description: 'local image tag, not remote'
+    required: true
+    default: latest
 
 runs:
   using: "composite"

@@ -15,11 +15,10 @@ inputs:
   image_tag:
     description: "image tag"
     required: true
-    default: ${{ github.sha }}
+    default: latest
 
 runs:
   using: "composite"
   steps:
-    - name: Run tests
-      run: docker run --rm ${{ inputs.image_name }}:${{ inputs.image_tag }} ${{ inputs.run_args }} -- ${{ inputs.command }}
-      shell: bash
+    -  run: docker run --rm ${{ inputs.image_name }}:${{ inputs.image_tag }} ${{ inputs.run_args }} -- ${{ inputs.command }}
+       shell: bash

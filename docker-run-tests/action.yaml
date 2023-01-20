@@ -8,11 +8,11 @@ inputs:
   image_tag:
     description: "image tag. Set to 'testing' if you want to use the multi-stage image built by the 'build-docker-image' action"
     required: true
-    default: testing
+    default: latest
   docker_args:
     description: "Arguments to pass to the 'docker run' command"
     required: true
-    default: testing
+    default: ''
   lint:
     description: 'lint commands'
     required: false
