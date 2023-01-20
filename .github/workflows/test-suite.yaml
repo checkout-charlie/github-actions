@@ -19,11 +19,11 @@ jobs:
       - name: Test non-e2e tests
         uses: ./docker-run-tests
         with:
-          docker_args: --entrypoint /bin/sh -c
-          lint: echo 'test lint'
-          unit: echo 'test unit'
-          functional: echo 'test functional'
-          static: echo 'test static'
+          docker_args: --entrypoint /bin/sh
+          lint: -c echo 'test lint'
+          unit: -c echo 'test unit'
+          functional: -c echo 'test functional'
+          static: -c echo 'test static'
 
       - name: Show image exposed ports
         run: docker inspect --format='{{json .Config.ExposedPorts}}' "github-actions:latest" | jq 'keys[0]'
