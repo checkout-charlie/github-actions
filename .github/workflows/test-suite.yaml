@@ -32,12 +32,12 @@ jobs:
         uses: ./docker-run-tests
         with:
           e2e: echo 'e2e test'
-#
-#      - name: Test push to Humanitec
-#        uses: ./humanitec-push-image
-#        with:
-#          humanitec_token: ${{ secrets.HUMANITEC_TOKEN }}
-#          humanitec_org: checkout-charlie
+
+      - name: Test push to Humanitec
+        uses: ./humanitec-push-image
+        with:
+          humanitec_token: ${{ secrets.HUMANITEC_TOKEN }}
+          humanitec_org: checkout-charlie
 
       - name: List images & containers
         run:  docker image ls && docker ps -a
