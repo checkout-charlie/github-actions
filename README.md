@@ -82,7 +82,7 @@ jobs:
 
 ## Actions
 
-### container-build
+### build-image
 
 Builds an image. It uses Github's local dependency cache to store Docker's layer cache for the fastest builds.
 

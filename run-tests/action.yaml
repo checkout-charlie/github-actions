@@ -6,7 +6,7 @@ inputs:
     required: true
     default: ${{ github.event.repository.name }}
   image_tag:
-    description: "image tag. Set to 'testing' if you want to use the multi-stage image built by the 'container-build-image' action"
+    description: "image tag. Set to 'testing' if you want to use the multi-stage image built by the 'build-image' action"
     required: true
     default: latest
   docker_args:
@@ -45,7 +45,7 @@ runs:
   steps:
     - name: Running lint test
       if: inputs.lint != ''
-      uses: ./container-run-command
+      uses: ./run-command
       with:
         command: ${{ inputs.lint }}
         run_args: ${{ inputs.docker_args }}
@@ -54,7 +54,7 @@ runs:
         env_file: ${{ inputs.env_file }}
     - name: Unit test
       if: inputs.unit != ''
-      uses: ./container-run-command
+      uses: ./run-command
       with:
         command: ${{ inputs.unit }}
         run_args: ${{ inputs.docker_args }}
@@ -63,7 +63,7 @@ runs:
         env_file: ${{ inputs.env_file }}
     - name: Functional test
       if: inputs.functional != ''
-      uses: ./container-run-command
+      uses: ./run-command
       with:
         command: ${{ inputs.functional }}
         run_args: ${{ inputs.docker_args }}
@@ -76,7 +76,7 @@ runs:
       shell: sh
     - name: Static analysis
       if: inputs.static != ''
-      uses: ./container-run-command
+      uses: ./run-command
       with:
         command: ${{ inputs.static }}
         run_args: ${{ inputs.docker_args }}
