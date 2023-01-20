@@ -1,4 +1,4 @@
-name: 'Build Docker image'
+name: 'Build container image'
 description: 'Build Docker image with docker cache'
 inputs:
   build_args:

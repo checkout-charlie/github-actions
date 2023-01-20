@@ -9,7 +9,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Test build local image
-        uses: ./docker-build
+        uses: ./container-build-image
         with:
           build_context: https://github.com/mendhak/docker-http-https-echo.git #optional
 
@@ -17,7 +17,7 @@ jobs:
         run:  docker image ls && docker ps -a
 
       - name: Test non-e2e tests
-        uses: ./docker-run-tests
+        uses: ./container-run-tests
         with:
           lint: echo 'test lint'
           unit: echo 'test unit'
@@ -29,7 +29,7 @@ jobs:
         shell: bash
 
       - name: Test e2e test
-        uses: ./docker-run-tests
+        uses: ./container-run-tests
         with:
           e2e: echo 'e2e test'
 

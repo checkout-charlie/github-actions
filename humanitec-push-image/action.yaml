@@ -1,4 +1,4 @@
-name: 'Build Docker image for Humanitec'
+name: 'Build Container image for Humanitec'
 description: 'Build Docker image with docker cache'
 inputs:
   humanitec_token:
