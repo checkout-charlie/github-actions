@@ -7,7 +7,6 @@ IMAGE_TAG="$2"
 COMMAND="$3"
 ENV_FILE="$4"
 RUN_ARGS="$5"
-ENTRYPOINT="$6"
 
 if [ -z "$INPUT_ENTRYPOINT" ]; then
   ENTRYPOINT_ARG=""

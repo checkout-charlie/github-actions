@@ -43,7 +43,7 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: Lint test
+    - name: Running lint test
       if: inputs.lint != ''
       uses: ./docker-run
       with:

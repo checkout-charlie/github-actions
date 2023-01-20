@@ -38,6 +38,6 @@ runs:
   using: "composite"
   steps:
     - uses: satackey/action-docker-layer-caching@v0.0.11
-    - name: Build image
+    - name: Building ${{ inputs.image_name }}:${{ inputs.image_tag }}
       run: ${{ github.action_path }}/../scripts/docker-build.sh "${{ inputs.build_context }}" "${{ inputs.build_args }}" "${{ inputs.image_name }}" "${{ inputs.multi_stage }}" "${{ inputs.production_stage }}" "${{ inputs.testing_stage }}" "${{ inputs.testing_tag }}" "${{ inputs.image_tag }}"
       shell: sh
