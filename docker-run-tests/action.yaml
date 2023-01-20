@@ -72,7 +72,7 @@ runs:
         env_file: ${{ inputs.env_file }}
     - name: E2E test
       if: inputs.e2e != ''
-      run: ${{ github.action_path }}/../scripts/docker-run-e2e.sh "${{ inputs.image_name }}" "${{ inputs.image_tag }}" "${{ inputs.e2e }}" "${{ inputs.docker_args }}" "${{ inputs.e2e_port }}"
+      run: ${{ github.action_path }}/../scripts/docker-run-e2e.sh "${{ inputs.image_name }}" "${{ inputs.image_tag }}" "${{ inputs.docker_args }}" "${{ inputs.e2e }}" "${{ inputs.env_file }}" "${{ inputs.e2e_port }}"
       shell: sh
     - name: Static analysis
       if: inputs.static != ''
