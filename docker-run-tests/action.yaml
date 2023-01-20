@@ -35,6 +35,10 @@ inputs:
     description: 'env file'
     required: false
     default: /dev/null
+  entrypoint:
+    description: 'Entrypoint'
+    required: false
+    default: /bin/sh -c
 
 runs:
   using: "composite"

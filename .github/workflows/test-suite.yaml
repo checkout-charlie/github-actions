@@ -19,7 +19,6 @@ jobs:
       - name: Test non-e2e tests
         uses: ./docker-run-tests
         with:
-          entrypoint: /bin/sh -c
           lint: echo 'test lint'
           unit: echo 'test unit'
           functional: echo 'test functional'
