@@ -13,12 +13,12 @@ HOST_PORT=8080
 CONTAINER_NAME="${IMAGE_NAME}_${IMAGE_TAG}"
 
 if [ -z "$SERVCICE_PORT" ]; then
-  CONTAINER_PORT=$SERVCICE_PORT
-else
   #apt-get update
   apt-get install -y jq
   CONTAINER_PORT=$(docker inspect --format='{{json .Config.ExposedPorts}}' "$IMAGE_NAME:$IMAGE_TAG" | jq 'keys[0]' | cut -d'/' -f1 | cut -d'"' -f2)
   echo "Detected image port: $CONTAINER_PORT"
+else
+  CONTAINER_PORT=$SERVCICE_PORT
 fi
 
 docker run --rm -d -p "$HOST_PORT:$CONTAINER_PORT" --env-file "$ENV_FILE" $DOCKER_ARGS "$IMAGE_NAME:$IMAGE_TAG" --name "$CONTAINER_NAME"
