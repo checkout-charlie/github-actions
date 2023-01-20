@@ -28,10 +28,10 @@ jobs:
         run: docker inspect --format='{{json .Config.ExposedPorts}}' "github-actions:latest" | jq 'keys[0]' | cut -d'/' -f1 | cut -d'"' -f2
         shell: bash
 
-#      - name: Test e2e test
-#        uses: ./docker-run-tests
-#        with:
-#          e2e: echo 'e2e test'
+      - name: Test e2e test
+        uses: ./docker-run-tests
+        with:
+          e2e: echo 'e2e test'
 #
 #      - name: Test push to Humanitec
 #        uses: ./humanitec-push-image
