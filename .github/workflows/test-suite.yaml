@@ -25,7 +25,7 @@ jobs:
           static: echo 'test static'
 
       - name: Show image exposed ports
-        run: docker inspect --format='{{json .Config.ExposedPorts}}' "github-actions:latest" | jq 'keys[0]' | cut -d'/' -f1
+        run: docker inspect --format='{{json .Config.ExposedPorts}}' "github-actions:latest" | jq 'keys[0]' | cut -d'/' -f1 | cut -d'"' -f2
         shell: bash
 
 #      - name: Test e2e test
