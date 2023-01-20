@@ -108,4 +108,5 @@ then
 fi
 
 # Removed remote tag locally
+docker ps -a
 docker rmi $(docker images | grep "$destination_image_name" | awk '{print $3}')
