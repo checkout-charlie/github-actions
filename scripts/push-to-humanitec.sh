@@ -74,8 +74,9 @@ password="$(echo "$registry_json" | key_from_json_obj "password")"
 server="$(echo "$registry_json" | key_from_json_obj "registry")"
 
 commit="$(git rev-parse HEAD)"
-source_tag="${IMAGE_NAME}:${LOCAL_TAG}"
-destination_tag="${server}/${HUMANITEC_ORG}/${commit}"
+local_image_and_tag="${IMAGE_NAME}:${LOCAL_TAG}"
+destination_image_name="${server}/${HUMANITEC_ORG}/${IMAGE_NAME}"
+destination_image_and_tag="${server}/${HUMANITEC_ORG}/${IMAGE_NAME}/${commit}"
 
 echo "Logging into docker registry"
 echo "${password}" | docker login -u "${username}" --password-stdin "${server}"
@@ -85,14 +86,14 @@ then
 	exit 1
 fi
 
-if ! docker tag "$source_tag" "$destination_tag"
+if ! docker tag "$local_image_and_tag" "$destination_image_and_tag"
 then
 	echo "Error pushing to remote registry: Cannot retag locally." >&2
 	exit 1
 fi
 
-echo "Pushing image to registry: $destination_tag"
-if ! docker push "$destination_tag"
+echo "Pushing image to registry: $destination_image_and_tag"
+if ! docker push "$destination_image_and_tag"
 then
 	echo "Error pushing to remote registry: Push failed." >&2
 	exit 1
@@ -105,3 +106,6 @@ then
         echo "Unable to notify Humanitec." >&2
         exit 1
 fi
+
+# Removed remote tag locally
+docker rmi $(docker images | grep "$destination_image_name" | awk '{print $3}')

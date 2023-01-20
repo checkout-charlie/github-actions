@@ -19,7 +19,6 @@ if [ -z "$SERVCICE_PORT" ]; then
 else
   CONTAINER_PORT=$SERVCICE_PORT
 fi
-echo "run --rm -d -p \"$HOST_PORT:$CONTAINER_PORT\" --name \"$CONTAINER_NAME\" --env-file \"$ENV_FILE\" $DOCKER_ARGS \"$IMAGE_NAME:$IMAGE_TAG\""
 docker run --rm -d -p "$HOST_PORT:$CONTAINER_PORT" --name "$CONTAINER_NAME" --env-file "$ENV_FILE" $DOCKER_ARGS "$IMAGE_NAME:$IMAGE_TAG"
 
 attempts=0
@@ -27,7 +26,7 @@ max_attempts=60
 while [ $attempts -lt $max_attempts ]; do
   if curl --head --silent --fail "http://localhost:$HOST_PORT/"; then
     echo "Service started, running test..."
-    docker exec "$CONTAINER_NAME" /bin/sh -c "$COMMAND"
+      docker exec "$CONTAINER_NAME" /bin/sh -c "$COMMAND"
     break
   else
     echo "Waiting for service to start..."
