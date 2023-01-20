@@ -13,7 +13,7 @@ inputs:
     required: true
     default: ${{ github.event.repository.name }}
   image_tag:
-    description: "image tag. Set to 'testing' if you want to use the multi-stage image built by the 'build-docker-image' action"
+    description: "image tag"
     required: true
     default: ${{ github.sha }}
 

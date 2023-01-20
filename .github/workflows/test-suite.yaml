@@ -16,6 +16,19 @@ jobs:
       - name: Test if image is built successfully
         run:  if docker image ls | grep -q '${{ github.event.repository.name }}'; then exit 0; else exit 1; fi
 
+      - name: Test non-e2e tests
+        uses: ./docker-run-tests
+        with:
+          lint: echo 'test lint'
+          unit: echo 'test unit'
+          functional: echo 'test functional'
+          static: echo 'test static'
+
+      - name: Test e2e test
+        uses: ./docker-run-tests
+        with:
+          e2e: echo 'e2e test'
+
       - name: Test push to Humanitec
         uses: ./humanitec-push-image
         with:

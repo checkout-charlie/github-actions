@@ -30,13 +30,13 @@ inputs:
     required: true
     default: testing
   image_tag:
-    description: 'image tag'
+    description: 'image tag other than commit id'
     required: false
-    default: ${{ github.sha }}
 
 runs:
   using: "composite"
   steps:
     - uses: satackey/action-docker-layer-caching@v0.0.11
-    - run: ${{ github.action_path }}/../scripts/docker-build.sh ${{ inputs.build_context }} ${{ inputs.image_name }} "${{ inputs.build_args }}" ${{ inputs.production_stage }} ${{ inputs.image_tag }}
-      shell: bash
+    - name: Build image
+      run: ${{ github.action_path }}/../scripts/docker-build.sh "${{ inputs.build_context }}" "${{ inputs.build_args }}" "${{ inputs.image_name }}" "${{ inputs.multi_stage }}" "${{ inputs.production_stage }}" "${{ inputs.testing_stage }}" "${{ inputs.testing_tag }}" "${{ inputs.image_tag }}"
+      shell: sh

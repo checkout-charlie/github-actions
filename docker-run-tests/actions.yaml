@@ -1,27 +1,6 @@
 name: 'Run tests in the container'
 description: 'Run tests in the container'
 inputs:
-  env_file:
-    description: 'env file'
-    required: false
-  env_vars:
-    description: '-e VAR1=VALUE1 -e VAR2=VALUE2'
-    required: false
-  lint:
-    description: 'static analysis command'
-    required: false
-  unit:
-    description: 'unit test command'
-    required: false
-  functional:
-    description: 'functional test command'
-    required: false
-  e2e:
-    description: 'e2e test command'
-    required: false
-  static:
-    description: 'e2e test command'
-    required: false
   image_name:
     description: 'image name'
     required: true
@@ -30,10 +9,78 @@ inputs:
     description: "image tag. Set to 'testing' if you want to use the multi-stage image built by the 'build-docker-image' action"
     required: true
     default: testing
+  docker_args:
+    description: "Arguments to pass to the 'docker run' command"
+    required: true
+    default: testing
+  lint:
+    description: 'lint commands'
+    required: false
+  unit:
+    description: 'unit test commands'
+    required: false
+  functional:
+    description: 'functional test commands'
+    required: false
+  e2e:
+    description: 'e2e test commands'
+    required: false
+  static:
+    description: 'static analysis commands'
+    required: false
+  e2e_port:
+    description: 'Port of e2e tests (only if container exposes multiple ports)'
+    required: false
+  env_file:
+    description: 'env file'
+    required: false
+    default: /dev/null
 
 runs:
   using: "composite"
   steps:
-    - name: Run tests
-    - run: ${{ github.action_path }}/../scripts/docker-run-tests.sh ${{ inputs.image_name }} ${{ inputs.image_tag }} "${{ inputs.build_args }}" ${{ inputs.production_stage }}  ${{ env_file }}
-      shell: bash
+    - name: Lint test
+      if: inputs.lint != ''
+      uses: ./docker-run
+      with:
+        command: ${{ inputs.lint }}
+        run_args: ${{ inputs.docker_args }}
+        image_name: ${{ inputs.image_name }}
+        image_tag: ${{ inputs.image_tag }}
+        env_file: ${{ inputs.env_file }}
+    - name: Unit test
+      if: inputs.unit != ''
+      uses: ./docker-run
+      with:
+        command: ${{ inputs.unit }}
+        run_args: ${{ inputs.docker_args }}
+        image_name: ${{ inputs.image_name }}
+        image_tag: ${{ inputs.image_tag }}
+        env_file: ${{ inputs.env_file }}
+    - name: Functional test
+      if: inputs.functional != ''
+      uses: ./docker-run
+      with:
+        command: ${{ inputs.functional }}
+        run_args: ${{ inputs.docker_args }}
+        image_name: ${{ inputs.image_name }}
+        image_tag: ${{ inputs.image_tag }}
+        env_file: ${{ inputs.env_file }}
+    - name: E2E test
+      if: inputs.e2e != ''
+      run: ${{ github.action_path }}/../scripts/docker-run-e2e.sh "${{ inputs.image_name }}" "${{ inputs.image_tag }}" "${{ inputs.e2e }}" "${{ inputs.docker_args }}" "${{ inputs.e2e_port }}"
+      with:
+        command: ${{ inputs.functional }}
+        run_args: ${{ inputs.docker_args }}
+        image_name: ${{ inputs.image_name }}
+        image_tag: ${{ inputs.image_tag }}
+        env_file: ${{ inputs.env_file }}
+    - name: Static analysis
+      if: inputs.static != ''
+      uses: ./docker-run
+      with:
+        command: ${{ inputs.static }}
+        run_args: ${{ inputs.docker_args }}
+        image_name: ${{ inputs.image_name }}
+        image_tag: ${{ inputs.image_tag }}
+        env_file: ${{ inputs.env_file }}
