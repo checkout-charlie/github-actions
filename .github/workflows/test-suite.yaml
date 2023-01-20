@@ -5,8 +5,6 @@ jobs:
     runs-on: ubuntu-latest
     environment: testing
     steps:
-      - run: docker system prune -a -f
-        shell: bash
       - name: Checkout
         uses: actions/checkout@v3
 
@@ -17,9 +15,6 @@ jobs:
         uses: ./docker-build
         with:
           build_context: https://github.com/mendhak/docker-http-https-echo.git #optional
-
-      - run : docker system prune -a -f
-        shell: bash
 
 #      - name: Test non-e2e tests
 #        uses: ./docker-run-tests
