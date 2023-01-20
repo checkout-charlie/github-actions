@@ -21,7 +21,7 @@ else
   echo "Detected image port: $CONTAINER_PORT"
 fi
 
-docker run --rm -d -p "$HOST_PORT:$SERVICE_PORT" --env-file "$ENV_FILE" $DOCKER_ARGS "$IMAGE_NAME:$IMAGE_TAG" --name "$CONTAINER_NAME"
+docker run --rm -d -p "$HOST_PORT:$CONTAINER_PORT" --env-file "$ENV_FILE" $DOCKER_ARGS "$IMAGE_NAME:$IMAGE_TAG" --name "$CONTAINER_NAME"
 
 # Perform readiness check
 timeout=60
