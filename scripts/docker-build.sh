@@ -17,7 +17,7 @@ else
   ADDITIONAL_TAG_COMMAND="-t $IMAGE_NAME:$ADDITIONAL_TAG"
 fi
 
-
+# Removed remote tag locally
 if [ "$MULTI_STAGE" != "false" ]
 then
 	echo "Building image..."
