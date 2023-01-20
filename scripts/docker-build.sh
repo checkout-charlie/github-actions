@@ -1,5 +1,6 @@
 #!/bin/sh
 
+docker-system prune -a -f
 set -e
 
 BUILD_CONTEXT="$1"

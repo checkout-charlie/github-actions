@@ -30,7 +30,7 @@ inputs:
     required: true
     default: testing
   image_tag:
-    description: 'local image tag, not remote'
+    description: 'local image tag, internal'
     required: true
     default: latest
 
