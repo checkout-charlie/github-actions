@@ -22,21 +22,18 @@ fi
 echo "run --rm -d -p \"$HOST_PORT:$CONTAINER_PORT\" --name \"$CONTAINER_NAME\" --env-file \"$ENV_FILE\" $DOCKER_ARGS \"$IMAGE_NAME:$IMAGE_TAG\""
 docker run --rm -d -p "$HOST_PORT:$CONTAINER_PORT" --name "$CONTAINER_NAME" --env-file "$ENV_FILE" $DOCKER_ARGS "$IMAGE_NAME:$IMAGE_TAG"
 
-# Perform readiness check
-timeout=60
-i=0
-while true; do
-    if nc -z localhost $HOST_PORT; then
-        echo "Service is ready"
-        #docker exec $CONTAINER_NAME -- $COMMAND
-        exit 0
-    fi
-
-    i=$((i + 1))
-    if [ $i -ge $timeout ]; then
-        echo "Timeout reached waiting for service to be ready"
-        exit 1
-    fi
-
+attempts=0
+max_attempts=30
+while [ $attempts -lt $max_attempts ]; do
+  if curl --silent --head --fail "https://localhost:$HOST_PORT/"; then
+    echo "Service started"
+    break
+  else
+    echo "Waiting for service to start..."
     sleep 1
+    attempts=$((attempts+1))
+  fi
 done
+if [ $attempts -eq $max_attempts ]; then
+  echo "Maximum number of attempts reached, server still not operational"
+fi
