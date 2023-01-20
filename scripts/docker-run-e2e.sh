@@ -19,7 +19,7 @@ if [ -z "$SERVCICE_PORT" ]; then
 else
   CONTAINER_PORT=$SERVCICE_PORT
 fi
-
+echo "run --rm -d -p \"$HOST_PORT:$CONTAINER_PORT\" --env-file \"$ENV_FILE\" $DOCKER_ARGS \"$IMAGE_NAME:$IMAGE_TAG\" --name \"$CONTAINER_NAME\""
 docker run --rm -d -p "$HOST_PORT:$CONTAINER_PORT" --env-file "$ENV_FILE" $DOCKER_ARGS "$IMAGE_NAME:$IMAGE_TAG" --name "$CONTAINER_NAME"
 
 # Perform readiness check
