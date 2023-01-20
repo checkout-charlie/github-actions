@@ -1,9 +1,10 @@
 #!/bin/sh
-IMAGE_NAME="$3"
-IMAGE_TAG="$3"
+IMAGE_NAME="$1"
+IMAGE_TAG="$2"
 DOCKER_ARGS="$3"
-COMMAND="$3"
-SERVICE_PORT="$3"
+COMMAND="$4"
+ENV_FILE="$5"
+SERVICE_PORT="$6"
 
 HOST_PORT=8080
 CONTAINER_NAME=${IMAGE_NAME}_${IMAGE_TAG}
@@ -17,7 +18,7 @@ else
   echo "Detected container port: $CONTAINER_PORT"
 fi
 
-docker run --rm -d -p $HOST_PORT:$SERVICE_PORT $DOCKER_ARGS $IMAGE_NAME:$IMAGE_TAG --name $CONTAINER_NAME
+docker run --rm -d -p $HOST_PORT:$SERVICE_PORT --env-file "$ENV_FILE" $DOCKER_ARGS "$IMAGE_NAME:$IMAGE_TAG" --name "$CONTAINER_NAME"
 
 # Perform readiness check
 timeout=60
@@ -25,6 +26,7 @@ i=0
 while true; do
     if nc -z localhost $HOST_PORT; then
         echo "Service is ready"
+        docker exec $CONTAINER_NAME -- $COMMAND
         exit 0
     fi
 
