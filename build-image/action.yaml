@@ -14,30 +14,26 @@ inputs:
     required: true
     default: ${{ github.event.repository.name }}
   multi_stage:
-    description: 'Whether to produce production/developent images from stages'
+    description: 'Whether to produce production/testing images from stages'
     required: true
     default: 'false'
   production_stage:
-    description: 'production stage on multi-stage build'
+    description: 'Name of the production stage on multi-stage build'
     required: true
     default: production
   testing_stage:
-    description: 'testing stage on multi-stage build'
+    description: 'Name of the testing stage on multi-stage build'
     required: true
     default: testing
   testing_tag:
-    description: 'testing image-tag on multi-stage build'
+    description: 'Tag of the testing image for multi-stage builds'
     required: true
     default: testing
-  image_tag:
-    description: 'local image tag, internal'
-    required: true
-    default: latest
 
 runs:
   using: "composite"
   steps:
     - uses: satackey/action-docker-layer-caching@v0.0.11
-    - name: Building ${{ inputs.image_name }}:${{ inputs.image_tag }}
-      run: ${{ github.action_path }}/../scripts/docker-build.sh "${{ inputs.build_context }}" "${{ inputs.build_args }}" "${{ inputs.image_name }}" "${{ inputs.multi_stage }}" "${{ inputs.production_stage }}" "${{ inputs.testing_stage }}" "${{ inputs.testing_tag }}" "${{ inputs.image_tag }}"
+    - name: Building ${{ inputs.image_name }}:latest
+      run: ${{ github.action_path }}/../scripts/docker-build.sh "${{ inputs.build_context }}" "${{ inputs.build_args }}" "${{ inputs.image_name }}" "${{ inputs.multi_stage }}" "${{ inputs.production_stage }}" "${{ inputs.testing_stage }}" "${{ inputs.testing_tag }}""
       shell: sh

@@ -38,7 +38,7 @@ fetch_url ()
 export HUMANITEC_ORG="$1"
 export HUMANITEC_TOKEN="$2"
 IMAGE_NAME="$3"
-LOCAL_TAG="$4"
+LOCAL_TAG="latest"
 
 
 if [ -z "$HUMANITEC_ORG" ]

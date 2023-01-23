@@ -2,27 +2,27 @@ name: 'Run command in container'
 description: 'Run command in container'
 inputs:
   command:
-    description: 'command'
+    description: 'Command'
     required: true
   run_args:
-    description: 'docker run args'
+    description: 'Docker run args'
     required: true
     default: ''
   image_name:
-    description: 'image name'
+    description: 'Image name'
     required: true
     default: ${{ github.event.repository.name }}
   image_tag:
-    description: "image tag"
+    description: "Image tag"
     required: true
     default: latest
   env_file:
-    description: 'env file'
+    description: 'Env file'
     required: false
     default: /dev/null
   entrypoint:
-    description: 'Entrypoint'
-    required: true
+    description: 'Entrypoint override'
+    required: false
 
 runs:
   using: "composite"

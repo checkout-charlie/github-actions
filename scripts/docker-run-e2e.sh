@@ -8,6 +8,7 @@ DOCKER_ARGS="$3"
 COMMAND="$4"
 ENV_FILE="$5"
 SERVICE_PORT="$7"
+READINESS_TIMEOUT="$8"
 
 HOST_PORT=8080
 CONTAINER_NAME="${IMAGE_NAME}_${IMAGE_TAG}"
@@ -21,8 +22,9 @@ else
 fi
 docker run --rm -d -p "$HOST_PORT:$CONTAINER_PORT" --name "$CONTAINER_NAME" --env-file "$ENV_FILE" $DOCKER_ARGS "$IMAGE_NAME:$IMAGE_TAG"
 
+# Wait for container to start and run tests
 attempts=0
-max_attempts=60
+max_attempts=$READINESS_TIMEOUT
 while [ $attempts -lt $max_attempts ]; do
   if curl --head --silent --fail "http://localhost:$HOST_PORT/"; then
     echo "Service started, running test..."
@@ -35,6 +37,6 @@ while [ $attempts -lt $max_attempts ]; do
   fi
 done
 if [ $attempts -eq $max_attempts ]; then
-  echo "Maximum number of attempts reached, server still not operational"
+  echo "Maximum number of attempts reached, container still not operational"
   exit 1
 fi

@@ -1,5 +1,5 @@
-name: 'Build Container image for Humanitec'
-description: 'Build Docker image with docker cache'
+name: 'Push image to Humanitec'
+description: 'Push image to Humanitec'
 inputs:
   humanitec_token:
     description: 'humanitec token'
@@ -11,14 +11,10 @@ inputs:
     description: 'image name'
     required: true
     default: ${{ github.event.repository.name }}
-  local_tag:
-    description: 'image tag on Github Action'
-    required: true
-    default: latest
 
 runs:
   using: "composite"
   steps:
     - name: Push to Humanitec
-      run: ${{ github.action_path }}/../scripts/push-to-humanitec.sh ${{ inputs.humanitec_org }} ${{ inputs.humanitec_token }} ${{ inputs.image_name }} ${{ inputs.local_tag }}
+      run: ${{ github.action_path }}/../scripts/push-to-humanitec.sh ${{ inputs.humanitec_org }} ${{ inputs.humanitec_token }} ${{ inputs.image_name }}
       shell: sh
