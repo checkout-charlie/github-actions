@@ -20,7 +20,7 @@ if [ -z "$SERVICE_PORT" ]; then
 else
   CONTAINER_PORT=$SERVICE_PORT
 fi
-docker run --rm -d -p "$HOST_PORT:$CONTAINER_PORT" --name "$CONTAINER_NAME" --env-file "$ENV_FILE" $DOCKER_ARGS "$IMAGE_NAME:$IMAGE_TAG" || exit 1
+docker run --rm -d -p "$HOST_PORT:$CONTAINER_PORT" --name "$CONTAINER_NAME" --env-file "$ENV_FILE" -e HOST="0.0.0.0" -e "TERM=xterm-color" $DOCKER_ARGS "$IMAGE_NAME:$IMAGE_TAG" || exit 1
 
 # Wait for container to start and run tests
 attempts=0
