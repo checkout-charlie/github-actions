@@ -27,4 +27,8 @@ fi
 echo "Cleanup.."
 # Remove unused resources that would otherwise persist between builds by virtue of GH dependency caching
 docker system prune -f
+echo "List of the images in the runner.."
+docker images
+echo "List of containers in the runner.."
+docker ps -a
 echo "Done."
