@@ -109,7 +109,9 @@ then
         echo "Unable to notify Humanitec." >&2
         exit 1
 fi
-
+echo "Image list after push:"
+docker images
 # Removed remote tag locally
 docker stop $(docker ps -a -q)
 docker images | grep "$destination_image_name" | awk '{print $1 ":" $2}' | xargs -I{} docker image rm {}
+echo "Image list after cleanup:"

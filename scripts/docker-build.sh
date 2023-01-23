@@ -22,12 +22,13 @@ else
   echo "Building image..."
   docker build $BUILD_ARGS -t "$IMAGE_NAME:latest" "$BUILD_CONTEXT" || exit 1
 fi
-
+echo "Post-build image list:"
+docker images
 echo "Cleanup unused Docker resources.."
 # Remove unused resources that would otherwise persist between builds by virtue of GH dependency caching
 docker system prune -f
-echo "List of the images in the runner.."
+echo "Image list after cleanup:"
 docker images
-echo "List of containers in the runner.."
+echo "List of containers:"
 docker ps -a
 echo "Done."
