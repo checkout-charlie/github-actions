@@ -39,7 +39,10 @@ inputs:
     description: 'Entrypoint'
     required: false
     default: /bin/sh -c
-
+  e2e_readiness_timeout:
+    description: 'Seconds to wait for te container to be ready before throwing an error'
+    required: false
+    default: '60'
 runs:
   using: "composite"
   steps:
@@ -72,7 +75,7 @@ runs:
         env_file: ${{ inputs.env_file }}
     - name: Running e2e tests
       if: inputs.e2e != ''
-      run: ${{ github.action_path }}/../scripts/docker-run-e2e.sh "${{ inputs.image_name }}" "${{ inputs.image_tag }}" "${{ inputs.docker_args }}" "${{ inputs.e2e }}" "${{ inputs.env_file }}" "${{ inputs.e2e_port }}"
+      run: ${{ github.action_path }}/../scripts/docker-run-e2e.sh "${{ inputs.image_name }}" "${{ inputs.image_tag }}" "${{ inputs.docker_args }}" "${{ inputs.e2e }}" "${{ inputs.env_file }}" "${{ inputs.e2e_port }}" "${{ inputs.e2e_readiness_timeout }}"
       shell: sh
     - name: Running post commands
       if: inputs.post != ''
