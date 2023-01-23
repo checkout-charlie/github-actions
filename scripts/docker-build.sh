@@ -16,7 +16,8 @@ if [ "$MULTI_STAGE" != "false" ]
 then
 	echo "Building image..."
   docker build $BUILD_ARGS --target "$PRODUCTION_STAGE" -t "$IMAGE_NAME:latest" "$BUILD_CONTEXT" || exit 1
-  echo "Building test image..." \
+  echo "Building test image..."
+  echo "docker build $BUILD_ARGS --target \"$TESTING_STAGE\" -t \"$IMAGE_NAME:$TESTING_TAG\" \"$BUILD_CONTEXT\""
   docker build $BUILD_ARGS --target "$TESTING_STAGE" -t "$IMAGE_NAME:$TESTING_TAG" "$BUILD_CONTEXT" || exit 1
 else
   echo "Building image..."
