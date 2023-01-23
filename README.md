@@ -147,11 +147,9 @@ Use the `run-tests` action multiple times if you want to display individual test
             -e MY_SECRET=${{ secrets.MY_SECRET }} \
 ```
 
-Github doesn't allow parallel execution of steps.
-
 ## Actions reference
 
-Refer to `action-name/action.yaml` for the full list of inputs and outputs.
+Refer to `action-name/action.yaml` for the full list of parameters.
 
 ## Author
 
