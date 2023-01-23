@@ -1,8 +1,10 @@
 # Checkout Charlie's Github Actions
 
-## Quickstart
+## Recipes
 
-Add the following to your project:
+### Build, test and push
+
+#### Single-stage Dockerfile
 
 ```yaml
 # .github/workflows/deploy.yml
@@ -19,10 +21,21 @@ jobs:
       - name: Build image
         uses: checkout-charlie/github-actions/build-docker-image@main
         with:
-          production_stage: production # optional
-        
-#     - run: your tests here
-        
+          build_args: |
+          -e MY_SECRET=${{ secrets.MY_SECRET }} \
+          
+    - name: Run tests
+        uses: checkout-charlie/github-actions/run-tests@main
+        with:
+          static: yarn lint && yarn test:static
+          unit: yarn test:unit
+          functional: yarn test:functional
+          e2e: yarn test:e2e     # Will start a container
+          e2e_port: 3000         # Required only if the image exposes multiple ports
+          post: yarn test:coverage
+          docker_args: | 
+            -e MY_SECRET=${{ secrets.MY_SECRET }} \
+
       - name: Push to Humanitec
         uses: checkout-charlie/github-actions/humanitec-push-image@main
         with:
@@ -30,6 +43,36 @@ jobs:
           humanitec_org: checkout-charlie
 
 ```
+
+#### Multi-stage Dockerfile (testing/production images)
+
+```yaml
+# .github/workflows/deploy.yml
+
+      - name: Build image
+        uses: checkout-charlie/github-actions/build-image@main
+        with:
+          multi_stage: 'true'      # Produces an additional "testing" image with dev dependencies
+          testing_stage: 'testing' # The Dockerfile stage where dev dependencies are added. Defaults to "testing"
+          testing_tag: 'testing'   # The tag assigned to the testing image. Defaults to "testing"          
+          build_args: |
+            -e MY_SECRET=${{ secrets.MY_SECRET }} \
+
+        - name: Run tests
+            uses: checkout-charlie/github-actions/run-tests@main
+            with:
+              image_tag: testing  # Uses the testing image produced at step 1
+              unit: yarn test:unit
+              #[...]
+
+      - name: Push to Humanitec   # always pushes the production image
+        uses: checkout-charlie/github-actions/humanitec-push-image@main
+        with:
+          humanitec_token: ${{ secrets.HUMANITEC_TOKEN }}
+          humanitec_org: checkout-charlie
+```
+
+### Deploy PRs to Humanitec
 
 ```yaml
 # .github/workflows/create-pr-deployment.yml
@@ -80,59 +123,35 @@ jobs:
 
 ```
 
-## Actions
+### Tests
 
-### build-image
+At the moment of writing Github doesn't allow composite actions to bubble up steps to the user action.
+Use the `run-tests` action multiple times if you want to display individual tests as steps in your workflow:
 
-Builds an image. It uses Github's local dependency cache to store Docker's layer cache for the fastest builds.
+```yaml
+    - name: Static analysis
+        uses: checkout-charlie/github-actions/run-tests@main
+        with:
+          static: yarn test:lint
 
-| Param            | Default          | Description                                                                      |
-|------------------|------------------|----------------------------------------------------------------------------------|
-| build_args       | none             | Arguments passed to `docker build`                                               |
-| build_context    | .                | Docker build context                                                             |
-| image_name       | $repository_name | Image name                                                                       |
-| multi_stage      | false            | Whether to produce 2 images out of a multi-stage Dockerfile (production/testing) |
-| production_stage | production       | Name of the production stage                                                     |
-| testing_stage    | testing          | Name of the testing stage                                                        |
-| testing_tag      | testing          | Image tag of the testing stage                                                   |
-| image_tag        | $commit_hash     | Additional image tag beside the commit hash                                      |
+    - name: Unit tests
+        uses: checkout-charlie/github-actions/run-tests@main
+        with:
+          unit: yarn test:unit
 
-** In case of multi-stage builds (production + dev dependencies), you can specify the production stage to be used as the final image. An additional image with all the stages will be built with the tag `testing`.
- 
-### humanitec-push-image
+    - name: E2E tests
+        uses: checkout-charlie/github-actions/run-tests@main
+        with:
+          e2e: yarn test:e2e
+          docker_args: |
+            -e MY_SECRET=${{ secrets.MY_SECRET }} \
+```
 
-Push an image to Humanitec's registry.
+Github doesn't allow parallel execution of steps.
 
-| Param               | Default          | Description                 |
-|---------------------|------------------|-----------------------------|
-| **humanitec_token** | **required**     | **Secret token**            |
-| **humanitec_org**   | **required**     | **e.g. `checkout-charlie`** |
-| image_name          | $repository_name | Image name                  |
+## Actions reference
 
-### humanitec-create-pr-environment
-
-Creates a deployment from a pull request. Image must be pushed to Humanitec's registry before.
-
-| Param                  | Default              | Description                                |
-|------------------------|----------------------|--------------------------------------------|
-| **humanitec_token**    | **required**         | **Secret token**                           |
-| **humanitec_org**      | **required**         | **e.g. `checkout-charlie`**                |
-| **app_id**             | **required**         | **App id on HT**                           |    
-| **source_environment** | **required**         | **Source environment where to clone from** |
-| environment_name       | $pull_request_number | Generated environment name                 |    
-| environment_type       | development          | Generated environment type                 |    
-| image_name             | $repository_name     | name of the image                          |
-
-### humanitec-delete-pr-environment
-
-Delete a generated deployment after its pull request is closed.
-
-| Param                | Default              | Description                 |
-|----------------------|----------------------|-----------------------------|
-| **humanitec_token**  | **required**         | **Secret token**            |
-| **humanitec_org**    | **required**         | **e.g. `checkout-charlie`** |
-| **app_id**           | **required**         | App id on HT                |
-| **environment_name** | $pull_request_number | Environment to delete       |
+Refer to `action-name/action.yaml` for the full list of inputs and outputs.
 
 ## Author
 

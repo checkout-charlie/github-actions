@@ -2,14 +2,14 @@ name: 'Push image to Humanitec'
 description: 'Push image to Humanitec'
 inputs:
   humanitec_token:
-    description: 'humanitec token'
+    description: 'Humanitec token'
     required: true
   humanitec_org:
-    description: 'humanitec org'
+    description: 'Humanitec org'
     required: true
   image_name:
-    description: 'image name'
-    required: true
+    description: 'The name of the local and remote images. Defaults to the repository name'
+    required: false
     default: ${{ github.event.repository.name }}
 
 runs:

@@ -1,18 +1,18 @@
-name: Delete PR deployment
-description: 'Delete PR deployment on PR close'
+name: Deploy PR to Humanitec
+description: 'Deploy Pull Request to Humanitec'
 inputs:
   humanitec_token:
-    description: 'humanitec access token'
+    description: 'Humanitec secret token'
     required: true
   humanitec_org:
-    description: 'humanitec organization'
+    description: 'Humanitec organization'
     required: true
   app_id:
     description: 'Application ID on Humanitec'
     required: true
   environment_name:
-    description: 'Environment to delete'
-    required: true
+    description: 'Environment to delete. Defaults to PR #'
+    required: false
     default: ${{ github.event.number }}
 
 runs:

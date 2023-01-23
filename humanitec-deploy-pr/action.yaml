@@ -2,10 +2,10 @@ name: 'Create PR environment'
 description: 'Create PR environment on PR open'
 inputs:
   humanitec_token:
-    description: 'humanitec access token'
+    description: 'Humanitec access token'
     required: true
   humanitec_org:
-    description: 'humanitec organization'
+    description: 'Humanitec organization'
     required: true
   app_id:
     description: 'Application ID on Humanitec'
@@ -13,17 +13,17 @@ inputs:
   source_environment:
     description: 'Environment to clone from'
     required: true
-  environment_name:
-    description: 'Generated environment name'
-    required: true
-    default: ${{ github.event.number }}
   environment_type:
     description: 'Generated environment type'
     required: true
     default: development
+  environment_name:
+    description: 'Generated environment name. Defaults to PR #'
+    required: false
+    default: ${{ github.event.number }}
   image_name:
-    description: 'image name'
-    required: true
+    description: 'The name of the local and remote images. Defaults to the repository name'
+    required: false
     default: ${{ github.event.repository.name }}
 
 runs:

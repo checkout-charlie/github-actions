@@ -1,5 +1,6 @@
-name: 'Run command in container'
-description: 'Run command in container'
+name: UnDeploy PR from Humanitec
+description: 'Withdraws a previously deployed Pull Request from Humanitec'
+
 inputs:
   command:
     description: 'Command'

@@ -7,11 +7,11 @@ inputs:
     default: ${{ github.event.repository.name }}
   image_tag:
     description: "Image tag. Set to 'testing' if you want to use the multi-stage image built by the 'build-image' action"
-    required: true
+    required: false
     default: latest
   docker_args:
     description: "Arguments for 'docker run'"
-    required: true
+    required: false
     default: ''
   static:
     description: 'Static analysis commands'
@@ -26,7 +26,10 @@ inputs:
     description: 'E2e test commands'
     required: false
   e2e_port:
-    description: 'Port for e2e tests (required if the image exposes multiple ports)'
+    description: 'Port for e2e tests (required only if the image exposes multiple ports)'
+    required: false
+  post:
+    description: 'Command to run for last'
     required: false
   env_file:
     description: 'Env file'
@@ -71,3 +74,12 @@ runs:
       if: inputs.e2e != ''
       run: ${{ github.action_path }}/../scripts/docker-run-e2e.sh "${{ inputs.image_name }}" "${{ inputs.image_tag }}" "${{ inputs.docker_args }}" "${{ inputs.e2e }}" "${{ inputs.env_file }}" "${{ inputs.e2e_port }}"
       shell: sh
+    - name: Running post commands
+      if: inputs.post != ''
+      uses: ./run-command
+      with:
+        command: ${{ inputs.post }}
+        run_args: ${{ inputs.docker_args }}
+        image_name: ${{ inputs.image_name }}
+        image_tag: ${{ inputs.image_tag }}
+        env_file: ${{ inputs.env_file }}
