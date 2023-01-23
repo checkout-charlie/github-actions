@@ -45,7 +45,7 @@ runs:
   steps:
     - name: Running static analysis
       if: inputs.static != ''
-      uses: ./run-command
+      uses: ${{ github.action_path }}/../run-command
       with:
         command: ${{ inputs.static }}
         run_args: ${{ inputs.docker_args }}
@@ -54,7 +54,7 @@ runs:
         env_file: ${{ inputs.env_file }}
     - name: Running unit tests
       if: inputs.unit != ''
-      uses: ./run-command
+      uses: ${{ github.action_path }}/../run-command
       with:
         command: ${{ inputs.unit }}
         run_args: ${{ inputs.docker_args }}
@@ -63,7 +63,7 @@ runs:
         env_file: ${{ inputs.env_file }}
     - name: Running functional tests
       if: inputs.functional != ''
-      uses: ./run-command
+      uses: ${{ github.action_path }}/../run-command
       with:
         command: ${{ inputs.functional }}
         run_args: ${{ inputs.docker_args }}
@@ -76,7 +76,7 @@ runs:
       shell: sh
     - name: Running post commands
       if: inputs.post != ''
-      uses: ./run-command
+      uses: ${{ github.action_path }}/../run-command
       with:
         command: ${{ inputs.post }}
         run_args: ${{ inputs.docker_args }}
