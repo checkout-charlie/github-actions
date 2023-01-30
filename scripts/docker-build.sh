@@ -10,6 +10,8 @@ TESTING_TAG="$5"
 PRODUCTION_STAGE="$6"
 TESTING_STAGE="$7"
 
+echo "Image before build:"
+docker images
 
 # Removed remote tag locally
 if [ "$MULTI_STAGE" != "false" ]
