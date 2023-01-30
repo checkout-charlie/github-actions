@@ -11,6 +11,7 @@ jobs:
       - name: Test build local image
         uses: ./build-image
         with:
+          image-name: github-action-test
           build_context: https://github.com/mendhak/docker-http-https-echo.git #optional
 
       - name: List images & containers
@@ -19,22 +20,25 @@ jobs:
       - name: Test non-e2e tests
         uses: ./run-tests
         with:
+          image-name: github-action-test
           static: echo 'test static'
           unit: echo 'test unit'
           functional: echo 'test functional'
 
       - name: Show image exposed ports
-        run: docker inspect --format='{{json .Config.ExposedPorts}}' "github-actions:latest" | jq 'keys[0]' | cut -d'/' -f1 | cut -d'"' -f2
+        run: docker inspect --format='{{json .Config.ExposedPorts}}' "github-actions-test:latest" | jq 'keys[0]' | cut -d'/' -f1 | cut -d'"' -f2
         shell: bash
 
       - name: Test e2e test
         uses: ./run-tests
         with:
+          image-name: github-action-test
           e2e: echo 'e2e test'
 
       - name: Test push to Humanitec
         uses: ./humanitec-push-image
         with:
+          image-name: github-action-test
           humanitec_token: ${{ secrets.HUMANITEC_TOKEN }}
           humanitec_org: checkout-charlie
 
