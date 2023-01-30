@@ -112,6 +112,6 @@ fi
 echo "Image list after push:"
 docker images
 # Removed remote tag locally
-docker stop $(docker ps -a -q)
+docker stop $(docker ps -a -q) || echo "No containers to stop"
 docker images | grep "$destination_image_name" | awk '{print $1 ":" $2}' | xargs -I{} docker image rm {}
 echo "Image list after cleanup:"
