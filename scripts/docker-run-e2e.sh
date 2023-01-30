@@ -29,7 +29,7 @@ while [ $attempts -lt $max_attempts ]; do
   if curl --head --silent --fail "http://localhost:$HOST_PORT/"; then
     echo "Service started, running test..."
       # Allow using headless chrome sandbox
-      docker exec "$CONTAINER_NAME" -u root /bin/sh -c "mkdir /etc/sysctl.d/; echo 'kernel.unprivileged_userns_clone=1' > /etc/sysctl.d/userns.conf" || exit 1
+      docker exec -u root "$CONTAINER_NAME" /bin/sh -c "mkdir /etc/sysctl.d/; echo 'kernel.unprivileged_userns_clone=1' > /etc/sysctl.d/userns.conf" || exit 1
 
        # Allow using headless chrome sandbox
       docker exec "$CONTAINER_NAME" /bin/sh -c "$COMMAND" || exit 1
