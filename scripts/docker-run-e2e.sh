@@ -33,7 +33,7 @@ while [ $attempts -lt $max_attempts ]; do
       docker exec -u root "$CONTAINER_NAME" /bin/sh -c "mkdir -p /etc/sysctl.d/; echo 'kernel.unprivileged_userns_clone=1' > /etc/sysctl.d/userns.conf" || exit 1
 
       # display env vars
-      docker exec -u "$CONTAINER_NAME" /bin/sh -c "printenv" || exit 1
+      docker exec "$CONTAINER_NAME" /bin/sh -c "printenv" || exit 1
 
        # Execute tests
       docker exec "$CONTAINER_NAME" /bin/sh -c "$COMMAND" || exit 1
