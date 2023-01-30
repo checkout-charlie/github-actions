@@ -76,7 +76,7 @@ server="$(echo "$registry_json" | key_from_json_obj "registry")"
 commit="$(git rev-parse HEAD)"
 local_image_and_tag="${IMAGE_NAME}:${LOCAL_TAG}"
 destination_image_name="${server}/${HUMANITEC_ORG}/${IMAGE_NAME}"
-destination_image_and_tag="${server}/${HUMANITEC_ORG}/${IMAGE_NAME}/${commit}"
+destination_image_and_tag="${server}/${HUMANITEC_ORG}/${IMAGE_NAME}:${commit}"
 
 echo "Local image and tag: ${local_image_and_tag}"
 echo "Destination image and tag: ${destination_image_and_tag}"
