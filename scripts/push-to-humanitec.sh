@@ -104,6 +104,7 @@ fi
 
 echo "Notifying Humanitec"
 payload="{\"commit\":\"${commit}\",\"ref\":\"${GITHUB_REF}\",\"version\":\"${commit}\",\"name\":\"registry.humanitec.io/${HUMANITEC_ORG}/${IMAGE_NAME}\",\"type\":\"container\"}"
+echo "Humanitec notification payload: ${payload}"
 if ! fetch_url POST "$payload" "https://api.humanitec.io/orgs/${HUMANITEC_ORG}/artefact-versions"
 then
         echo "Unable to notify Humanitec." >&2
@@ -115,3 +116,4 @@ docker images
 docker stop $(docker ps -a -q) || echo "No containers to stop"
 docker images | grep "$destination_image_name" | awk '{print $1 ":" $2}' | xargs -I{} docker image rm {}
 echo "Image list after cleanup:"
+docker images
