@@ -11,7 +11,7 @@ jobs:
       - name: Test build local image
         uses: ./build-image
         with:
-          image-name: github-action-test
+          image_name: github-action-test
           build_context: https://github.com/mendhak/docker-http-https-echo.git #optional
 
       - name: List images & containers
@@ -20,7 +20,7 @@ jobs:
       - name: Test non-e2e tests
         uses: ./run-tests
         with:
-          image-name: github-action-test
+          image_name: github-action-test
           static: echo 'test static'
           unit: echo 'test unit'
           functional: echo 'test functional'
@@ -32,13 +32,13 @@ jobs:
       - name: Test e2e test
         uses: ./run-tests
         with:
-          image-name: github-action-test
+          image_name: github-action-test
           e2e: echo 'e2e test'
 
       - name: Test push to Humanitec
         uses: ./humanitec-push-image
         with:
-          image-name: github-action-test
+          image_name: github-action-test
           humanitec_token: ${{ secrets.HUMANITEC_TOKEN }}
           humanitec_org: checkout-charlie
 
