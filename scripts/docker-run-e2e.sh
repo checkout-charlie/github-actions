@@ -20,7 +20,7 @@ if [ -z "$SERVICE_PORT" ]; then
 else
   CONTAINER_PORT=$SERVICE_PORT
 fi
-docker run --rm -d -p "$HOST_PORT:$CONTAINER_PORT" --name "$CONTAINER_NAME" --env-file "$ENV_FILE" -e HOST="0.0.0.0" -e "TERM=xterm-color" $DOCKER_ARGS "$IMAGE_NAME:$IMAGE_TAG" || exit 1
+docker run --rm -d -p "$HOST_PORT:$CONTAINER_PORT" --cap-add=SYS_ADMIN --name "$CONTAINER_NAME" --env-file "$ENV_FILE" -e HOST="0.0.0.0" -e "TERM=xterm-color" $DOCKER_ARGS "$IMAGE_NAME:$IMAGE_TAG" || exit 1
 
 # Wait for container to start and run tests
 attempts=0
@@ -28,6 +28,10 @@ max_attempts=$READINESS_TIMEOUT
 while [ $attempts -lt $max_attempts ]; do
   if curl --head --silent --fail "http://localhost:$HOST_PORT/"; then
     echo "Service started, running test..."
+      # Allow using headless chrome sandbox
+      docker exec "$CONTAINER_NAME" -u root /bin/sh -c "mkdir /etc/sysctl.d/; echo 'kernel.unprivileged_userns_clone=1' > /etc/sysctl.d/userns.conf" || exit 1
+
+       # Allow using headless chrome sandbox
       docker exec "$CONTAINER_NAME" /bin/sh -c "$COMMAND" || exit 1
     break
   else
