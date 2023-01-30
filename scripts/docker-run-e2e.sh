@@ -21,8 +21,6 @@ else
   CONTAINER_PORT=$SERVICE_PORT
 fi
 
-printenv
-
 docker run --rm -d -p "$HOST_PORT:$CONTAINER_PORT" --cap-add=SYS_ADMIN --name "$CONTAINER_NAME" --env-file "$ENV_FILE" -e HOST="0.0.0.0" -e "TERM=xterm-color" $DOCKER_ARGS "$IMAGE_NAME:$IMAGE_TAG" || exit 1
 
 # Wait for container to start and run tests
@@ -33,6 +31,9 @@ while [ $attempts -lt $max_attempts ]; do
     echo "Service started, running test..."
       # Allow using headless chrome sandbox
       docker exec -u root "$CONTAINER_NAME" /bin/sh -c "mkdir /etc/sysctl.d/; echo 'kernel.unprivileged_userns_clone=1' > /etc/sysctl.d/userns.conf" || exit 1
+
+      # display env vars
+      docker exec -u "$CONTAINER_NAME" /bin/sh -c "printenv" || exit 1
 
        # Execute tests
       docker exec "$CONTAINER_NAME" /bin/sh -c "$COMMAND" || exit 1
