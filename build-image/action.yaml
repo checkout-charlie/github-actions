@@ -28,7 +28,7 @@ inputs:
   testing_stage:
     description: 'Name of the testing stage on multi-stage build'
     required: false
-    default: testing
+    default: development
   testing_tag:
     description: 'Tag of the testing image for multi-stage builds'
     required: false
