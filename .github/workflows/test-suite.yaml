@@ -10,9 +10,9 @@ jobs:
 
       - name: Initialize cache
         uses: ./initialize-cache
-
-      - name: Wipe images
-        uses: ./wipe-workspace
+#
+#      - name: Wipe images
+#        uses: ./wipe-workspace
 
       - name: Test build local image
         uses: ./build-image
