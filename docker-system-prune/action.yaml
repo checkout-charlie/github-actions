@@ -1,0 +1,10 @@
+name: 'Invalidates all docker cache'
+description: Don't use this action in regular workflow.
+
+runs:
+  using: "composite"
+  steps:
+    - uses: satackey/action-docker-layer-caching@v0.0.11
+    - name: Pruning docker
+      run: docker system prune -a -y
+      shell: sh
