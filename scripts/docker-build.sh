@@ -3,12 +3,13 @@
 set -e
 
 BUILD_CONTEXT="$1"
-BUILD_ARGS="$2"
-IMAGE_NAME="$3"
-MULTI_STAGE="$4"
-TESTING_TAG="$5"
-PRODUCTION_STAGE="$6"
-TESTING_STAGE="$7"
+DOCKERFILE="$2"
+BUILD_ARGS="$3"
+IMAGE_NAME="$4"
+MULTI_STAGE="$5"
+TESTING_TAG="$6"
+PRODUCTION_STAGE="$7"
+TESTING_STAGE="$8"
 
 echo "Image before build:"
 docker images
@@ -17,13 +18,13 @@ docker images
 if [ "$MULTI_STAGE" != "false" ]
 then
 	echo "Building image..."
-  docker build $BUILD_ARGS --target "$PRODUCTION_STAGE" -t "$IMAGE_NAME:latest" "$BUILD_CONTEXT" || exit 1
+  docker build $BUILD_ARGS --file "$DOCKERFILE" --target "$PRODUCTION_STAGE" -t "$IMAGE_NAME:latest" "$BUILD_CONTEXT" || exit 1
   echo "Building test image..."
-  echo "docker build $BUILD_ARGS --target \"$TESTING_STAGE\" -t \"$IMAGE_NAME:$TESTING_TAG\" \"$BUILD_CONTEXT\""
-  docker build $BUILD_ARGS --target "$TESTING_STAGE" -t "$IMAGE_NAME:$TESTING_TAG" "$BUILD_CONTEXT" || exit 1
+  echo "docker build $BUILD_ARGS --file \"$DOCKERFILE\" --target \"$TESTING_STAGE\" -t \"$IMAGE_NAME:$TESTING_TAG\" \"$BUILD_CONTEXT\""
+  docker build $BUILD_ARGS --file "$DOCKERFILE" --target "$TESTING_STAGE" -t "$IMAGE_NAME:$TESTING_TAG" "$BUILD_CONTEXT" || exit 1
 else
   echo "Building image..."
-  docker build $BUILD_ARGS -t "$IMAGE_NAME:latest" "$BUILD_CONTEXT" || exit 1
+  docker build $BUILD_ARGS --file "$DOCKERFILE" -t "$IMAGE_NAME:latest" "$BUILD_CONTEXT" || exit 1
 fi
 echo "Post-build image list:"
 docker images

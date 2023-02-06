@@ -9,6 +9,10 @@ inputs:
     description: 'Docker build context '
     required: false
     default: '.'
+  dockerfile:
+    description: 'Dockerfile location'
+    required: false
+    default: 'Dockerfile'
   image_name:
     description: 'Image name. Defaults to the repository name. Set it if you build multiple images in the same repository'
     required: false
@@ -35,5 +39,5 @@ runs:
   steps:
     - uses: satackey/action-docker-layer-caching@v0.0.11
     - name: Building ${{ inputs.image_name }}:latest
-      run: ${{ github.action_path }}/../scripts/docker-build.sh "${{ inputs.build_context }}" "${{ inputs.build_args }}" "${{ inputs.image_name }}" "${{ inputs.multi_stage }}" "${{ inputs.testing_tag }}" "${{ inputs.production_stage }}" "${{ inputs.testing_stage }}" "${{ inputs.testing_tag }}"
+      run: ${{ github.action_path }}/../scripts/docker-build.sh "${{ inputs.build_context }}" "${{ inputs.dockerfile }}" "${{ inputs.build_args }}" "${{ inputs.image_name }}" "${{ inputs.multi_stage }}" "${{ inputs.testing_tag }}" "${{ inputs.production_stage }}" "${{ inputs.testing_stage }}" "${{ inputs.testing_tag }}"
       shell: sh
