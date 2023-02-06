@@ -1,0 +1,11 @@
+name: 'Initialize cache'
+description: Initialize cache
+
+runs:
+  using: "composite"
+  steps:
+    - uses: satackey/action-docker-layer-caching@v0.0.11
+    - run: docker rmi $(docker images | awk '$2 != "latest" && $2 != "testing" {print $3}')
+      shell: sh
+    - run: docker builder prune -f
+      shell: sh

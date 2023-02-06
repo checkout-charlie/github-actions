@@ -8,17 +8,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Optimize workspace
-        uses: ./optimize-workspace
+      - name: Initialize cache
+        uses: ./initialize-cache
 
       - name: Test build local image
         uses: ./build-image
         with:
           image_name: github-actions-test
           build_context: https://github.com/mendhak/docker-http-https-echo.git #optional
-
-      - name: Optimize workspace
-        uses: ./optimize-workspace
 
       - name: Test build local image
         uses: ./build-image
