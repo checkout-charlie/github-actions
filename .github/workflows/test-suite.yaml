@@ -17,12 +17,6 @@ jobs:
           image_name: github-actions-test
           build_context: https://github.com/mendhak/docker-http-https-echo.git #optional
 
-      - name: Test build local image
-        uses: ./build-image
-        with:
-          image_name: github-actions-test
-          build_context: https://github.com/mendhak/docker-http-https-echo.git #optional
-
       - name: List images & containers
         run:  docker image ls && docker ps -a
 
