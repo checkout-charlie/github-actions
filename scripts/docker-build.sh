@@ -30,7 +30,7 @@ echo "Post-build image list:"
 docker images
 echo "Cleanup unused Docker resources.."
 # Remove unused resources that would otherwise persist between builds by virtue of GH dependency caching
-docker rmi -f $(docker images | awk '$2 != "latest" && $2 != "testing" {print $3}')
+docker rmi -f $(docker images | awk '$2 != "latest" && $2 != "testing" {print $3}') >/dev/null 2>&1 || exit 0
 docker system prune -f
 echo "Image list after cleanup:"
 docker images
