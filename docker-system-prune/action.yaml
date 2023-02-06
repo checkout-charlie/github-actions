@@ -1,9 +1,0 @@
-name: 'Invalidates all docker cache'
-description: Don't use this action in regular workflow.
-
-runs:
-  using: "composite"
-  steps:
-    - name: Pruning docker
-      run: docker system prune -a -f
-      shell: sh
