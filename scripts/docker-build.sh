@@ -23,8 +23,14 @@ then
   echo "docker build $BUILD_ARGS --file \"$DOCKERFILE\" --target \"$TESTING_STAGE\" -t \"$IMAGE_NAME:$TESTING_TAG\" \"$BUILD_CONTEXT\""
   docker build $BUILD_ARGS --file "$DOCKERFILE" --target "$TESTING_STAGE" -t "$IMAGE_NAME:$TESTING_TAG" "$BUILD_CONTEXT" || exit 1
 else
-  echo "Building image..."
-  docker build $BUILD_ARGS --file "$DOCKERFILE" -t "$IMAGE_NAME:latest" "$BUILD_CONTEXT" || exit 1
+  if [ "$PRODUCTION_STAGE" != "production" ]
+  then
+    echo "Building image..."
+    docker build $BUILD_ARGS --file "$DOCKERFILE" --target "$PRODUCTION_STAGE" -t "$IMAGE_NAME:latest" "$BUILD_CONTEXT" || exit 1
+  else
+    echo "Building image..."
+    docker build $BUILD_ARGS --file "$DOCKERFILE" -t "$IMAGE_NAME:latest" "$BUILD_CONTEXT" || exit 1
+  fi
 fi
 echo "Post-build image list:"
 docker images
