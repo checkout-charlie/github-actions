@@ -25,7 +25,7 @@ then
 else
   if [ "$PRODUCTION_STAGE" != "production" ]
   then
-    echo "Building image..."
+    echo "Building image at stage: $PRODUCTION_STAGE"
     docker build $BUILD_ARGS --file "$DOCKERFILE" --target "$PRODUCTION_STAGE" -t "$IMAGE_NAME:latest" "$BUILD_CONTEXT" || exit 1
   else
     echo "Building image..."
