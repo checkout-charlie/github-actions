@@ -22,12 +22,12 @@ else
 fi
 
 if [ -z "$SCREENSHOTS_PATH" ]; then
+  MOUNTS_PART=""
+else
   SCREENSHOTS_PATH_LOCAL="./test-artifacts/screenshots/${IMAGE_NAME}/"
   mkdir -p "$SCREENSHOTS_PATH_LOCAL"
   MOUNTS_PART=" -v ${SCREENSHOTS_PATH_LOCAL}:${SCREENSHOTS_PATH}/"
   echo "Set mount: $MOUNTS_PART"
-else
-  MOUNTS_PART=""
 fi
 
 docker run --rm -d -p "$HOST_PORT:$CONTAINER_PORT" --cap-add=SYS_ADMIN --name "$CONTAINER_NAME" $MOUNTS_PART --env-file "$ENV_FILE" -e HOST="0.0.0.0" -e "TERM=xterm-color" $DOCKER_ARGS "$IMAGE_NAME:$IMAGE_TAG" || exit 1
