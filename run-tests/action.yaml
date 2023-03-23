@@ -87,9 +87,9 @@ runs:
       shell: sh
     - name: Upload screenshots
       if: inputs.e2e != '' && inputs.screenshots_path != '' && failure() && steps.run-e2e.outcome == 'failure'
-      uses: upload-artifact@v3
+      uses: actions/upload-artifact@v3
       with:
-        name: cypress-snapshots
+        name: E2E screenshots
         path: test-artifacts/screenshots/${{ inputs.image_name }}
     - name: Run post commands
       if: inputs.post != ''
