@@ -43,10 +43,14 @@ inputs:
     description: 'Seconds to wait for te container to be ready before throwing an error'
     required: false
     default: '60'
+  screenshots_path:
+    description: 'Path for the artifacts to upload in case of failure'
+    required: false
+    default: ''
 runs:
   using: "composite"
   steps:
-    - name: Running static analysis
+    - name: Run static analysis
       if: inputs.static != ''
       uses: checkout-charlie/github-actions/run-command@main
       with:
@@ -56,7 +60,7 @@ runs:
         image_tag: ${{ inputs.image_tag }}
         env_file: ${{ inputs.env_file }}
         entrypoint: ${{ inputs.entrypoint }}
-    - name: Running unit tests
+    - name: Run unit tests
       if: inputs.unit != ''
       uses: checkout-charlie/github-actions/run-command@main
       with:
@@ -66,7 +70,7 @@ runs:
         image_tag: ${{ inputs.image_tag }}
         env_file: ${{ inputs.env_file }}
         entrypoint: ${{ inputs.entrypoint }}
-    - name: Running functional tests
+    - name: Run functional tests
       if: inputs.functional != ''
       uses: checkout-charlie/github-actions/run-command@main
       with:
@@ -76,11 +80,17 @@ runs:
         image_tag: ${{ inputs.image_tag }}
         env_file: ${{ inputs.env_file }}
         entrypoint: ${{ inputs.entrypoint }}
-    - name: Running e2e tests
+    - name: run-e2e
       if: inputs.e2e != ''
-      run: ${{ github.action_path }}/../scripts/docker-run-e2e.sh "${{ inputs.image_name }}" "${{ inputs.image_tag }}" "${{ inputs.docker_args }}" "${{ inputs.e2e }}" "${{ inputs.env_file }}" "${{ inputs.e2e_port }}" "${{ inputs.e2e_readiness_timeout }}"
+      run: ${{ github.action_path }}/../scripts/docker-run-e2e.sh "${{ inputs.image_name }}" "${{ inputs.image_tag }}" "${{ inputs.docker_args }}" "${{ inputs.e2e }}" "${{ inputs.env_file }}" "${{ inputs.e2e_port }}" "${{ inputs.e2e_readiness_timeout }}"  "${{ inputs.screenshots_path }}"
       shell: sh
-    - name: Running post commands
+    - name: Upload screenshots
+      if: inputs.e2e != '' && inputs.screenshots_path != '' && ${{ failure('run-e2e') }}
+      uses: upload-artifact@v3
+      with:
+        name: cypress-snapshots
+        path: test-artifacts/screenshots/${{ inputs.image_name }}
+    - name: Run post commands
       if: inputs.post != ''
       uses: checkout-charlie/github-actions/run-command@main
       with:

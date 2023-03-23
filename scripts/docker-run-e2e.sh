@@ -9,19 +9,28 @@ COMMAND="$4"
 ENV_FILE="$5"
 SERVICE_PORT="$6"
 READINESS_TIMEOUT="$7"
+SCREENSHOTS_PATH="$8"
 
 HOST_PORT=8080
 CONTAINER_NAME="${IMAGE_NAME}_${IMAGE_TAG}"
 
 if [ -z "$SERVICE_PORT" ]; then
-  #apt-get update
   CONTAINER_PORT=$(docker inspect --format='{{json .Config.ExposedPorts}}' "$IMAGE_NAME:$IMAGE_TAG" | jq 'keys[0]' | cut -d'/' -f1 | cut -d'"' -f2)
   echo "Detected image port: $CONTAINER_PORT"
 else
   CONTAINER_PORT=$SERVICE_PORT
 fi
 
-docker run --rm -d -p "$HOST_PORT:$CONTAINER_PORT" --cap-add=SYS_ADMIN --name "$CONTAINER_NAME" --env-file "$ENV_FILE" -e HOST="0.0.0.0" -e "TERM=xterm-color" $DOCKER_ARGS "$IMAGE_NAME:$IMAGE_TAG" || exit 1
+if [ -z "$SCREENSHOTS_PATH" ]; then
+  SCREENSHOTS_PATH_LOCAL="./test-artifacts/screenshots/${IMAGE_NAME}/"
+  mkdir -p "$SCREENSHOTS_PATH_LOCAL"
+  MOUNTS_PART=" -v ${SCREENSHOTS_PATH_LOCAL}:${SCREENSHOTS_PATH}/"
+  echo "Set mount: $MOUNTS_PART"
+else
+  MOUNTS_PART=""
+fi
+
+docker run --rm -d -p "$HOST_PORT:$CONTAINER_PORT" --cap-add=SYS_ADMIN --name "$CONTAINER_NAME" $MOUNTS_PART --env-file "$ENV_FILE" -e HOST="0.0.0.0" -e "TERM=xterm-color" $DOCKER_ARGS "$IMAGE_NAME:$IMAGE_TAG" || exit 1
 
 # Wait for container to start and run tests
 attempts=0
