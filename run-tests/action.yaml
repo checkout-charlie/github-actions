@@ -80,12 +80,13 @@ runs:
         image_tag: ${{ inputs.image_tag }}
         env_file: ${{ inputs.env_file }}
         entrypoint: ${{ inputs.entrypoint }}
-    - name: run-e2e
+    - name: Run E2E tests
+      id: run-e2e
       if: inputs.e2e != ''
       run: ${{ github.action_path }}/../scripts/docker-run-e2e.sh "${{ inputs.image_name }}" "${{ inputs.image_tag }}" "${{ inputs.docker_args }}" "${{ inputs.e2e }}" "${{ inputs.env_file }}" "${{ inputs.e2e_port }}" "${{ inputs.e2e_readiness_timeout }}"  "${{ inputs.screenshots_path }}"
       shell: sh
     - name: Upload screenshots
-      if: inputs.e2e != '' && inputs.screenshots_path != '' && ${{ failure('run-e2e') }}
+      if: inputs.e2e != '' && inputs.screenshots_path != '' && failure() && steps.run-e2e.outcome == 'failure'
       uses: upload-artifact@v3
       with:
         name: cypress-snapshots
