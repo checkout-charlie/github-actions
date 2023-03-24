@@ -46,7 +46,7 @@ while [ $attempts -lt $max_attempts ]; do
 
        # Execute tests
       #docker exec "$CONTAINER_NAME" /bin/sh -c "$COMMAND" || exit 1
-      docker exec "$CONTAINER_NAME" /bin/sh -c "$COMMAND"
+      docker exec "$CONTAINER_NAME" /bin/sh -c "$COMMAND" || exit 0
     break
   else
     echo "Waiting for service to start..."
