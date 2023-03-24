@@ -57,3 +57,6 @@ if [ $attempts -eq $max_attempts ]; then
   echo "Maximum number of attempts reached, container still not operational"
   exit 1
 fi
+
+echo "Listing artifacts:"
+ls -als ${PWD}/test-artifacts/screenshots/${IMAGE_NAME}/
