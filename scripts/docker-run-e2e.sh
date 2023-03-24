@@ -60,4 +60,4 @@ if [ $attempts -eq $max_attempts ]; then
 fi
 
 echo "Listing artifacts:"
-ls -als ${PWD}/test-artifacts/screenshots/${IMAGE_NAME}/
+ls -als ${PWD}/test-artifacts/screenshots/${IMAGE_NAME}/ || exit 0
