@@ -26,6 +26,7 @@ if [ -z "$SCREENSHOTS_PATH" ]; then
 else
   SCREENSHOTS_PATH_LOCAL="${PWD}/test-artifacts/screenshots/${IMAGE_NAME}/"
   mkdir -p "$SCREENSHOTS_PATH_LOCAL"
+  chmod 777 "$SCREENSHOTS_PATH_LOCAL"
   MOUNTS_PART=" -v ${SCREENSHOTS_PATH_LOCAL}:${SCREENSHOTS_PATH}/"
   echo "Set mount: $MOUNTS_PART"
 fi
