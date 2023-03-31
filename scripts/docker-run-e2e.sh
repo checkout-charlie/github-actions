@@ -48,7 +48,7 @@ while [ $attempts -lt $max_attempts ]; do
        # Execute tests
       #docker exec "$CONTAINER_NAME" /bin/sh -c "$COMMAND" || exit 1
       echo "ENTERING"
-      docker exec "$CONTAINER_NAME" /bin/sh -c "$COMMAND" || echo "TEST EXITED WITH NON-ZERO CODE"
+      docker exec "$CONTAINER_NAME" /bin/sh -c "$COMMAND"
       echo "EXITED"
     break
   else
