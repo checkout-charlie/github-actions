@@ -62,5 +62,5 @@ if [ $attempts -eq $max_attempts ]; then
   exit 1
 fi
 
-echo "Listing artifacts on ${PWD}/test-artifacts/screenshots/${IMAGE_NAME}/"
-ls -als ${PWD}/test-artifacts/screenshots/${IMAGE_NAME}/ || exit 0
+echo "Listing artifacts on ${SCREENSHOTS_PATH_LOCAL}"
+ls -als "${SCREENSHOTS_PATH_LOCAL}" || exit 0
