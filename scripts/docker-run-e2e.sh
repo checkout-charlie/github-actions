@@ -31,8 +31,11 @@ else
   echo "Set mount: $MOUNTS_PART"
 fi
 
+# Run the container
 docker run --rm -d -p "$HOST_PORT:$CONTAINER_PORT" --cap-add=SYS_ADMIN --name "$CONTAINER_NAME" $MOUNTS_PART --env-file "$ENV_FILE" -e HOST="0.0.0.0" -e "TERM=xterm-color" $DOCKER_ARGS "$IMAGE_NAME:$IMAGE_TAG" > /tmp/container.log 2>&1 || exit 1
 
+# Print container logs
+echo "----- Server output: --------------"
 tail -f /tmp/container.log &
 
 # Wait for container to start and run tests
@@ -43,9 +46,10 @@ while [ $attempts -lt $max_attempts ]; do
     echo "Service started, running test..."
      docker exec -u root "$CONTAINER_NAME" /bin/sh -c "mkdir -p /etc/sysctl.d/; echo 'kernel.unprivileged_userns_clone=1' > /etc/sysctl.d/userns.conf"  || exit 1
 
+      # Print env vars
       docker exec "$CONTAINER_NAME" /bin/sh -c "printenv" || exit 1
 
-
+      # Run tests
       docker exec "$CONTAINER_NAME" /bin/sh -c "$COMMAND" || exit 1
 
     break
@@ -60,6 +64,7 @@ if [ $attempts -eq $max_attempts ]; then
   exit 1
 fi
 
+# Stop the tail command
 kill %1 || true
 
 echo "Listing artifacts on ${SCREENSHOTS_PATH_LOCAL}"
