@@ -34,10 +34,6 @@ fi
 # Run the container
 docker run --rm -d -p "$HOST_PORT:$CONTAINER_PORT" --cap-add=SYS_ADMIN --name "$CONTAINER_NAME" $MOUNTS_PART --env-file "$ENV_FILE" -e HOST="0.0.0.0" -e "TERM=xterm-color" $DOCKER_ARGS "$IMAGE_NAME:$IMAGE_TAG" || exit 1
 
-# Print container logs
-echo "----- Server output: --------------"
-docker logs -f "$CONTAINER_NAME" &
-
 # Wait for container to start and run tests
 attempts=0
 max_attempts=$READINESS_TIMEOUT
@@ -64,8 +60,14 @@ if [ $attempts -eq $max_attempts ]; then
   exit 1
 fi
 
-# Stop the tail command
-kill %1 || true
+# Print container logs
+echo "#########################################"
+echo "########### SERVER LOGS #################"
+echo "#########################################"
+docker logs "$CONTAINER_NAME"
+echo "#########################################"
+echo "######### END OF SERVER LOGS ############"
+echo "#########################################"
 
 echo "Listing artifacts on ${SCREENSHOTS_PATH_LOCAL}"
 ls -als "${SCREENSHOTS_PATH_LOCAL}" || exit 0
