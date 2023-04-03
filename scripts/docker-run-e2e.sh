@@ -71,8 +71,8 @@ echo "#########################################"
 echo "######### END OF SERVER LOGS ############"
 echo "#########################################"
 
-echo "Listing artifacts on ${SCREENSHOTS_PATH_LOCAL}"
-ls -als "${SCREENSHOTS_PATH_LOCAL}" || echo "No artifacts."
+#echo "Listing artifacts on ${SCREENSHOTS_PATH_LOCAL}"
+#ls -als "${SCREENSHOTS_PATH_LOCAL}" || echo "No artifacts."
 
 exit $FAILED
 
