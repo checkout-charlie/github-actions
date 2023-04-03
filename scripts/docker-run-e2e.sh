@@ -14,6 +14,8 @@ SCREENSHOTS_PATH="$8"
 HOST_PORT=8080
 CONTAINER_NAME="${IMAGE_NAME}_${IMAGE_TAG}"
 
+FAILED=0
+
 if [ -z "$SERVICE_PORT" ]; then
   CONTAINER_PORT=$(docker inspect --format='{{json .Config.ExposedPorts}}' "$IMAGE_NAME:$IMAGE_TAG" | jq 'keys[0]' | cut -d'/' -f1 | cut -d'"' -f2)
   echo "Detected image port: $CONTAINER_PORT"
@@ -46,7 +48,7 @@ while [ $attempts -lt $max_attempts ]; do
       docker exec "$CONTAINER_NAME" /bin/sh -c "printenv" || exit 1
 
       # Run tests
-      docker exec "$CONTAINER_NAME" /bin/sh -c "$COMMAND" || exit 1
+      docker exec "$CONTAINER_NAME" /bin/sh -c "$COMMAND" || FAILED=1
 
     break
   else
@@ -70,4 +72,7 @@ echo "######### END OF SERVER LOGS ############"
 echo "#########################################"
 
 echo "Listing artifacts on ${SCREENSHOTS_PATH_LOCAL}"
-ls -als "${SCREENSHOTS_PATH_LOCAL}" || exit 0
+ls -als "${SCREENSHOTS_PATH_LOCAL}" || echo "No artifacts."
+
+exit $FAILED
+
