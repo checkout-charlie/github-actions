@@ -32,11 +32,11 @@ else
 fi
 
 # Run the container
-docker run --rm -d -p "$HOST_PORT:$CONTAINER_PORT" --cap-add=SYS_ADMIN --name "$CONTAINER_NAME" $MOUNTS_PART --env-file "$ENV_FILE" -e HOST="0.0.0.0" -e "TERM=xterm-color" $DOCKER_ARGS "$IMAGE_NAME:$IMAGE_TAG" > /tmp/container.log 2>&1 || exit 1
+docker run --rm -d -p "$HOST_PORT:$CONTAINER_PORT" --cap-add=SYS_ADMIN --name "$CONTAINER_NAME" $MOUNTS_PART --env-file "$ENV_FILE" -e HOST="0.0.0.0" -e "TERM=xterm-color" $DOCKER_ARGS "$IMAGE_NAME:$IMAGE_TAG" || exit 1
 
 # Print container logs
 echo "----- Server output: --------------"
-tail -f /tmp/container.log &
+docker logs -f "$CONTAINER_NAME" &
 
 # Wait for container to start and run tests
 attempts=0
