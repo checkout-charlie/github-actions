@@ -60,7 +60,7 @@ if [ $attempts -eq $max_attempts ]; then
   exit 1
 fi
 
-kill %1
+kill %1 || true
 
 echo "Listing artifacts on ${SCREENSHOTS_PATH_LOCAL}"
 ls -als "${SCREENSHOTS_PATH_LOCAL}" || exit 0
