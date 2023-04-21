@@ -71,11 +71,12 @@ module.exports = {
         // Delete Environment
         return fetch('DELETE', `/orgs/${HUMANITEC_ORG}/apps/${appId}/envs/${paddedEnvId}`);
     },
-    addAutomationRule: async (appId, envId, match, type, updateTo) => {
+    addAutomationRule: async (appId, envId, imagesFilter, match, type, updateTo) => {
         // pad number with leading zeros to get to 3 digits
         const paddedEnvId = envId.padStart(3, '0');
         return fetch('POST', `/orgs/${HUMANITEC_ORG}/apps/${appId}/envs/${paddedEnvId}/rules`, {
             active: true,
+            imagesFilter: imagesFilter,
             match: match,
             type: type || "update",
             update_to: updateTo || "branch"
