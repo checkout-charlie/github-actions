@@ -1,0 +1,49 @@
+name: 'Set automation rule for single image'
+description: 'Set automation rule for single image'
+inputs:
+  humanitec_token:
+    description: 'Humanitec access token'
+    required: true
+  humanitec_org:
+    description: 'Humanitec organization'
+    required: true
+  app_id:
+    description: 'Application ID on Humanitec'
+    required: true
+  image_name:
+    description: 'The name of the local and remote images. Defaults to the repository name'
+    required: true
+  branch_name:
+    description: 'The branch that should be deployed on the environment'
+    required: true
+  environment_name:
+    description: 'Environment name. Defaults to PR #'
+    required: false
+    default: ${{ github.event.number }}
+
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/github-script@v6
+      env:
+        HUMANITEC_ORG: ${{ inputs.humanitec_org }}
+        HUMANITEC_TOKEN: ${{ inputs.humanitec_token }}
+      with:
+        script: |
+          const humanitec = require('${{ github.action_path }}/../scripts/humanitec.js');
+          const HUMANITEC_ORG = `${{ inputs.humanitec_org }}`;
+          const ENV_ID = `${{ inputs.environment_name }}`;
+          const APP_ID = `${{ inputs.app_id }}`;
+          const IMAGE_ID = `${{ inputs.image_name }}`;
+          const BRANCH_NAME = `${{ inputs.branch_name }}`;
+          const ENV_PATH = `/orgs/${HUMANITEC_ORG}/apps/${APP_ID}/envs/${ENV_ID}`;
+          
+          console.log(`Creating automation rule for ${ENV_ID} for ${APP_ID} for image ${IMAGE_ID} to branch ${BRANCH_NAME}`);
+          
+          const rule = await humanitec.addAutomationRule(APP_ID, ENV_ID, [IMAGE_ID], BRANCH_NAME);
+          if (rule.status > 400) {
+            console.error(`Cannot create atomation rule in environment ${ENV_ID}: ${JSON.stringify(rule.body)}`);
+            return;
+          }
+          
+          console.info(`Created automation rule response: ${JSON.stringify(rule.body)}`);

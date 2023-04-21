@@ -21,10 +21,6 @@ inputs:
     description: 'Generated environment name. Defaults to PR #'
     required: false
     default: ${{ github.event.number }}
-  image_name:
-    description: 'The name of the local and remote images. Defaults to the repository name'
-    required: false
-    default: ${{ github.event.repository.name }}
 
 runs:
   using: "composite"
@@ -40,7 +36,6 @@ runs:
             const HUMANITEC_ORG = `${{ inputs.humanitec_org }}`;
             const ENV_ID = `${{ inputs.environment_name }}`;
             const APP_ID = `${{ inputs.app_id }}`;
-            const IMAGE_ID = `${{ inputs.image_name }}`;
             const BRANCH_NAME = `${context.payload.pull_request.head.ref}`;
             const ENV_PATH = `/orgs/${HUMANITEC_ORG}/apps/${APP_ID}/envs/${ENV_ID}`;
 
@@ -58,7 +53,7 @@ runs:
             
             console.log(`Created preview environment: ${JSON.stringify(env.body)} `);
             console.log(`Creating automation rule ${ENV_ID} for ${APP_ID} from ${BASE_ENV_ID} branch ${BRANCH_NAME}`);
-            const rule = await humanitec.addAutomationRule(APP_ID, ENV_ID, [IMAGE_ID], BRANCH_NAME);
+            const rule = await humanitec.addAutomationRule(APP_ID, ENV_ID, [], BRANCH_NAME);
             if (rule.status > 400) {
               console.error(`Cannot create atomation rule in environment ${ENV_ID}: ${JSON.stringify(rule.body)}`);
               return;
