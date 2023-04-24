@@ -39,7 +39,7 @@ runs:
           const ENV_PATH = `/orgs/${HUMANITEC_ORG}/apps/${APP_ID}/envs/${ENV_ID}`;
 
           IMAGES.forEach(function(item) {
-            console.log(`Creating automation rule for ${ENV_ID} for ${APP_ID} for image ${{ item }} to branch ${BRANCH_NAME}`);
+            console.log(`Creating automation rule for ${ENV_ID} for ${APP_ID} for image ${item} to branch ${BRANCH_NAME}`);
             
             const rule = await humanitec.addAutomationRule(APP_ID, ENV_ID, [item], BRANCH_NAME);
             if (rule.status > 400) {
