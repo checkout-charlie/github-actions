@@ -17,6 +17,10 @@ inputs:
     description: 'Generated environment type'
     required: true
     default: development
+  images:
+    description: 'Comma separated list of images to be automated. Leave blank to automate all images.'
+    required: false
+    default: ''
   environment_name:
     description: 'Generated environment name. Defaults to PR #'
     required: false
@@ -38,6 +42,7 @@ runs:
             const APP_ID = `${{ inputs.app_id }}`;
             const BRANCH_NAME = `${context.payload.pull_request.head.ref}`;
             const ENV_PATH = `/orgs/${HUMANITEC_ORG}/apps/${APP_ID}/envs/${ENV_ID}`;
+            const IMAGES = `${{ inputs.images }}`.split(",").map(item => `registry.humanitec.io/${{ inputs.humanitec_org }}/${item.trim()}`);
 
             console.log(`Creating PR environment ${ENV_ID} for ${APP_ID} from ${BASE_ENV_ID}`);
 
@@ -53,7 +58,7 @@ runs:
             
             console.log(`Created preview environment: ${JSON.stringify(env.body)} `);
             console.log(`Creating automation rule ${ENV_ID} for ${APP_ID} from ${BASE_ENV_ID} branch ${BRANCH_NAME}`);
-            const rule = await humanitec.addAutomationRule(APP_ID, ENV_ID, [], BRANCH_NAME);
+            const rule = await humanitec.addAutomationRule(APP_ID, ENV_ID, IMAGES, BRANCH_NAME);
             if (rule.status > 400) {
               console.error(`Cannot create atomation rule in environment ${ENV_ID}: ${JSON.stringify(rule.body)}`);
               return;
