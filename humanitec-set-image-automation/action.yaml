@@ -34,7 +34,7 @@ runs:
           const HUMANITEC_ORG = `${{ inputs.humanitec_org }}`;
           const ENV_ID = `${{ inputs.environment_name }}`;
           const APP_ID = `${{ inputs.app_id }}`;
-          const IMAGE_ID = `${{ inputs.image_name }}`;
+          const IMAGE_ID = `registry.humanitec.io/${{ inputs.humanitec_org }}/${{ inputs.image_name }}`;
           const BRANCH_NAME = `${{ inputs.branch_name }}`;
           const ENV_PATH = `/orgs/${HUMANITEC_ORG}/apps/${APP_ID}/envs/${ENV_ID}`;
           
