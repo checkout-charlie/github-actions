@@ -42,7 +42,7 @@ runs:
             const APP_ID = `${{ inputs.app_id }}`;
             const BRANCH_NAME = `${context.payload.pull_request.head.ref}`;
             const ENV_PATH = `/orgs/${HUMANITEC_ORG}/apps/${APP_ID}/envs/${ENV_ID}`;
-            const IMAGES = `${{ inputs.images }}`.split(",").map(item => `registry.humanitec.io/${{ inputs.humanitec_org }}/${item.trim()}`);
+            const IMAGES = `${{ inputs.images }}` == '' ? [] : `${{ inputs.images }}`.split(",").map(item => `registry.humanitec.io/${{ inputs.humanitec_org }}/${item.trim()}`);
 
             console.log(`Creating PR environment ${ENV_ID} for ${APP_ID} from ${BASE_ENV_ID}`);
 
