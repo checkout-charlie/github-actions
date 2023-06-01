@@ -1,0 +1,33 @@
+name: 'Build container image'
+description: 'Build Docker image with docker cache'
+inputs:
+  build_args:
+    description: 'Arguments passed to `docker build`'
+    required: false
+    default: ''
+  build_context:
+    description: 'Docker build context '
+    required: false
+    default: '.'
+  dockerfile:
+    description: 'Dockerfile location'
+    required: false
+    default: 'Dockerfile'
+  image_name:
+    description: 'Image name. Defaults to the repository name. Set it if you build multiple images in the same repository'
+    required: false
+    default: ${{ github.event.repository.name }}
+  stage:
+    description: 'Docker stage in a multi-stage build'
+    required: false
+  is_testing:
+    description: 'Is this a testing image?'
+    required: false
+    default: "true"
+
+runs:
+  using: "composite"
+  steps:
+    - name: Building ${{ inputs.stage }} ${{ inputs.image_name }}
+      run: ${{ github.action_path }}/../scripts/build.sh "${{ inputs.build_context }}" "${{ inputs.dockerfile }}" "${{ inputs.build_args }}" "${{ inputs.image_name }}" "${{ inputs.stage }}" "${{ inputs.is_testing }}"
+      shell: sh
