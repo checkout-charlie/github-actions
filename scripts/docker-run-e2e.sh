@@ -47,9 +47,6 @@ while [ $attempts -lt $max_attempts ]; do
       # Print env vars
       docker exec "$CONTAINER_NAME" /bin/sh -c "printenv" || exit 1
 
-      # Print content
-      docker exec "$CONTAINER_NAME" /bin/sh -c "curl --fail \"http://localhost:$HOST_PORT/\"" || exit 1
-
       # Run tests
       docker exec "$CONTAINER_NAME" /bin/sh -c "$COMMAND" || FAILED=1
 
