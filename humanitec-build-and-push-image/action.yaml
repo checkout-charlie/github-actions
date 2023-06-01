@@ -1,0 +1,61 @@
+name: 'Build and push image to Humanitec'
+description: 'For simple images without tests'
+inputs:
+  humanitec_token:
+    description: 'Humanitec token'
+    required: true
+  humanitec_org:
+    description: 'Humanitec org'
+    required: true
+  image_name:
+    description: 'The name of the local and remote images. Defaults to the repository name'
+    required: false
+    default: ${{ github.event.repository.name }}
+
+
+runs:
+  using: "composite"
+  steps:
+      - uses: actions/github-script@v6
+        env:
+          HUMANITEC_ORG: ${{ inputs.humanitec_org }}
+          HUMANITEC_TOKEN: ${{ inputs.humanitec_token }}
+        with:
+          script: |
+            const humanitec = require('${{ github.action_path }}/../scripts/humanitec.js');
+            const BASE_ENV_ID = `${{ inputs.source_environment }}`;
+            const HUMANITEC_ORG = `${{ inputs.humanitec_org }}`;
+            const ENV_ID = `${{ inputs.environment_name }}`;
+            const APP_ID = `${{ inputs.app_id }}`;
+            const BRANCH_NAME = `${context.payload.pull_request.head.ref}`;
+            const ENV_PATH = `/orgs/${HUMANITEC_ORG}/apps/${APP_ID}/envs/${ENV_ID}`;
+            const IMAGES = `${{ inputs.images }}` == '' ? [] : `${{ inputs.images }}`.split(",").map(item => `registry.humanitec.io/${{ inputs.humanitec_org }}/${item.trim()}`);
+
+            console.log(`Creating PR environment ${ENV_ID} for ${APP_ID} from ${BASE_ENV_ID}`);
+
+            const env = await humanitec.cloneEnvironment(APP_ID, BASE_ENV_ID, ENV_ID);
+            if (env.status > 400) {
+              if (env.status == 409) {
+                console.error(`Cannot create preview environment. Environment with ID "${ENV_ID}" already exists.`);
+              } else {
+                console.error(`Cannot create preview environment: ${JSON.stringify(env.body)}`);
+              }
+              return;
+            }
+            
+            console.log(`Created preview environment: ${JSON.stringify(env.body)} `);
+            console.log(`Creating automation rule ${ENV_ID} for ${APP_ID} from ${BASE_ENV_ID} branch ${BRANCH_NAME}`);
+            const rule = await humanitec.addAutomationRule(APP_ID, ENV_ID, IMAGES, BRANCH_NAME);
+            if (rule.status > 400) {
+              console.error(`Cannot create atomation rule in environment ${ENV_ID}: ${JSON.stringify(rule.body)}`);
+              return;
+            }
+            
+            console.info(`Created automation rule response: ${JSON.stringify(rule.body)}`);
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `Created environment in Humanitec: https://app.humanitec.io${ENV_PATH}`
+            });
