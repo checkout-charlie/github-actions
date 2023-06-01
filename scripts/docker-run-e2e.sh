@@ -40,7 +40,7 @@ docker run --rm -d -p "$HOST_PORT:$CONTAINER_PORT" --cap-add=SYS_ADMIN --name "$
 attempts=0
 max_attempts=$READINESS_TIMEOUT
 while [ $attempts -lt $max_attempts ]; do
-  if curl --fail "http://localhost:$HOST_PORT/"; then
+  if curl --head --silent --fail "http://localhost:$HOST_PORT/"; then
     echo "Service started, running test..."
      docker exec -u root "$CONTAINER_NAME" /bin/sh -c "mkdir -p /etc/sysctl.d/; echo 'kernel.unprivileged_userns_clone=1' > /etc/sysctl.d/userns.conf"  || exit 1
 
