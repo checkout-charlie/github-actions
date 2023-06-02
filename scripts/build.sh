@@ -27,7 +27,7 @@ else
 fi
 
 echo "Building image..."
-docker build $BUILD_ARGS --file "$DOCKERFILE" "$STAGE_PART" -t "$IMAGE_NAME:$IMAGE_TAG" "$BUILD_CONTEXT" || exit 1
+docker build $BUILD_ARGS --file "$DOCKERFILE" $STAGE_PART -t "$IMAGE_NAME:$IMAGE_TAG" "$BUILD_CONTEXT" || exit 1
 
 echo "Post-build image list:"
 docker images
