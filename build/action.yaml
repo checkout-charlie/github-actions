@@ -23,7 +23,7 @@ inputs:
   is_testing:
     description: 'Is this a testing image?'
     required: false
-    default: "true"
+    default: "false"
 
 runs:
   using: "composite"
