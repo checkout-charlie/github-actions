@@ -58,8 +58,9 @@ while [ $attempts -lt $max_attempts ]; do
   fi
 done
 if [ $attempts -eq $max_attempts ]; then
-  echo "Maximum number of attempts reached, container still not operational"
-  curl --head "http://localhost:$HOST_PORT/"
+  echo "Maximum number of attempts reached, container still not operational."
+  echo "Response body:"
+  curl "http://localhost:$HOST_PORT/"
   exit 1
 fi
 
