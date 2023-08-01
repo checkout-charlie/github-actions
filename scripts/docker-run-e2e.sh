@@ -36,10 +36,11 @@ fi
 # Run the container
 docker run --rm -d -p "$HOST_PORT:$CONTAINER_PORT" --cap-add=SYS_ADMIN --name "$CONTAINER_NAME" $MOUNTS_PART --env-file "$ENV_FILE" -e HOST="0.0.0.0" -e "TERM=xterm-color" $DOCKER_ARGS "$IMAGE_NAME:$IMAGE_TAG" || exit 1
 
-# Wait for container to start and run tests
-attempts=0
-max_attempts=$READINESS_TIMEOUT
-while [ $attempts -lt $max_attempts ]; do
+# Wait for container to s
+# start and run tests
+start_time=$(date +%s)
+elapsed=0
+while [ $elapsed -lt $READINESS_TIMEOUT ]; do
   if curl --connect-timeout 30 --head --silent --fail "http://localhost:$HOST_PORT/"; then
     echo "Service started, running test..."
      docker exec -u root "$CONTAINER_NAME" /bin/sh -c "mkdir -p /etc/sysctl.d/; echo 'kernel.unprivileged_userns_clone=1' > /etc/sysctl.d/userns.conf"  || exit 1
@@ -54,7 +55,8 @@ while [ $attempts -lt $max_attempts ]; do
   else
     echo "Waiting for service to start..."
     sleep 1
-    attempts=$((attempts+1))
+    end_time=$(date +%s)
+    elapsed=$((end_time - start_time))
   fi
 done
 if [ $attempts -eq $max_attempts ]; then
