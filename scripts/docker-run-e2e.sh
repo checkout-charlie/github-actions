@@ -53,7 +53,7 @@ while [ $elapsed -lt $READINESS_TIMEOUT ]; do
 
     break
   else
-    echo "Waiting for service to start..."
+    echo "Waiting for service to start... ($elapsed)"
     sleep 1
     end_time=$(date +%s)
     elapsed=$((elapsed + end_time - start_time))
