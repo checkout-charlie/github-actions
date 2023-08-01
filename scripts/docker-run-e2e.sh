@@ -59,8 +59,8 @@ while [ $elapsed -lt $READINESS_TIMEOUT ]; do
     elapsed=$((end_time - start_time))
   fi
 done
-if [ $attempts -eq $max_attempts ]; then
-  echo "Maximum number of attempts reached, container still not operational."
+if [ $elapsed -gt $READINESS_TIMEOUT ]; then
+  echo "Timeout elapsed ($elapsed / max: $READINESS_TIMEOUT). Container still not operational."
   echo "Response body:"
   curl  --connect-timeout 30 "http://localhost:$HOST_PORT/"
   exit 1

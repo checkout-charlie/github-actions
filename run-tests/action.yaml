@@ -42,7 +42,7 @@ inputs:
   e2e_readiness_timeout:
     description: 'Seconds to wait for te container to be ready before throwing an error'
     required: false
-    default: '60'
+    default: '120'
   screenshots_path:
     description: 'Path for the artifacts to upload in case of failure'
     required: false
