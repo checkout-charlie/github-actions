@@ -40,7 +40,7 @@ docker run --rm -d -p "$HOST_PORT:$CONTAINER_PORT" --cap-add=SYS_ADMIN --name "$
 attempts=0
 max_attempts=$READINESS_TIMEOUT
 while [ $attempts -lt $max_attempts ]; do
-  if curl --head --silent --fail "http://localhost:$HOST_PORT/"; then
+  if curl --connect-timeout 30 --head --silent --fail "http://localhost:$HOST_PORT/"; then
     echo "Service started, running test..."
      docker exec -u root "$CONTAINER_NAME" /bin/sh -c "mkdir -p /etc/sysctl.d/; echo 'kernel.unprivileged_userns_clone=1' > /etc/sysctl.d/userns.conf"  || exit 1
 
@@ -60,7 +60,7 @@ done
 if [ $attempts -eq $max_attempts ]; then
   echo "Maximum number of attempts reached, container still not operational."
   echo "Response body:"
-  curl "http://localhost:$HOST_PORT/"
+  curl  --connect-timeout 30 "http://localhost:$HOST_PORT/"
   exit 1
 fi
 
