@@ -28,7 +28,7 @@ inputs:
   preview_url_template:
     description: 'Preview url for notifications. Defaults to "https://${{ github.event.repository.name }}-${{ github.event.number }}.checkoutcharlie.dev"'
     required: false
-    default: https://${{ github.event.number }}.checkoutcharlie.dev
+    default: https://${{ github.event.repository.name }}-${{ github.event.number }}.checkoutcharlie.dev
 
 runs:
   using: "composite"
