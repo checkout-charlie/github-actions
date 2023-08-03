@@ -76,7 +76,7 @@ runs:
 
             let deployment_url = `${{ inputs.preview_url_template }}`
             if (deployment_url == '') {
-              deployment_url = `N/A`;
+              deployment_url = "N/A";
             }
 
             if (
