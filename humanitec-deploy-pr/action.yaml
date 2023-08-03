@@ -29,6 +29,11 @@ inputs:
     description: 'Preview url for notifications. E.g. "https://<github.event.repository.name>-$<github.event.number>.domain.com"'
     required: false
     default : ''
+  teams_webhook:
+    description: 'Teams webhook for notifications'
+    required: false
+    default: ''
+
 runs:
   using: "composite"
   steps:
@@ -58,7 +63,7 @@ runs:
               }
               return;
             }
-            
+
             console.log(`Created preview environment: ${JSON.stringify(env.body)} `);
             console.log(`Creating automation rule ${ENV_ID} for ${APP_ID} from ${BASE_ENV_ID} branch ${BRANCH_NAME}`);
             const rule = await humanitec.addAutomationRule(APP_ID, ENV_ID, IMAGES, BRANCH_NAME);
@@ -66,14 +71,12 @@ runs:
               console.error(`Cannot create atomation rule in environment ${ENV_ID}: ${JSON.stringify(rule.body)}`);
               return;
             }
-            
+
             console.info(`Created automation rule response: ${JSON.stringify(rule.body)}`);
 
             let deployment_url = `${{ inputs.preview_url_template }}`
             if (deployment_url == '') {
               deployment_url = `N/A`;
-            } else {
-               // send the teams notification
             }
 
             if (
@@ -83,3 +86,10 @@ runs:
               repo: context.repo.repo,
               body: `Preview URL: ${deployment_url}\nHumanitec environment: https://app.humanitec.io${ENV_PATH}`
             });
+
+      - name: Send message to ms teams
+        uses: dhollerbach/actions.send-message-to-ms-teams@1.0.10
+        if : ${{ inputs.teams_webhook != '' && inputs.preview_url_template != '' }}
+        with:
+          webhook: '${{ inputs.teams_webhook }}'
+          message: '${{ github.event.pull_request.title }}\n${{ inputs.preview_url_template }}'
