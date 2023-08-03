@@ -28,7 +28,6 @@ inputs:
   preview_url_template:
     description: 'Preview url for notifications. Defaults to "https://<github.event.repository.name>-$<github.event.number>.checkoutcharlie.dev"'
     required: false
-    default: https://${{ github.event.repository.name }}-${{ github.event.number }}.checkoutcharlie.dev
 
 runs:
   using: "composite"
@@ -69,10 +68,18 @@ runs:
             }
             
             console.info(`Created automation rule response: ${JSON.stringify(rule.body)}`);
-            
+
+            let deployment_url = `${{ inputs.preview_url_template }}`
+            if (deployment_url == '') {
+              deployment_url = `N/A`;
+            } else {
+               // send the teams notification
+            }
+
+            if (
             github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: `Preview URL: ${{ inputs.preview_url_template }}\nHumanitec environment: https://app.humanitec.io${ENV_PATH}`
+              body: `Preview URL: ${deployment_url}\nHumanitec environment: https://app.humanitec.io${ENV_PATH}`
             });
