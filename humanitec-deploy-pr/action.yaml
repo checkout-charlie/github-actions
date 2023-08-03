@@ -74,7 +74,7 @@ runs:
 
             console.info(`Created automation rule response: ${JSON.stringify(rule.body)}`);
 
-            let deployment_url = `${{ inputs.preview_url_template }}`
+            let deployment_url = `${{ inputs.preview_url_template }}`;
             if (deployment_url == '') {
               deployment_url = "N/A";
             }
