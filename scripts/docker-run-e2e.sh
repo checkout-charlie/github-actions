@@ -6,10 +6,10 @@ COMMAND="$4"
 ENV_FILE="$5"
 SERVICE_PORT="$6"
 
-pwd
-ls -als
+while read line; do
+  echo "$line" >> $GITHUB_ENV
+done < $ENV_FILE
 
-. "./$ENV_FILE"
 printenv
 yarn install
 yarn lint
