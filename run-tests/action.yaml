@@ -80,6 +80,10 @@ runs:
         image_tag: ${{ inputs.image_tag }}
         env_file: ${{ inputs.env_file }}
         entrypoint: ${{ inputs.entrypoint }}
+    - uses: cardinalby/export-env-action@v2
+      if: inputs.e2e != ''
+      with:
+        envFile: ${{ inputs.env_file }}
     - name: Run E2E tests
       id: run-e2e
       if: inputs.e2e != ''
