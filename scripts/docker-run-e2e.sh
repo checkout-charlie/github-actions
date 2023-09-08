@@ -6,7 +6,10 @@ COMMAND="$4"
 ENV_FILE="$5"
 SERVICE_PORT="$6"
 
-. "$ENV_FILE"
+pwd
+ls -als
+
+. "./$ENV_FILE"
 yarn install
 yarn lint
 yarn add start-server-and-test
