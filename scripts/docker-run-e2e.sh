@@ -6,7 +6,10 @@ COMMAND="$4"
 ENV_FILE="$5"
 SERVICE_PORT="$6"
 
+echo "PASSING ENVIRONMENT FROM $ENV_FILE"
+
 while read line; do
+  echo "$line"
   echo "$line" >> $GITHUB_ENV
 done < $ENV_FILE
 
