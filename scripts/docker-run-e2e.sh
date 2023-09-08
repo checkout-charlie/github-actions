@@ -10,6 +10,7 @@ pwd
 ls -als
 
 . "./$ENV_FILE"
+printenv
 yarn install
 yarn lint
 yarn add start-server-and-test
