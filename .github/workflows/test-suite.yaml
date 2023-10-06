@@ -27,6 +27,7 @@ jobs:
         uses: ./run-tests
         with:
           image_name: github-actions-test
+          image_tag: production
           static: echo 'test static'
           unit: echo 'test unit'
           functional: echo 'test functional'
