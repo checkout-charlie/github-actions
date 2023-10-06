@@ -6,7 +6,8 @@ inputs:
     required: true
   humanitec_org:
     description: 'Humanitec org'
-    required: true
+    required: false
+    default: ${{ github.event.repository.owner.login }}
   image_name:
     description: 'The name of the local and remote images. Defaults to the repository name'
     required: false

@@ -1,5 +1,5 @@
 name: 'Build container image'
-description: 'Build Docker image with docker cache'
+description: 'DEPRECATED. use build action instead'
 inputs:
   build_args:
     description: 'Arguments passed to `docker build`'

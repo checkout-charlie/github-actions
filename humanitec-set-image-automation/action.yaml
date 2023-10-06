@@ -6,12 +6,13 @@ inputs:
     required: true
   humanitec_org:
     description: 'Humanitec organization'
-    required: true
+    required: false
+    default: ${{ github.event.repository.owner.login }}
   app_id:
     description: 'Application ID on Humanitec'
     required: true
   images:
-    description: 'The name of the local and remote images. Defaults to the repository name'
+    description: 'Comma separated list of images to be automated.'
     required: true
   branch_name:
     description: 'The branch that should be deployed on the environment'

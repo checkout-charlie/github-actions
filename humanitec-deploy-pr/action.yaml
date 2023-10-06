@@ -6,16 +6,18 @@ inputs:
     required: true
   humanitec_org:
     description: 'Humanitec organization'
-    required: true
+    required: false
+    default: ${{ github.event.repository.owner.login }}
   app_id:
     description: 'Application ID on Humanitec'
     required: true
   source_environment:
     description: 'Environment to clone from'
-    required: true
+    required: false
+    default: preview
   environment_type:
     description: 'Generated environment type'
-    required: true
+    required: false
     default: development
   images:
     description: 'Comma separated list of images to be automated. Leave blank to automate all images.'

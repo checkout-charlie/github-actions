@@ -6,7 +6,8 @@ inputs:
     required: true
   humanitec_org:
     description: 'Humanitec organization'
-    required: true
+    required: false
+    default: ${{ github.event.repository.owner.login }}
   app_id:
     description: 'Application ID on Humanitec'
     required: true
