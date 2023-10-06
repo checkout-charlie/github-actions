@@ -10,4 +10,4 @@ printenv
 yarn install
 yarn lint
 yarn build --modern=client
-yarn start-server-and-test start "http://localhost:$SERVICE_PORT" "$COMMAND" --timeout $READINESS_TIMEOUT
+yarn start-server-and-test 'yarn start' "http://localhost:$SERVICE_PORT" "$COMMAND"
