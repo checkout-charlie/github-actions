@@ -20,7 +20,8 @@ else
 fi
 
 # check if is_testing
-if [ "$IS_TESTING" = "true" ]; then
+
+if [ "$IS_TESTING" = "true" ] || [ "$STAGE" = "testing" ]; then
   IMAGE_TAG="testing"
 else
   IMAGE_TAG="latest"
