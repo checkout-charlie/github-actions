@@ -72,7 +72,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Deploy PR deployment
-        uses: checkout-charlie/github-actions/humanitec-create-pr-environment@main
+        uses: checkout-charlie/github-actions/deploy-pr@main
         with:
           humanitec_token: ${{ secrets.HUMANITEC_TOKEN }}
           humanitec_org: checkout-charlie
@@ -97,7 +97,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Delete PR deployment
-        uses: checkout-charlie/github-actions/humanitec-delete-pr-environment@main
+        uses: checkout-charlie/github-actions/undeploy-pr@main
         with:
           humanitec_token: ${{ secrets.HUMANITEC_TOKEN }}
           humanitec_org: checkout-charlie
