@@ -133,10 +133,6 @@ Use the `run-tests` action multiple times if you want to display individual test
 
 Refer to `action-name/action.yaml` for the full list of parameters.
 
-## Author
-
-federico.infanti@checkout-charlie.com
-
 ## License
 
 MIT
