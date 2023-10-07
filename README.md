@@ -64,11 +64,11 @@ name: Create PR deployment
 on:
   pull_request_target:
     types: [ opened,  reopened]
-    branches-ignore: ['dependabot/**']
 
 jobs:
   create-pr-deployment:
     runs-on: ubuntu-latest
+    if: ${{ github.actor != 'dependabot[bot]' && github.actor != 'renovate[bot]' }}
     steps:
       - uses: actions/checkout@v3
       - name: Deploy PR deployment
@@ -89,11 +89,11 @@ name: Delete PR deployment
 on:
   pull_request_target:
     types: [ closed ]
-    branches-ignore: ['dependabot/**']
 
 jobs:
   delete-pr-deployment:
     runs-on: ubuntu-latest
+    if: ${{ github.actor != 'dependabot[bot]' && github.actor != 'renovate[bot]' }}
     steps:
       - uses: actions/checkout@v3
       - name: Delete PR deployment
