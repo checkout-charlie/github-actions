@@ -17,7 +17,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Build test image
-        uses: checkout-charlie/github-actions/build-image@main
+        uses: checkout-charlie/github-actions/build@main
         with:
           build_args: |
           -e MY_SECRET=${{ secrets.MY_SECRET }} \
