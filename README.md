@@ -4,8 +4,6 @@
 
 ### Build, test and push
 
-#### Single-stage Dockerfile
-
 ```yaml
 # .github/workflows/deploy.yml
 
@@ -54,34 +52,6 @@ jobs:
           humanitec_token: ${{ secrets.HUMANITEC_TOKEN }}
           humanitec_org: checkout-charlie
 
-```
-
-#### Multi-stage Dockerfile (testing/production images)
-
-```yaml
-# .github/workflows/deploy.yml
-
-      - name: Build image
-        uses: checkout-charlie/github-actions/build-image@main
-        with:
-          multi_stage: 'true'      # Produces an additional "testing" image with dev dependencies
-          testing_stage: 'testing' # The Dockerfile stage where dev dependencies are added. Defaults to "testing"
-          testing_tag: 'testing'   # The tag assigned to the testing image. Defaults to "testing"          
-          build_args: |
-            -e MY_SECRET=${{ secrets.MY_SECRET }} \
-
-        - name: Run tests
-            uses: checkout-charlie/github-actions/run-tests@main
-            with:
-              image_tag: testing  # Uses the testing image produced at step 1
-              unit: yarn test:unit
-              #[...]
-
-      - name: Push to Humanitec   # always pushes the production image
-        uses: checkout-charlie/github-actions/humanitec-push-image@main
-        with:
-          humanitec_token: ${{ secrets.HUMANITEC_TOKEN }}
-          humanitec_org: checkout-charlie
 ```
 
 ### Deploy PRs to Humanitec
