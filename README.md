@@ -43,7 +43,7 @@ jobs:
         uses: checkout-charlie/github-actions/build-image@main
         with:
           build_args: |
-          -e MY_SECRET=${{ secrets.MY_SECRET }} \
+            -e MY_SECRET=${{ secrets.MY_SECRET }} \
           stage: production
 
       - name: Push to Humanitec
