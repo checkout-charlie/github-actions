@@ -18,23 +18,35 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Build image
-        uses: checkout-charlie/github-actions/build-docker-image@main
+      - name: Build test image
+        uses: checkout-charlie/github-actions/build-image@main
         with:
           build_args: |
           -e MY_SECRET=${{ secrets.MY_SECRET }} \
-          
-    - name: Run tests
+          stage: testing
+
+      - name: Run tests
         uses: checkout-charlie/github-actions/run-tests@main
         with:
           static: yarn lint && yarn test:static
           unit: yarn test:unit
           functional: yarn test:functional
+
+      - name: Run E2E tests
+        uses: checkout-charlie/github-actions/run-tests@main
+        with:
           e2e: yarn test:e2e     # Will start a container
           e2e_port: 3000         # Required only if the image exposes multiple ports
           post: yarn test:coverage
           docker_args: | 
             -e MY_SECRET=${{ secrets.MY_SECRET }} \
+
+      - name: Build dist image
+        uses: checkout-charlie/github-actions/build-image@main
+        with:
+          build_args: |
+          -e MY_SECRET=${{ secrets.MY_SECRET }} \
+          stage: production
 
       - name: Push to Humanitec
         uses: checkout-charlie/github-actions/humanitec-push-image@main
