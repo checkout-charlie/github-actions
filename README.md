@@ -50,7 +50,6 @@ jobs:
         uses: checkout-charlie/github-actions/humanitec-push-image@main
         with:
           humanitec_token: ${{ secrets.HUMANITEC_TOKEN }}
-          humanitec_org: checkout-charlie
 
 ```
 
@@ -75,7 +74,6 @@ jobs:
         uses: checkout-charlie/github-actions/deploy-pr@main
         with:
           humanitec_token: ${{ secrets.HUMANITEC_TOKEN }}
-          humanitec_org: checkout-charlie
           source_environment: << base-environment >> # source environment where to clone from
           app_id: << app-id >> # app id on humanitec
 
@@ -100,7 +98,6 @@ jobs:
         uses: checkout-charlie/github-actions/undeploy-pr@main
         with:
           humanitec_token: ${{ secrets.HUMANITEC_TOKEN }}
-          humanitec_org: checkout-charlie
           app_id: << app-id >> # app id on Humanitec
 
 ```
