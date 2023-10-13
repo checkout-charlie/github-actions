@@ -25,12 +25,17 @@ inputs:
   e2e:
     description: 'E2e test commands'
     required: false
-  cypress:
-    description: 'Cypress test commands'
-    required: false
   e2e_port:
     description: 'Port for e2e tests (required only if the image exposes multiple ports)'
     required: false
+  e2e_path:
+    description: 'Path for e2e tests (required for VC, e.g. /gutscheine/)'
+    required: true
+    default: '/'
+  is_cypress:
+    description: 'If it''s a cypress test'
+    required: true
+    default: 'false'
   post:
     description: 'Command to run for last'
     required: false
@@ -89,17 +94,17 @@ runs:
         envFile: ${{ inputs.env_file }}
     - name: Run E2E tests
       id: run-e2e
-      if: inputs.e2e != ''
-      run: ${{ github.action_path }}/../scripts/docker-run-e2e.sh "${{ inputs.image_name }}" "${{ inputs.image_tag }}" "${{ inputs.docker_args }}" "${{ inputs.e2e }}" "${{ inputs.env_file }}" "${{ inputs.e2e_port }}" "${{ inputs.e2e_readiness_timeout }}" "${{ inputs.screenshots_path }}"
+      if: inputs.e2e != '' && inputs.is_cypress == 'false'
+      run: ${{ github.action_path }}/../scripts/docker-run-e2e.sh "${{ inputs.image_name }}" "${{ inputs.image_tag }}" "${{ inputs.docker_args }}" "${{ inputs.e2e }}" "${{ inputs.env_file }}" "${{ inputs.e2e_port }}"  "${{ inputs.e2e_path }}" "${{ inputs.e2e_readiness_timeout }}" "${{ inputs.screenshots_path }}"
       shell: sh
     - uses: cardinalby/export-env-action@v2
-      if: inputs.cypress != ''
+      if: inputs.is_cypress == 'true'
       with:
         envFile: ${{ inputs.env_file }}
     - name: Run Cypress tests
       id: run-cypress
-      if: inputs.cypress != ''
-      run: ${{ github.action_path }}/../scripts/docker-run-cypress.sh "${{ inputs.image_name }}" "${{ inputs.image_tag }}" "${{ inputs.docker_args }}" "${{ inputs.cypress }}" "${{ inputs.env_file }}" "${{ inputs.e2e_port }}" "${{ inputs.e2e_readiness_timeout }}" "${{ inputs.screenshots_path }}"
+      if: inputs.e2e != '' && inputs.is_cypress == 'true'
+      run: ${{ github.action_path }}/../scripts/docker-run-cypress.sh "${{ inputs.image_name }}" "${{ inputs.image_tag }}" "${{ inputs.docker_args }}" "${{ inputs.cypress }}" "${{ inputs.env_file }}" "${{ inputs.e2e_port }}" "${{ inputs.e2e_path }}"
       shell: sh
     - name: Upload screenshots
       if: inputs.e2e != '' && inputs.screenshots_path != '' && failure() && steps.run-e2e.outcome == 'failure'

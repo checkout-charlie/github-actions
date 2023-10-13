@@ -8,8 +8,9 @@ DOCKER_ARGS="$3"
 COMMAND="$4"
 ENV_FILE="$5"
 SERVICE_PORT="$6"
-READINESS_TIMEOUT="$7"
-SCREENSHOTS_PATH="$8"
+SERVICE_PATH="$7"
+READINESS_TIMEOUT="$8"
+SCREENSHOTS_PATH="$9"
 
 HOST_PORT=3000
 CONTAINER_NAME="${IMAGE_NAME}_${IMAGE_TAG}"
@@ -41,7 +42,7 @@ docker run --rm -d -p "$HOST_PORT:$CONTAINER_PORT" --cap-add=SYS_ADMIN --name "$
 start_time=$(date +%s)
 elapsed=0
 while [ $elapsed -lt $READINESS_TIMEOUT ]; do
-  if curl --connect-timeout 30 --head --silent --fail "http://localhost:$HOST_PORT/"; then
+  if curl --connect-timeout 30 --head --silent --fail "http://localhost:$HOST_PORT$SERVICE_PATH"; then
     echo "Service started, running test..."
      docker exec -u root "$CONTAINER_NAME" /bin/sh -c "mkdir -p /etc/sysctl.d/; echo 'kernel.unprivileged_userns_clone=1' > /etc/sysctl.d/userns.conf"  || exit 1
 
