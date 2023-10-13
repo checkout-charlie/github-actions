@@ -100,7 +100,7 @@ runs:
     - name: Run Cypress tests
       id: run-cypress
       if: inputs.e2e != '' && inputs.is_cypress != 'false'
-      run: ${{ github.action_path }}/../scripts/docker-run-cypress.sh "${{ inputs.image_name }}" "${{ inputs.image_tag }}" "${{ inputs.docker_args }}" "${{ inputs.cypress }}" "${{ inputs.env_file }}" "${{ inputs.e2e_port }}" "${{ inputs.e2e_path }}"
+      run: ${{ github.action_path }}/../scripts/docker-run-cypress.sh "${{ inputs.image_name }}" "${{ inputs.image_tag }}" "${{ inputs.docker_args }}" "${{ inputs.e2e }}" "${{ inputs.env_file }}" "${{ inputs.e2e_port }}" "${{ inputs.e2e_path }}"
       shell: sh
     - name: Upload screenshots
       if: inputs.e2e != '' && inputs.screenshots_path != '' && failure() && steps.run-e2e.outcome == 'failure'
