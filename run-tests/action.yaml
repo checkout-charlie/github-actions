@@ -97,13 +97,9 @@ runs:
       if: inputs.e2e != '' && inputs.is_cypress == 'false'
       run: ${{ github.action_path }}/../scripts/docker-run-e2e.sh "${{ inputs.image_name }}" "${{ inputs.image_tag }}" "${{ inputs.docker_args }}" "${{ inputs.e2e }}" "${{ inputs.env_file }}" "${{ inputs.e2e_port }}"  "${{ inputs.e2e_path }}" "${{ inputs.e2e_readiness_timeout }}" "${{ inputs.screenshots_path }}"
       shell: sh
-    - uses: cardinalby/export-env-action@v2
-      if: inputs.is_cypress == 'true'
-      with:
-        envFile: ${{ inputs.env_file }}
     - name: Run Cypress tests
       id: run-cypress
-      if: inputs.e2e != '' && inputs.is_cypress == 'true'
+      if: inputs.e2e != '' && inputs.is_cypress != 'false'
       run: ${{ github.action_path }}/../scripts/docker-run-cypress.sh "${{ inputs.image_name }}" "${{ inputs.image_tag }}" "${{ inputs.docker_args }}" "${{ inputs.cypress }}" "${{ inputs.env_file }}" "${{ inputs.e2e_port }}" "${{ inputs.e2e_path }}"
       shell: sh
     - name: Upload screenshots
