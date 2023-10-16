@@ -9,6 +9,9 @@ inputs:
 runs:
   using: "composite"
   steps:
+    - name: test
+      shell: sh
+      run: echo "test" && echo "${{ inputs.github_token }}"
     - uses: jpribyl/action-docker-layer-caching@v0.1.1
       continue-on-error: true
     - name: clear artifact cache
