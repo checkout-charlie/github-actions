@@ -10,6 +10,8 @@ jobs:
 
       - name: Initialize cache
         uses: ./initialize-cache
+        with:
+          github_token: ${{ secrets.GH_TOKEN }}
 #
 #      - name: Wipe images
 #        uses: ./wipe-workspace
