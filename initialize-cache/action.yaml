@@ -13,7 +13,7 @@ runs:
       continue-on-error: true
     - name: clear artifact cache
       if: inputs.github_token != ''
-      run: gh cache delete --all
+      run: echo "Clearing artifact cache..." && gh cache delete --all
       shell: sh
       continue-on-error: true
       env:
