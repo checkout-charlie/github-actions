@@ -93,4 +93,4 @@ runs:
         if : ${{ inputs.teams_webhook != '' && inputs.preview_url_template != '' }}
         with:
           webhook: '${{ inputs.teams_webhook }}'
-          message: "${{ github.event.pull_request.title }} --> ${{ inputs.preview_url_template }}"
+          message: "${{ inputs.app_id }}: ${{ github.event.pull_request.title }} --> ${{ inputs.preview_url_template }}"
