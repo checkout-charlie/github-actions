@@ -6,6 +6,10 @@ runs:
   steps:
     - uses: jpribyl/action-docker-layer-caching@v0.1.1
       continue-on-error: true
+    - name: clear artifact cache
+      run: gh cache delete --all
+      shell: sh
+      continue-on-error: true
     - run: docker rmi -f $(docker images | awk '$2 != "latest" && $2 != "testing" {print $3}') >/dev/null 2>&1 || exit 0
       shell: sh
     - run: docker builder prune -f
