@@ -33,15 +33,15 @@ runs:
     - name: Load cache
       uses: actions/cache@v3
       with:
-        path: "/tmp/.buildx-cache-${{ inputs.image_name }}"
-        key: "${{ inputs.image_name }}-buildx-${{ github.sha }}"
+        path: "/tmp/.build-cache-${{ inputs.image_name }}"
+        key: "${{ inputs.image_name }}-build-cache-${{ github.sha }}"
         restore-keys: |
-          ${{ inputs.image_name }}-buildx-
+          ${{ inputs.image_name }}-build-cache-
     - name: Building ${{ inputs.stage }} ${{ inputs.image_name }}
       run: ${{ github.action_path }}/../scripts/buildx.sh "${{ inputs.build_context }}" "${{ inputs.dockerfile }}" "${{ inputs.build_args }}" "${{ inputs.image_name }}" "${{ inputs.stage }}" "${{ inputs.is_testing }}"
       shell: sh
     - name: Delete previous cache
       shell: sh
       run: |
-        rm -rf "/tmp/.buildx-cache-${{ inputs.image_name }}"
-        mv "/tmp/.buildx-cache-new-${{ inputs.image_name }}" "/tmp/.buildx-cache-${{ inputs.image_name }}"
+        rm -rf "/tmp/.build-cache-${{ inputs.image_name }}"
+        mv "/tmp/.build-cache-new-${{ inputs.image_name }}" "/tmp/.build-cache-${{ inputs.image_name }}"
