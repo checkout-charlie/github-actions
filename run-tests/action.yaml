@@ -32,14 +32,9 @@ inputs:
     description: 'Path for e2e tests (required for VC, e.g. /gutscheine/)'
     required: true
     default: '/'
-  is_cypress:
-    description: 'If it''s a cypress test'
-    required: true
-    default: 'false'
   cypress_node_version:
     description: "Node version for cypress tests"
     required: false
-    default: '14.x'
   post:
     description: 'Command to run for last'
     required: false
@@ -98,17 +93,17 @@ runs:
         envFile: ${{ inputs.env_file }}
     - name: Run E2E tests
       id: run-e2e
-      if: inputs.e2e != '' && inputs.is_cypress == 'false'
+      if: inputs.e2e != '' && inputs.cypress_node_version == ''
       run: ${{ github.action_path }}/../scripts/docker-run-e2e.sh "${{ inputs.image_name }}" "${{ inputs.image_stage }}" "${{ inputs.docker_args }}" "${{ inputs.e2e }}" "${{ inputs.env_file }}" "${{ inputs.e2e_port }}"  "${{ inputs.e2e_path }}" "${{ inputs.e2e_readiness_timeout }}" "${{ inputs.screenshots_path }}"
       shell: sh
     - name: Prepare Cypress test
-      if: inputs.e2e != '' && inputs.is_cypress != 'false'
+      if: inputs.e2e != '' && inputs.cypress_node_version != ''
       uses: actions/setup-node@v1 # needed for e2e tests (until containerized cypress is fixed)
       with:
         node-version: ${{ inputs.cypress_node_version }}
     - name: Run Cypress tests
       id: run-cypress
-      if: inputs.e2e != '' && inputs.is_cypress != 'false'
+      if: inputs.e2e != '' && inputs.inputs.cypress_node_version != ''
       run: ${{ github.action_path }}/../scripts/docker-run-cypress.sh "${{ inputs.image_name }}" "${{ inputs.image_stage }}" "${{ inputs.docker_args }}" "${{ inputs.e2e }}" "${{ inputs.env_file }}" "${{ inputs.e2e_port }}" "${{ inputs.e2e_path }}"
       shell: sh
     - name: Upload screenshots
