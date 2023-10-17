@@ -9,7 +9,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Test build local image
-        uses: ./build-with-cache
+        uses: ./image-build
         with:
           image_name: github-actions-test
           build_context: https://github.com/mendhak/docker-http-https-echo.git
