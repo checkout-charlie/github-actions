@@ -84,7 +84,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Deploy PR deployment
-        uses: checkout-charlie/github-actions/deploy-pr@v2
+        uses: checkout-charlie/github-actions/humanitec-deploy-pr@v2
         with:
           humanitec_token: ${{ secrets.HUMANITEC_TOKEN }}
           source_environment: << base-environment >> # source environment where to clone from
@@ -108,7 +108,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Delete PR deployment
-        uses: checkout-charlie/github-actions/undeploy-pr@v2
+        uses: checkout-charlie/github-actions/humanitec-undeploy-pr@v2
         with:
           humanitec_token: ${{ secrets.HUMANITEC_TOKEN }}
           app_id: << app-id >> # app id on Humanitec
