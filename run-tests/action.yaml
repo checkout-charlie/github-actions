@@ -105,7 +105,7 @@ runs:
       if: inputs.e2e != '' && inputs.is_cypress != 'false'
       uses: actions/setup-node@v1 # needed for e2e tests (until containerized cypress is fixed)
       with:
-        node-version: {{ inputs.cypress_node_version }}}
+        node-version: ${{ inputs.cypress_node_version }}
     - name: Run Cypress tests
       id: run-cypress
       if: inputs.e2e != '' && inputs.is_cypress != 'false'
