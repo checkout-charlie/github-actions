@@ -10,7 +10,7 @@
 - **humanitec-push-image**
 - **humanitec-deploy-pr**
 - **humanitec-undeploy-pr**
-- **humanitec-set-image-automation**
+- **humanitec-set-automation**
 
 ### Parameters
 
