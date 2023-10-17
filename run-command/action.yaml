@@ -29,5 +29,5 @@ runs:
   using: "composite"
   steps:
     -  name: Run command ${{ inputs.entrypoint }} ${{ inputs.command }} in container
-       run: ${{ github.action_path }}/../scripts/docker-run.sh "${{ inputs.image_name }}" "${{ inputs.image_stage }}" "${{ inputs.command }}" "${{ inputs.env_file }}" "${{ inputs.run_args }}" "${{ inputs.entrypoint }}"
+       run: ${{ github.action_path }}/../_scripts/docker-run.sh "${{ inputs.image_name }}" "${{ inputs.image_stage }}" "${{ inputs.command }}" "${{ inputs.env_file }}" "${{ inputs.run_args }}" "${{ inputs.entrypoint }}"
        shell: sh

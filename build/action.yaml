@@ -34,7 +34,7 @@ runs:
         restore-keys: |
           ${{ inputs.image_name }}-build-cache-
     - name: Building ${{ inputs.image_name }} ${{ inputs.stages }}
-      run: ${{ github.action_path }}/../scripts/buildx.sh "${{ inputs.build_context }}" "${{ inputs.dockerfile }}" "${{ inputs.build_args }}" "${{ inputs.image_name }}" "${{ inputs.stages }}"
+      run: ${{ github.action_path }}/../_scripts/buildx.sh "${{ inputs.build_context }}" "${{ inputs.dockerfile }}" "${{ inputs.build_args }}" "${{ inputs.image_name }}" "${{ inputs.stages }}"
       shell: sh
     - name: Delete previous cache
       shell: sh
