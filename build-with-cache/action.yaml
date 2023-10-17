@@ -40,7 +40,8 @@ runs:
     - name: Building ${{ inputs.stage }} ${{ inputs.image_name }}
       run: ${{ github.action_path }}/../scripts/buildx.sh "${{ inputs.build_context }}" "${{ inputs.dockerfile }}" "${{ inputs.build_args }}" "${{ inputs.image_name }}" "${{ inputs.stage }}" "${{ inputs.is_testing }}"
       shell: sh
-      name: Clear previous cache
+    - name: Clear previous cache
+      shell: sh
       run: |
         rm -rf /tmp/.buildx-cache-${{ inputs.image_name }}
         mv /tmp/.buildx-cache-new /tmp/.buildx-cache-${{ inputs.image_name }}
