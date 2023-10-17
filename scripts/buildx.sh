@@ -28,7 +28,7 @@ else
 fi
 
 echo "Building image..."
-docker buildx build $BUILD_ARGS --file "$DOCKERFILE" $STAGE_PART -t "$IMAGE_NAME:$IMAGE_TAG" "$BUILD_CONTEXT" --cache-from "type=local,src=/tmp/.buildx-cache-$IMAGE_NAME" --cache-to "type=local,dest=/tmp/.buildx-cache-new-$IMAGE_NAME,mode=max"|| exit 1
+docker buildx build $BUILD_ARGS --file "$DOCKERFILE" $STAGE_PART -t "$IMAGE_NAME:$IMAGE_TAG" "$BUILD_CONTEXT" --cache-from "type=local,src=/tmp/.buildx-cache-$IMAGE_NAME" --cache-to "type=local,dest=/tmp/.buildx-cache-new-$IMAGE_NAME,mode=max" --load || exit 1
 
 echo "Post-build image list:"
 docker images
