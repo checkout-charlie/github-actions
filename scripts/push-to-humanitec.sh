@@ -102,6 +102,7 @@ then
 	exit 1
 fi
 
+
 echo "Notifying Humanitec"
 payload="{\"commit\":\"${commit}\",\"ref\":\"${GITHUB_REF}\",\"version\":\"${commit}\",\"name\":\"registry.humanitec.io/${HUMANITEC_ORG}/${IMAGE_NAME}\",\"type\":\"container\"}"
 echo "Humanitec notification payload: ${payload}"
