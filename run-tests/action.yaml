@@ -8,7 +8,7 @@ inputs:
   image_stage:
     description: "Image build stage"
     required: false
-    default: dist
+    default: test
   docker_args:
     description: "Arguments for 'docker run'"
     required: false
