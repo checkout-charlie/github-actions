@@ -33,8 +33,8 @@ runs:
     - name: Load cache
       uses: actions/cache@v3
       with:
-        path: /tmp/.buildx-cache-${{ inputs.image_name }}
-        key: ${{ inputs.image_name }}-buildx
+        path: "/tmp/.buildx-cache-${{ inputs.image_name }}"
+        key: "${{ inputs.image_name }}-buildx"
         restore-keys: |
           ${{ inputs.image_name }}-buildx-
     - name: Building ${{ inputs.stage }} ${{ inputs.image_name }}
