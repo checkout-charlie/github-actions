@@ -1,4 +1,4 @@
-name: 'Build container image'
+name: 'Build one or more stages of a single image'
 description: 'Build Docker image with docker cache'
 inputs:
   build_args:
@@ -17,17 +17,27 @@ inputs:
     description: 'Image name. Defaults to the repository name. Set it if you build multiple images in the same repository'
     required: false
     default: ${{ github.event.repository.name }}
-  stage:
-    description: 'Docker stage in a multi-stage build'
+  stages:
+    description: 'Comma-separated stages to build'
     required: false
-  is_testing:
-    description: 'Is this a testing image?'
-    required: false
-    default: "false"
 
 runs:
   using: "composite"
   steps:
-    - name: Building ${{ inputs.stage }} ${{ inputs.image_name }}
-      run: ${{ github.action_path }}/../scripts/build.sh "${{ inputs.build_context }}" "${{ inputs.dockerfile }}" "${{ inputs.build_args }}" "${{ inputs.image_name }}" "${{ inputs.stage }}" "${{ inputs.is_testing }}"
+    - name: Set up builder
+      uses: docker/setup-buildx-action@v3
+    - name: Load cache
+      uses: actions/cache@v3
+      with:
+        path: "/tmp/.build-cache-${{ inputs.image_name }}"
+        key: "${{ inputs.image_name }}-build-cache-${{ github.sha }}"
+        restore-keys: |
+          ${{ inputs.image_name }}-build-cache-
+    - name: Building ${{ inputs.image_name }} ${{ inputs.stages }}
+      run: ${{ github.action_path }}/../scripts/buildx.sh "${{ inputs.build_context }}" "${{ inputs.dockerfile }}" "${{ inputs.build_args }}" "${{ inputs.image_name }}" "${{ inputs.stages }}"
       shell: sh
+    - name: Delete previous cache
+      shell: sh
+      run: |
+        rm -rf "/tmp/.build-cache-${{ inputs.image_name }}"
+        mv "/tmp/.build-cache-new-${{ inputs.image_name }}" "/tmp/.build-cache-${{ inputs.image_name }}"

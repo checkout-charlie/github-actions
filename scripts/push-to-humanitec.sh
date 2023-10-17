@@ -38,7 +38,7 @@ fetch_url ()
 export HUMANITEC_ORG="$1"
 export HUMANITEC_TOKEN="$2"
 IMAGE_NAME="$3"
-LOCAL_TAG="latest"
+LOCAL_TAG="$4"
 
 
 if [ -z "$HUMANITEC_ORG" ]
@@ -57,6 +57,13 @@ fi
 if [ -z "$IMAGE_NAME" ]
 then
 	echo "No IMAGE_NAME provided." >&2
+	exit 1
+fi
+
+
+if [ -z "$IMAGE_NAME" ]
+then
+	echo "No IMAGE_STAGE provided." >&2
 	exit 1
 fi
 

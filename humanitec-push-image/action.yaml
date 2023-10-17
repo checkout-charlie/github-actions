@@ -12,10 +12,14 @@ inputs:
     description: 'The name of the local and remote images. Defaults to the repository name'
     required: false
     default: ${{ github.event.repository.name }}
+  image_stage:
+    description: 'The build stage of the image. Defaults to "dist"'
+    required: false
+    default: dist
 
 runs:
   using: "composite"
   steps:
     - name: Push to Humanitec
-      run: ${{ github.action_path }}/../scripts/push-to-humanitec.sh ${{ inputs.humanitec_org }} ${{ inputs.humanitec_token }} ${{ inputs.image_name }}
+      run: ${{ github.action_path }}/../scripts/push-to-humanitec.sh ${{ inputs.humanitec_org }} ${{ inputs.humanitec_token }} ${{ inputs.image_name }} ${{ inputs.image_stage }}
       shell: sh

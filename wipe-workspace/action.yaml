@@ -1,8 +1,0 @@
-name: 'Wipe workspace'
-description: Remove zombie images. Not for regular workflow.
-
-runs:
-  using: "composite"
-  steps:
-    - run: docker system prune -a -f
-      shell: sh
