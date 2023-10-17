@@ -16,38 +16,35 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Build test image
-        uses: checkout-charlie/github-actions/build@main
+
+      - name: Build images
+        uses: checkout-charlie/github-actions/build@v2
         with:
           build_args: |
             -e MY_SECRET=${{ secrets.MY_SECRET }} \
-          stage: testing
+          stages: test, dist #these reflect the stages in the dockerfile
 
       - name: Run tests
-        uses: checkout-charlie/github-actions/run-tests@main
+        uses: checkout-charlie/github-actions/run-tests@v2
         with:
           static: yarn lint && yarn test:static
           unit: yarn test:unit
           functional: yarn test:functional
+          post: yarn test:coverage
+          image_stage: test # default
 
       - name: Run E2E tests
-        uses: checkout-charlie/github-actions/run-tests@main
+        uses: checkout-charlie/github-actions/run-tests@v2
         with:
           e2e: yarn test:e2e     # Will start a container
-          e2e_port: 3000         # Required only if the image exposes multiple ports
-          post: yarn test:coverage
+          e2e_port: 3000         # Required only if the image exposes multiple ports or is using cypress
           docker_args: | 
             -e MY_SECRET=${{ secrets.MY_SECRET }} \
-
-      - name: Build dist image
-        uses: checkout-charlie/github-actions/build-image@main
-        with:
-          build_args: |
-            -e MY_SECRET=${{ secrets.MY_SECRET }} \
-          stage: production
+          env_file: .env.dist    # mandatory
+          cypress_node_version: 14.x # Only if Cypress is used to run the E2E test
 
       - name: Push to Humanitec
-        uses: checkout-charlie/github-actions/humanitec-push-image@main
+        uses: checkout-charlie/github-actions/humanitec-push-image@v2
         with:
           humanitec_token: ${{ secrets.HUMANITEC_TOKEN }}
 
@@ -71,7 +68,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Deploy PR deployment
-        uses: checkout-charlie/github-actions/deploy-pr@main
+        uses: checkout-charlie/github-actions/deploy-pr@v2
         with:
           humanitec_token: ${{ secrets.HUMANITEC_TOKEN }}
           source_environment: << base-environment >> # source environment where to clone from
@@ -95,7 +92,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Delete PR deployment
-        uses: checkout-charlie/github-actions/undeploy-pr@main
+        uses: checkout-charlie/github-actions/undeploy-pr@v2
         with:
           humanitec_token: ${{ secrets.HUMANITEC_TOKEN }}
           app_id: << app-id >> # app id on Humanitec
@@ -108,18 +105,18 @@ At the moment of writing Github doesn't allow composite actions to bubble up ste
 Use the `run-tests` action multiple times if you want to display individual tests as steps in your workflow:
 
 ```yaml
-    - name: Static analysis
-        uses: checkout-charlie/github-actions/run-tests@main
+    - name: Run static analysis
+        uses: checkout-charlie/github-actions/run-tests@v2
         with:
           static: yarn test:lint
 
-    - name: Unit tests
-        uses: checkout-charlie/github-actions/run-tests@main
+    - name: Run unit tests
+        uses: checkout-charlie/github-actions/run-tests@v2
         with:
           unit: yarn test:unit
 
-    - name: E2E tests
-        uses: checkout-charlie/github-actions/run-tests@main
+    - name: Run E2E tests
+        uses: checkout-charlie/github-actions/run-tests@v2
         with:
           e2e: yarn test:e2e
           docker_args: |

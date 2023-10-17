@@ -98,7 +98,7 @@ runs:
       shell: sh
     - name: Prepare Cypress test
       if: inputs.e2e != '' && inputs.cypress_node_version != ''
-      uses: actions/setup-node@v1 # needed for e2e tests (until containerized cypress is fixed)
+      uses: actions/setup-node@v3 # needed for e2e tests (until containerized cypress is fixed)
       with:
         node-version: ${{ inputs.cypress_node_version }}
     - name: Run Cypress tests
