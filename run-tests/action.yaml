@@ -60,7 +60,7 @@ runs:
   steps:
     - name: Run static analysis
       if: inputs.static != ''
-      uses: ../run-command
+      uses: checkout-charlie/github-actions/run-command@v2
       with:
         command: ${{ inputs.static }}
         run_args: ${{ inputs.docker_args }}
@@ -70,7 +70,7 @@ runs:
         entrypoint: ${{ inputs.entrypoint }}
     - name: Run unit tests
       if: inputs.unit != ''
-      uses: ../run-command
+      uses: checkout-charlie/github-actions/run-command@v2
       with:
         command: ${{ inputs.unit }}
         run_args: ${{ inputs.docker_args }}
@@ -80,7 +80,7 @@ runs:
         entrypoint: ${{ inputs.entrypoint }}
     - name: Run functional tests
       if: inputs.functional != ''
-      uses: ../run-command
+      uses: checkout-charlie/github-actions/run-command@v2
       with:
         command: ${{ inputs.functional }}
         run_args: ${{ inputs.docker_args }}
@@ -110,7 +110,7 @@ runs:
         path: test-artifacts/screenshots/${{ inputs.image_name }}
     - name: Run post commands
       if: inputs.post != ''
-      uses: ../run-command
+      uses: checkout-charlie/github-actions/run-command@v2
       with:
         command: ${{ inputs.post }}
         run_args: ${{ inputs.docker_args }}
