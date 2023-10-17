@@ -1,16 +1,20 @@
 # Checkout Charlie's Github Actions
 ## Available actions
-### Actions for Kubernetes container images
+### Kubernetes container images
 
 - **build**
 - **run-tests**
 
-### Actions for Humanitec deployments
+### Humanitec deployments
 
 - **humanitec-push-image**
 - **humanitec-deploy-pr**
 - **humanitec-undeploy-pr**
 - **humanitec-set-image-automation**
+
+### Parameters
+
+Refer to `action-name/action.yaml` for the full list of parameters.
 
 ## Recipes
 
@@ -134,10 +138,6 @@ Use the `run-tests` action multiple times if you want to display individual test
           docker_args: |
             -e MY_SECRET=${{ secrets.MY_SECRET }} \
 ```
-
-## Actions reference
-
-Refer to `action-name/action.yaml` for the full list of parameters.
 
 ## License
 
