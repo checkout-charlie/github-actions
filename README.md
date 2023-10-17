@@ -1,4 +1,16 @@
 # Checkout Charlie's Github Actions
+## Available actions
+### Actions for Kubernetes container images
+
+- **build**
+- **run-tests**
+
+### Actions for Humanitec deployments
+
+- **humanitec-push-image**
+- **humanitec-deploy-pr**
+- **humanitec-undeploy-pr**
+- **humanitec-set-image-automation**
 
 ## Recipes
 
