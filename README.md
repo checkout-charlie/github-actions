@@ -5,7 +5,7 @@
 - **build**
 - **run-tests**
 
-### Humanitec deployments
+### Humanitec CI/CD
 
 - **humanitec-push-image**
 - **humanitec-deploy-pr**
