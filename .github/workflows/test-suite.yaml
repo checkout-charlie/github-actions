@@ -24,7 +24,7 @@ jobs:
           functional: echo 'test functional'
 
       - name: Show image exposed ports
-        run: docker inspect --format='{{json .Config.ExposedPorts}}' "github-actions-test:latest" | jq 'keys[0]' | cut -d'/' -f1 | cut -d'"' -f2
+        run: docker inspect --format='{{json .Config.ExposedPorts}}' "github-actions-test:dist" | jq 'keys[0]' | cut -d'/' -f1 | cut -d'"' -f2
         shell: bash
 
       - name: Test e2e test
