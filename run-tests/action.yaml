@@ -36,6 +36,10 @@ inputs:
     description: 'If it''s a cypress test'
     required: true
     default: 'false'
+  cypress_node_version:
+    description: "Node version for cypress tests"
+    required: false
+    default: '14.x'
   post:
     description: 'Command to run for last'
     required: false
@@ -97,6 +101,11 @@ runs:
       if: inputs.e2e != '' && inputs.is_cypress == 'false'
       run: ${{ github.action_path }}/../scripts/docker-run-e2e.sh "${{ inputs.image_name }}" "${{ inputs.image_stage }}" "${{ inputs.docker_args }}" "${{ inputs.e2e }}" "${{ inputs.env_file }}" "${{ inputs.e2e_port }}"  "${{ inputs.e2e_path }}" "${{ inputs.e2e_readiness_timeout }}" "${{ inputs.screenshots_path }}"
       shell: sh
+    - name: Prepare Cypress test
+      if: inputs.e2e != '' && inputs.is_cypress != 'false'
+      uses: actions/setup-node@v1 # needed for e2e tests (until containerized cypress is fixed)
+      with:
+        node-version: {{ inputs.cypress_node_version }}}
     - name: Run Cypress tests
       id: run-cypress
       if: inputs.e2e != '' && inputs.is_cypress != 'false'
