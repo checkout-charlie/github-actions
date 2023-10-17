@@ -1,0 +1,17 @@
+name: 'Wipe Github cache'
+description: Completely erases Github cache for the repository
+inputs:
+  github_token:
+    description: 'Github token'
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Clear Github Cache
+      if: inputs.github_token != ''
+      run: echo "Clearing Github cache..." && gh cache delete --all && echo "Github cache cleared."
+      shell: sh
+      continue-on-error: true
+      env:
+        GH_TOKEN: ${{ inputs.github_token }}
