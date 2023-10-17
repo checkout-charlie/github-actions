@@ -18,8 +18,9 @@ if [ -z "$STAGES" ]; then
 else
   echo "$STAGES" | tr ',' '\n' | while IFS= read -r value; do
     trimmed_stage=$(echo "$value" | xargs)
-
-    echo "Building stage $trimmed_stage of $IMAGE_NAME image..."
+    echo "####################################################################################################"
+    echo "# BUILDING STAGE $trimmed_stage OF $IMAGE_NAME IMAGE..."
+    echo "####################################################################################################"
     docker buildx build $BUILD_ARGS --file "$DOCKERFILE" --target $trimmed_stage -t "$IMAGE_NAME:$trimmed_stage" "$BUILD_CONTEXT" --cache-from "type=local,src=/tmp/.build-cache-$IMAGE_NAME" --cache-to "type=local,dest=/tmp/.build-cache-new-$IMAGE_NAME,mode=max" --load || exit 1
   done
 fi
