@@ -117,9 +117,7 @@ jobs:
 
 ### Tests
 
-At the moment of writing Github doesn't allow composite actions to bubble up steps to the user action.
-Use the `run-tests` action multiple times if you want to display individual tests as steps in your workflow:
-
+As of this writing, GitHub does not support bubbling up steps from composite actions to the user action. If you wish to display individual tests as steps in your workflow, use the `run-tests` action multiple times.
 ```yaml
     - name: Run static analysis
         uses: checkout-charlie/github-actions/run-tests@v2
