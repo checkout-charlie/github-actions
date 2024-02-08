@@ -48,6 +48,8 @@ module.exports = {
             throw `Unable to fetch environment /orgs/${HUMANITEC_ORG}/apps/${appId}/envs/${baseEnvId}: ${baseEnv.status}`;
         }
 
+        console.log(baseEnv)
+
         // pad number with leading zeros to get to 3 digits
         const paddedEnvId = envId.padStart(3, '0');
 
