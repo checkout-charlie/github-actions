@@ -85,7 +85,7 @@ runs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: `**:truck: ${APP_ID} PR env created!**\n\n :earth_africa: Web: ${deployment_url}\n\n[HT Settings](https://app.humanitec.io${ENV_PATH})`
+              body: `PR env created!**\n\n :earth_africa: ${deployment_url}\n\n[Settings](https://app.humanitec.io${ENV_PATH})`
             });
 
       - name: Send message to ms teams
