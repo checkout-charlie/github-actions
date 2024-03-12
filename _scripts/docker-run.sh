@@ -19,7 +19,7 @@ else
   echo "Second part: $entrpoint_args"
 
   echo "docker run --rm --env-file \"$ENV_FILE\" $RUN_ARGS --entrypoint \"$entrpoint_cmd\" \"$IMAGE_NAME:$IMAGE_TAG\" $entrpoint_args $COMMAND"
-  docker run --rm --env-file "$ENV_FILE" $RUN_ARGS --entrypoint "$entrpoint_cmd" "$IMAGE_NAME:$IMAGE_TAG" $entrpoint_args $COMMAND
+  docker run --rm --env-file "$ENV_FILE" $RUN_ARGS --entrypoint "$entrpoint_cmd" "$IMAGE_NAME:$IMAGE_TAG" $entrpoint_args "$COMMAND"
 
 fi
 
