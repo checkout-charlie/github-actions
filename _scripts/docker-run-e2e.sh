@@ -34,6 +34,8 @@ else
   echo "Set mount: $MOUNTS_PART"
 fi
 
+echo "docker run --rm -d -p '$HOST_PORT:$CONTAINER_PORT' --cap-add=SYS_ADMIN --name '$CONTAINER_NAME' $MOUNTS_PART --env-file '$ENV_FILE' -e HOST='0.0.0.0' -e 'TERM=xterm-color' $DOCKER_ARGS '$IMAGE_NAME:$IMAGE_TAG' || exit 1"
+
 # Run the container
 docker run --rm -d -p "$HOST_PORT:$CONTAINER_PORT" --cap-add=SYS_ADMIN --name "$CONTAINER_NAME" $MOUNTS_PART --env-file "$ENV_FILE" -e HOST="0.0.0.0" -e "TERM=xterm-color" $DOCKER_ARGS "$IMAGE_NAME:$IMAGE_TAG" || exit 1
 
