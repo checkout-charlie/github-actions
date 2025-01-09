@@ -136,6 +136,9 @@ As of this writing, GitHub does not support bubbling up steps from composite act
           docker_args: |
             -e MY_SECRET=${{ secrets.MY_SECRET }} \
 ```
+## Author
+
+[Federico Infanti](mailto:federico.infanti@checkout-charlie
 
 ## License
 
