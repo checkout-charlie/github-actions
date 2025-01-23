@@ -108,7 +108,7 @@ runs:
       shell: sh
     - name: Upload screenshots
       if: inputs.e2e != '' && inputs.screenshots_path != '' && failure() && steps.run-e2e.outcome == 'failure'
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: E2E screenshots
         path: test-artifacts/screenshots/${{ inputs.image_name }}
