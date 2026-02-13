@@ -120,8 +120,14 @@ then
 fi
 echo "Image list after push:"
 docker images
-# Removed remote tag locally
+# Remove remote tag locally (use machine-readable format to avoid invalid reference format)
 docker stop $(docker ps -a -q) || echo "No containers to stop"
-docker images | grep "$destination_image_name" | awk '{print $1 ":" $2}' | xargs -I{} docker image rm {}
+docker images --format '{{.Repository}}:{{.Tag}}' | while read -r ref; do
+  case "$ref" in
+    "$destination_image_name":*)
+      docker image rm "$ref" || true
+      ;;
+  esac
+done
 echo "Image list after cleanup:"
 docker images
