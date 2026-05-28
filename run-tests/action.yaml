@@ -98,7 +98,7 @@ runs:
       shell: sh
     - name: Prepare Cypress test
       if: inputs.e2e != '' && inputs.cypress_node_version != ''
-      uses: actions/setup-node@v3 # needed for e2e tests (until containerized cypress is fixed)
+      uses: actions/setup-node@v6 # needed for e2e tests (until containerized cypress is fixed)
       with:
         node-version: ${{ inputs.cypress_node_version }}
     - name: Run Cypress tests
@@ -108,7 +108,7 @@ runs:
       shell: sh
     - name: Upload screenshots
       if: inputs.e2e != '' && inputs.screenshots_path != '' && failure() && steps.run-e2e.outcome == 'failure'
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       with:
         name: E2E screenshots
         path: test-artifacts/screenshots/${{ inputs.image_name }}
